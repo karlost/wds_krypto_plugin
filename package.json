@@ -1,0 +1,34 @@
+{
+  "name": "plugin-template",
+  "version": "1.0.0",
+  "description": "Empty plugin template for WeDesIn",
+  "main": "gulpfile.js",
+  "dependencies": {
+    "connect": "^3.7.0",
+    "gulp-cli": "^2.3.0",
+    "opn": "^5.5.0",
+    "portscanner": "^2.2.0",
+    "qs": "^6.9.6",
+    "serve-static": "^1.14.1",
+    "uglify-js": "^3.12.6"
+  },
+  "devDependencies": {
+    "gulp": "^4.0.2"
+  },
+  "scripts": {
+    "test": "dev"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/WeDesIn/plugin-template.git"
+  },
+  "keywords": [
+    "wordpress"
+  ],
+  "author": "WeDesIn",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/WeDesIn/plugin-template/issues"
+  },
+  "homepage": "https://github.com/WeDesIn/plugin-template#readme"
+}
