@@ -76,10 +76,12 @@ if( !class_exists( 'setupWDS' ) )
 
             // Include utility functions
             include_once( WDS_PATH . 'global/styles-scripts.php');  
-            include_once( WDS_PATH . 'admin/functions/admin-setup.php');           
+            //add admin page
+            include_once( WDS_PATH . 'admin/view/admin-page.php');        
+            //add plugin main page
+            include_once( WDS_PATH . 'admin/view/main-page.php');     //přejmenovat v tomto souboru classu podle toho, co to bude za plugin      
 
             $this->styleScript = new ScriptsStyles();
-            $this->admin = new customizeComments();
 
         }
 
