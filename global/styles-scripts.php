@@ -64,10 +64,22 @@ class ScriptsStyles extends setupWDS {
     wp_enqueue_style( 'fonts-gstatic', 'https://fonts.gstatic.com' );
     wp_enqueue_style( 'font-Lato', 'https://fonts.googleapis.com/css2?family=Lato:ital@0;1&display=swap' );
 
+    wp_enqueue_style( 'wp-color-picker' );
+
     //register javascript
     $admin_script = filemtime(  WDS_PATH . 'assets/scripts/wds-admin.js' );
     wp_enqueue_script( 'star-comments', WDS_URL . 'assets/scripts/wds-admin.js', array( 'jquery' ), $admin_script, true );
     
+    //color picker scripts
+    wp_register_script( 'wp-color-picker-alpha', $url_to_script, array( 'wp-color-picker' ), $current_version, $in_footer );
+    wp_add_inline_script(
+      'wp-color-picker-alpha',
+      'jQuery( function() { jQuery( ".color-picker" ).wpColorPicker(); } );'
+    );
+    wp_enqueue_script( 'wp-color-picker-alpha' );
+
   }
 
 }
+
+
