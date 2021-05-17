@@ -71,7 +71,8 @@ class ScriptsStyles extends setupWDS {
     wp_enqueue_script( 'star-comments', WDS_URL . 'assets/scripts/wds-admin.js', array( 'jquery' ), $admin_script, true );
     
     //color picker scripts
-    wp_register_script( 'wp-color-picker-alpha', $url_to_script, array( 'wp-color-picker' ), $current_version, $in_footer );
+    $colorpicker_script = filemtime(  WDS_PATH . 'assets/scripts/wp-color-picker-alpha.min.js' );
+    wp_register_script( 'wp-color-picker-alpha', $colorpicker_script, array( 'wp-color-picker' ), $current_version, $in_footer );
     wp_add_inline_script(
       'wp-color-picker-alpha',
       'jQuery( function() { jQuery( ".color-picker" ).wpColorPicker(); } );'
