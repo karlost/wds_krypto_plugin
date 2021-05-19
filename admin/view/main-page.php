@@ -160,26 +160,79 @@ if (!class_exists('PluginNameMainPageWDS')) {
                                                         </p>
 
                                                         <p>
-                                                        <div class="floating-label">
 
-                                                            <div class="wds-select">
-                                                                <select>
-                                                                    <option value="0">Lorem ipsum</option>
-                                                                    <option value="1">Audi</option>
-                                                                    <option value="2">BMW</option>
-                                                                    <option value="3">Citroen</option>
-                                                                    <option value="4">Ford</option>
-                                                                    <option value="5">Honda</option>
-                                                                    <option value="6">Jaguar</option>
-                                                                    <option value="7">Land Rover</option>
-                                                                    <option value="8">Mercedes</option>
-                                                                    <option value="9">Mini</option>
-                                                                    <option value="10">Nissan</option>
-                                                                    <option value="11">Toyota</option>
-                                                                    <option value="12">Volvo</option>
-                                                                </select>
-                                                            </div>
-                                                            <label for="wds-select" class="">Lorem ipsum</label>
+                                                        <div class="floating-label">
+                                                            <select id="select-state1">
+                                                                <option value="">None</option>
+                                                                <option value="AL">Alabama</option>
+                                                                <option value="AK">Alaska</option>
+                                                                <option value="AZ">Arizona</option>
+                                                                <option value="AR">Arkansas</option>
+                                                                <option value="CA">California</option>
+                                                                <option value="CO">Colorado</option>
+                                                                <option value="CT">Connecticut</option>
+                                                                <option value="DE">Delaware</option>
+                                                                <option value="DC">District of Columbia</option>
+                                                                <option value="FL">Florida</option>
+                                                                <option value="GA">Georgia</option>
+                                                                <option value="HI">Hawaii</option>
+                                                                <option value="ID">Idaho</option>
+                                                                <option value="IL">Illinois</option>
+                                                                <option value="IN">Indiana</option>
+                                                            </select>
+
+                                                            <label for="select-state1" class="">Default select</label>
+
+                                                        </div>
+                                                        </p>
+
+                                                        <p>
+                                                        <div class="floating-label">
+                                                            <select id="select-state" name="select-state" class="selectize" placeholder="Selectize">
+                                                                <option value="">None</option>
+                                                                <option value="AL">Alabama</option>
+                                                                <option value="AK">Alaska</option>
+                                                                <option value="AZ">Arizona</option>
+                                                                <option value="AR">Arkansas</option>
+                                                                <option value="CA">California</option>
+                                                                <option value="CO">Colorado</option>
+                                                                <option value="CT">Connecticut</option>
+                                                                <option value="DE">Delaware</option>
+                                                                <option value="DC">District of Columbia</option>
+                                                                <option value="FL">Florida</option>
+                                                                <option value="GA">Georgia</option>
+                                                                <option value="HI">Hawaii</option>
+                                                                <option value="ID">Idaho</option>
+                                                                <option value="IL">Illinois</option>
+                                                                <option value="IN">Indiana</option>
+                                                            </select>
+
+                                                            <label for="select-state" class="">Selectize</label>
+
+                                                        </div>
+                                                        </p>
+                                                        <p>
+                                                        <div class="floating-label">
+                                                            <select id="select-multi" name="select-multi" multiple="multiple" class="selectize" placeholder="Selectize multiple">
+                                                                <option value="">None</option>
+                                                                <option value="AL">Alabama</option>
+                                                                <option value="AK">Alaska</option>
+                                                                <option value="AZ">Arizona</option>
+                                                                <option value="AR">Arkansas</option>
+                                                                <option value="CA">California</option>
+                                                                <option value="CO">Colorado</option>
+                                                                <option value="CT">Connecticut</option>
+                                                                <option value="DE">Delaware</option>
+                                                                <option value="DC">District of Columbia</option>
+                                                                <option value="FL">Florida</option>
+                                                                <option value="GA">Georgia</option>
+                                                                <option value="HI">Hawaii</option>
+                                                                <option value="ID">Idaho</option>
+                                                                <option value="IL">Illinois</option>
+                                                                <option value="IN">Indiana</option>
+                                                            </select>
+
+                                                            <label for="select-multi" class="">Selectize multiple</label>
 
                                                         </div>
                                                         </p>
@@ -277,9 +330,8 @@ if (!class_exists('PluginNameMainPageWDS')) {
                                                             <input name="example3" type="range" class="range" max="100" min="0" value="63">
                                                             <div class="input-group">
                                                                 <input class="outval small" type="number" max="100" min="0" value="63" source="[name=example3]">
-                                                                <div class="wds-select select-button small">
+                                                                <div class="select-button small">
                                                                     <select>
-                                                                        <option value="0">px</option>
                                                                         <option value="1">px</option>
                                                                         <option value="2">%</option>
                                                                         <option value="3">rem</option>
@@ -296,7 +348,7 @@ if (!class_exists('PluginNameMainPageWDS')) {
                                                     <div class="form-item">
                                                         <div class="range-wrap val-right">
                                                             <input name="example4" type="range" class="range" max="20" min="0" value="3">
-                                                            <select style="outval" source="[name=example4]">
+                                                            <select class="outval small" source="[name=example4]">
                                                                 <option value="0">0</option>
                                                                 <option value="1">1</option>
                                                                 <option value="2">2</option>
@@ -441,7 +493,7 @@ if (!class_exists('PluginNameMainPageWDS')) {
                                                 </label>
                                                 <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Senectus libero ut lorem ac dictumst phasellus nunc sit. Eu nisi sed viverra id aliquam enim, odio nunc.</p>
                                                 <p>
-                                                    <input type="text" class="color-picker" data-alpha-enabled="true" data-default-color="#a5c83c" name="plugin_settings[color]" value=""/>
+                                                    <input type="text" class="color-picker" data-alpha-enabled="true" data-default-color="#a5c83c" name="plugin_settings[color]" value="" />
                                                 </p>
                                             </div>
                                         </div>

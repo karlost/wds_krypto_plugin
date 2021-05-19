@@ -160,7 +160,9 @@ body .wds-notice a:hover {
 
 /* inputs */
 .wds-admin .form-item input,
-.wds-admin .form-item textarea {
+.wds-admin .form-item textarea,
+.wds-admin .form-item select,
+.form-item .selectize-input {
   border: 1px solid var(--grey);
   box-sizing: border-box;
   box-shadow: inset 0px 1px 3px rgba(0, 0, 0, 0.25);
@@ -169,18 +171,27 @@ body .wds-notice a:hover {
   width: 100%;
   margin-left: 0;
   margin-right: 0;
+  font-size: inherit;
+  line-height: 2;
 }
 .wds-admin .form-item input.small {
   padding: 3px 5px 3px 10px;
 }
 .wds-admin .form-item input:focus,
-.wds-admin .form-item textarea:focus {
+.wds-admin .form-item textarea:focus,
+.wds-admin .form-item select:focus,
+.form-item .selectize-input>input:focus,
+.form-item .selectize-input.focus {
   outline: 0;
   border-color: var(--secondary);
   box-shadow: 0px 0px 5px rgba(119, 39, 91, 0.5);
 }
 .wds-admin .form-item input[type="date"] {
   max-width: 200px;
+}
+
+.wds-admin .form-item select {
+    max-width: unset;
 }
 
 /* floating label */
@@ -190,20 +201,24 @@ body .wds-notice a:hover {
 }
 
 .wds-admin .form-item .floating-label input,
-.wds-admin .form-item .floating-label textarea {
+.wds-admin .form-item .floating-label textarea,
+.wds-admin .form-item .floating-label select,
+.form-item .floating-label .selectize-input {
   padding: 17px 15px 3px;
 }
 
 .wds-admin .form-item .floating-label label,
 .wds-admin .form-item .floating-label input,
-.wds-admin .form-item .floating-label textarea {
+.wds-admin .form-item .floating-label textarea,
+.form-item .floating-label .selectize-input {
   transition: all 0.2s;
   touch-action: manipulation;
 }
 
 .wds-admin .form-item .floating-label input + label,
 .wds-admin .form-item .floating-label textarea + label,
-.wds-admin .form-item .floating-label .wds-select + label {
+.wds-admin .form-item .floating-label select + label,
+.form-item .floating-label .selectize-control + label {
   position: absolute;
   top: 20px;
   left: 15px;
@@ -212,6 +227,7 @@ body .wds-notice a:hover {
   transform: translate(0, 0);
   font-size: 14px;
   color: #999999;
+  z-index: 2;
 }
 
 .wds-admin .form-item .floating-label input::-webkit-input-placeholder,
@@ -231,110 +247,83 @@ body .wds-notice a:hover {
 .wds-admin .form-item .floating-label input:focus + label,
 .wds-admin .form-item .floating-label textarea:not(:placeholder-shown) + label,
 .wds-admin .form-item .floating-label textarea:focus + label,
-.wds-admin .form-item .floating-label .wds-select + label {
+.wds-admin .form-item .floating-label select + label,
+.form-item .floating-label .selectize-control.focus + label {
   transform: translate(0, -16px);
   opacity: 1;
   visibility: visible;
   font-size: 12px;
 }
 
-/* custom select */
-.wds-select {
-  position: relative;
+/* select */
+.wds-admin .form-item select {
+    -moz-appearance:none; /* Firefox */
+    -webkit-appearance:none; /* Safari and Chrome */
+    appearance:none;
+    padding-right: 35px;
+    background: #fff url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 36 36' %3E%3Cpath d='M6.49,13.481l11.52,11.92l11.52,-11.92c0.305,-0.317 0.476,-0.74 0.476,-1.18c-0,-0.933 -0.768,-1.701 -1.701,-1.701c-0.462,0 -0.905,0.188 -1.225,0.521l-9.07,9.39l-9.08,-9.39c-0.32,-0.333 -0.763,-0.521 -1.225,-0.521c-0.933,0 -1.701,0.768 -1.701,1.701c0,0.44 0.171,0.863 0.476,1.18l0.01,-0Z' fill='%23999'/%3E%3C/svg%3E") no-repeat right 10px top 55%;
 }
 
-.wds-select select {
-  display: none;
+.wds-admin .form-item .select-button select {
+    border-color: var(--primary);
+    box-shadow: unset;
+    background: var(--primary) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 36 36' %3E%3Cpath d='M6.49,13.481l11.52,11.92l11.52,-11.92c0.305,-0.317 0.476,-0.74 0.476,-1.18c-0,-0.933 -0.768,-1.701 -1.701,-1.701c-0.462,0 -0.905,0.188 -1.225,0.521l-9.07,9.39l-9.08,-9.39c-0.32,-0.333 -0.763,-0.521 -1.225,-0.521c-0.933,0 -1.701,0.768 -1.701,1.701c0,0.44 0.171,0.863 0.476,1.18l0.01,-0Z' fill='333'/%3E%3C/svg%3E") no-repeat right 10px top 55%;
 }
 
-.select-selected {
-  border: 1px solid var(--grey);
-  box-sizing: border-box;
-  box-shadow: inset 0px 1px 3px rgba(0, 0, 0, 0.25);
-  border-radius: 4px;
-  background-color: white;
-  color: var(--dark);
-  padding: 17px 25px 3px 15px;
-  line-height: 2;
-  cursor: pointer;
+.wds-admin .form-item select.small,
+.wds-admin .form-item .small select {
+  padding: 3px 20px 3px 10px;
+  background-size: 14px 14px;
+  background-position-x: calc(100% - 5px);
+min-width: 60px;
 }
 
-.select-selected:after {
-  position: absolute;
-  content: "";
-  top: 22px;
-  right: 15px;
-  width: 0;
-  height: 0;
-  border: 6px solid transparent;
-  border-color: var(--grey) transparent transparent transparent;
+/* custom select - selectize */
+.wds-admin .selectize-control.single .selectize-input:after {
+    content: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 36 36' %3E%3Cpath d='M6.49,13.481l11.52,11.92l11.52,-11.92c0.305,-0.317 0.476,-0.74 0.476,-1.18c-0,-0.933 -0.768,-1.701 -1.701,-1.701c-0.462,0 -0.905,0.188 -1.225,0.521l-9.07,9.39l-9.08,-9.39c-0.32,-0.333 -0.763,-0.521 -1.225,-0.521c-0.933,0 -1.701,0.768 -1.701,1.701c0,0.44 0.171,0.863 0.476,1.18l0.01,-0Z' fill='%23999'/%3E%3C/svg%3E");
+    position: absolute;
+    top: calc(55% - 10px);
+    right: 10px;
+    width: 24px;
+    height: 24px;
+    margin-top: -3px;
+    border:none;
 }
-.small .select-selected:after {
-  top: 16px;
-  right: 7px;
+.wds-admin .selectize-control.single .selectize-input.dropdown-active:after {
+    -moz-transform: scaleY(-1);
+    -o-transform: scaleY(-1);
+    -webkit-transform: scaleY(-1);
+    transform: scaleY(-1);
+    filter: FlipV;
+    -ms-filter: "FlipV";
 }
-
-.select-selected.select-arrow-active:after {
-  border-color: transparent transparent var(--grey) transparent;
-  top: 15px;
+.wds-admin .selectize-dropdown-content {
+    padding:10px;
 }
-
-.small .select-selected.select-arrow-active:after {
-  top: 10px;
+.wds-admin .selectize-dropdown .option {
+    border-radius: 4px;
 }
-
-.select-button .select-selected {
-  border: 1px solid var(--primary);
-  box-shadow: none;
-  background-color: var(--primary);
+.wds-admin .selectize-dropdown [data-selectable].option.active {
+    background-color: var(--primary20);
 }
-
-.select-button .select-selected:hover {
-    filter: brightness(110%);
+.wds-admin .selectize-dropdown [data-selectable].option.selected {
+    background-color: var(--primary);
 }
 
-.select-button .select-selected:after {
-  border-color: var(--dark) transparent transparent transparent;
-}
-.select-button .select-selected.select-arrow-active:after {
-  border-color: transparent transparent var(--dark) transparent;
+.wds-admin .floating-label .selectize-control.multi .selectize-input {
+    padding: 22px 15px 3px;
 }
 
-.select-items div {
-  color: var(--dark);
-  padding: 5px;
-  border-radius: 4px;
-  cursor: pointer;
+.wds-admin .selectize-control.multi .selectize-input>div {
+    padding: 0px 5px; 
+    background: var(--primary);
+    color: var(--dark);
+    border: 0 solid var(--primary);
+    border-radius: 4px;
 }
-
-.small .select-selected {
-  color: var(--dark);
-  padding: 3px 25px 3px 10px;
-  line-height: 2;
-  border: 1px solid var(--grey);
-  cursor: pointer;
-}
-
-.select-items {
-  position: absolute;
-  background-color: white;
-  top: 100%;
-  left: 0;
-  right: 0;
-  z-index: 99;
-  padding: 10px;
-  box-shadow: 0px 1px 2px rgba(0, 0, 0, 0.25);
-}
-
-.select-hide {
-  display: none;
-}
-
-.select-items div:hover {
-  background-color: var(--primary20);
-}
-.same-as-selected {
-  background-color: var(--primary);
+.wds-admin .selectize-control.multi .selectize-input>div.active {
+    background: var(--primary);
+    border: 1px solid var(--secondary);
 }
 
 /* button */
@@ -636,12 +625,14 @@ body .wds-notice a:hover {
 }
 .wds-admin .input-group > *:first-child,
 .wds-admin .input-group > *:first-child input,
-.wds-admin .input-group > *:first-child .select-selected {
+.wds-admin .input-group > *:first-child select,
+.wds-admin .input-group > *:first-child .selectize-input {
   border-radius: 4px 0 0 4px !important;
 }
 .wds-admin .input-group > *:last-child,
 .wds-admin .input-group > *:last-child input,
-.wds-admin .input-group > *:last-child .select-selected {
+.wds-admin .input-group > *:last-child select,
+.wds-admin .input-group > *:last-child .selectize-input {
   border-radius: 0 4px 4px 0 !important;
 }
 
@@ -660,19 +651,19 @@ body .wds-notice a:hover {
 }
 .wds-admin .range-wrap.val-right .range {
   display: inline;
-  width: calc(100% - 80px);
+  width: calc(100% - 100px);
 }
 .wds-admin .range-wrap.val-right-large .range {
   display: inline;
-  width: calc(100% - 130px);
+  width: calc(100% - 150px);
 }
 .wds-admin .range-wrap.val-right .outval {
-  display: inline-block;
-  width: 70px;
+  display: block;
+  width: 90px;
   float: right;
 }
 .wds-admin .range-wrap.val-right-large .input-group {
-  width: 120px;
+  width: 140px;
   float: right;
   margin-top: 0;
 }
@@ -880,7 +871,7 @@ input[type="range"]::-ms-thumb {
   background-color: #f9f9f9;
 }
 
-/* default color picker 
+/* color picker 
 ========================================= */
 .wds-admin .form-item input.wp-picker-default {
     width: auto;
@@ -888,4 +879,48 @@ input[type="range"]::-ms-thumb {
 .wds-admin .wp-picker-holder {
     position: absolute;
     z-index: 5;
+}
+
+.wds-admin .wp-picker-container .wp-color-result.button {
+    min-height: 50px;
+    margin: 0 6px 6px 0px;
+    padding: 0 0 0 50px;
+    font-size: 14px;
+    border-color: var(--grey)!important;
+    background-color: var(--grey);
+}
+.wds-admin .wp-picker-container .wp-color-result.button:focus {
+    border-color: var(--secondary)!important;
+}
+.wds-admin .wp-picker-container .wp-color-result-text {
+    background: #f6f7f7;
+    border-radius: 0 4px 4px 0;
+    border-left: 1px solid var(--grey);
+    color: var(--dark);
+    line-height: 2;
+    padding: 10px;
+    text-align: center;
+}
+.wds-admin  .wp-color-result .color-alpha {
+    width: 50px!important;
+}
+.wds-admin .wp-picker-container input[type="text"].wp-color-picker {
+    width: 4rem;
+    font-size: 14px;
+    font-family: monospace;
+    line-height: 2;
+    padding: 10px;
+    border-top-right-radius: 0;
+    border-bottom-right-radius: 0;
+}
+
+.wds-admin .wp-picker-input-wrap .button.wp-picker-default, 
+.wds-admin .wp-picker-input-wrap .button.wp-picker-clear {
+    margin-left: 0; 
+    padding: 10px; 
+    font-size: 14px;
+    line-height: 2; 
+    box-shadow: none;
+    border-top-left-radius: 0;
+    border-bottom-left-radius: 0;
 }

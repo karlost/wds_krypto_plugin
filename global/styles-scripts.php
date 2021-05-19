@@ -72,13 +72,20 @@ class ScriptsStyles extends setupWDS {
     
     //color picker scripts
     $colorpicker_script = filemtime(  WDS_PATH . 'assets/scripts/wp-color-picker-alpha.min.js' );
-    wp_register_script( 'wp-color-picker-alpha', $colorpicker_script, array( 'wp-color-picker' ), $current_version, $in_footer );
+    wp_enqueue_script( 'wp-color-picker-alpha', WDS_URL . 'assets/scripts/wp-color-picker-alpha.min.js', array( 'wp-color-picker' ), $colorpicker_script, true );
+
     wp_add_inline_script(
       'wp-color-picker-alpha',
       'jQuery( function() { jQuery( ".color-picker" ).wpColorPicker(); } );'
     );
-    wp_enqueue_script( 'wp-color-picker-alpha' );
 
+    //Selectize.js
+    $selectize_script = filemtime(  WDS_PATH . 'assets/scripts/selectize.js' );
+    wp_enqueue_script( 'selectize', WDS_URL . 'assets/scripts/selectize.js', array( 'jquery' ), $selectize_script, true );
+
+    $selectize_style = filemtime(  WDS_PATH . 'assets/styles/selectize.css' );
+    wp_enqueue_style( 'selectize', WDS_URL . 'assets/styles/selectize.css', array( ), $selectize_style, 'all' );
+    
   }
 
 }
