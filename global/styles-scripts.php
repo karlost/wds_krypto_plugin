@@ -10,7 +10,6 @@
 if ( ! defined( 'ABSPATH' ) ) {
   exit;
 }
-
 class ScriptsStyles extends setupWDS {
 
   /**
@@ -89,5 +88,3 @@ class ScriptsStyles extends setupWDS {
   }
 
 }
-
-

@@ -6,17 +6,16 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 }
 
-if( ! class_exists( 'SettingsPageWDS' ) )
+if( ! class_exists( 'mainMenu' ) )
 
 {
-    class SettingsPageWDS
+    class mainMenuWDS
 
 	{
 		//hook functions
-
 		public function __construct()
 		{
-            add_action( 'admin_menu',  [$this, 'admin_page_wds'] );
+            add_action( 'admin_menu',  [$this, 'main_menu_callback'] );
         }
 
         /**
@@ -27,19 +26,23 @@ if( ! class_exists( 'SettingsPageWDS' ) )
          * @author Wedesin
          * @return true/false
          */ 
-        public function admin_page_wds() {
-            if (!isset( $GLOBALS['admin_page_hooks']['wds-plugins']) || empty ( $GLOBALS['admin_page_hooks']['wds-plugins'] ) ) {
+        public function main_menu_callback() {
+
+            if (!isset( $GLOBALS['admin_page_hooks']['wds-plugins']) || empty( $GLOBALS['admin_page_hooks']['wds-plugins'] ) ) {
                 add_menu_page(
-                    __( 'WDS Plugins', 'wds_plugins' ),
-                    __( 'WDS Plugins', 'wds_plugins' ),
+                    __( 'WDS Plugins', TM ),
+                    __( 'WDS Plugins', TM ),
                     'manage_options',
                     'wds-plugins',
                     array( $this, 'my_admin_page_contents' ),
                     'dashicons-admin-generic',
                     65
                 );
+        
             }
+            
         }
+
 
         /**
          * Zobrazení hlavní admin stránky v adminu wordpressu
@@ -98,8 +101,6 @@ if( ! class_exists( 'SettingsPageWDS' ) )
         }
 
     }
-	new SettingsPageWDS;
+	new mainMenuWDS;
 
 }
-
-?>

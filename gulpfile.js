@@ -1,22 +1,10 @@
 // GULP PACKAGES
-
 var gulp  = require('gulp'),
     browserSync = require('browser-sync').create();
 
-var url = 'http://localhost/testsite/';
+var url = 'http://localhost/wp-empty/';
 
-//default task
-gulp.task('default', function ( ) {
-
-    return new Promise(function(resolve, reject) {
-
-        console.log("HTTP Server Started");
-        resolve();
-
-    });
-
-});
-
+//hlavní task
 gulp.task('dev', function() {
 
     browserSync.init({
@@ -26,7 +14,7 @@ gulp.task('dev', function() {
 			match: [
 
 				//php files
-				//'./**//**.php', 
+				'./**//**.php', 
 				//style.css
 				//"style.css",
 				// css files 
@@ -39,10 +27,10 @@ gulp.task('dev', function() {
 				this.reload()
 			}
 
-		  } ],
-		  proxy: url, 
-		  port: 3000,
-		  injectChanges: true 
-	  });
+		}],
+		proxy: url, 
+		port: 3000,
+		injectChanges: true 
+	});
 
 });

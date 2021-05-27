@@ -5,56 +5,98 @@ if (!defined('ABSPATH')) {
     exit;
 }
 
-if (!class_exists('PluginNameMainPageWDS')) {
-    class PluginNameMainPageWDS
 
+if (!class_exists('submenuContentWDS')) {
+    class submenuContentWDS extends subMenuWDS
     {
         //hook functions
-
         public function __construct()
         {
-            add_action('admin_menu',  [$this, 'admin_main_page_wds']);
+            
         }
 
         /**
-         * Přidává stránku nastavení wedesin pluginů do adminu
+         * Zobrazení testovacího formuláře
          *
          * @param none
          * 
          * @author Wedesin
          * @return true/false
          */
-        public function admin_main_page_wds()
+        function form_page_contents()
         {
-            if (isset($GLOBALS['admin_page_hooks']['wds-plugins']) || !empty($GLOBALS['admin_page_hooks']['wds-plugins'])) {
-                add_submenu_page(
-                    'wds-plugins',
-                    'vyvoj',
-                    'vyvoj',
-                    'manage_options',
-                    'wds_vyvoj_slug',
-                    array($this, 'my_admin_page_contents'),
-                );
-            }
-        }
+            
+            $fields = [
+				[
+					'type' => 'hidden',
+					'name' => 'currenturl', 
+					'saveAs' => 'meta',
+					'required' => false,
+					'value' => get_permalink()
+				],
+				[
+					'type' => 'text',
+					'name' => 'title', 
+					'label' => 'Jméno',
+					'saveAs' => 'post_title',
+					'required' => true,
+				],
+				[
+					'type' => 'text',
+					'name' => '_company', 
+					'label' => 'Společnost',
+					'saveAs' => 'meta',
+					'required' => false,
+				],
+				[
+					'type' => 'text',
+					'name' => 'name', 
+					'label' => 'Jméno',
+					'saveAs' => 'meta',
+					'required' => false
+				],
+				[
+					'type' => 'text',
+					'name' => 'surname', 
+					'label' => 'Příjmení',
+					'saveAs' => 'meta',
+					'required' => false
+				],
+				[
+					'type' => 'email',
+					'name' => 'email', 
+					'label' => 'Email',
+					'saveAs' => 'meta',
+					'required' => true,
+				],
+				[
+					'type' => 'text',
+					'name' => 'phone_number', 
+					'label' => 'Telefon',
+					'saveAs' => 'meta',
+					'required' => false,
+				]
+				
+			];
 
-
+            $builder = new formsBuilderWDS( $fields );
+            
+            $builder->display_form( $fields ); 
+            
+        } 
+        
         /**
-         * Zobrazení hlavní admin stránky v adminu wordpressu
+         * Zobrazení ukázkového formuláře
          *
          * @param none
          * 
          * @author Wedesin
          * @return true/false
          */
-        function my_admin_page_contents()
-        {
-
+        function my_admin_page_contents( ) {
             //Získat aktivní tab z parametru $_GET 
             $default_tab = null;
-            $tab = isset($_GET['tab']) ? $_GET['tab'] : $default_tab;
-
-?>
+            $tab = isset($_GET['tab']) ? $_GET['tab'] : $default_tab;?>
             <div class="wrap wds-admin">
 
                 <h1><?php echo esc_html(get_admin_page_title()); ?></h1>
@@ -604,10 +646,11 @@ if (!class_exists('PluginNameMainPageWDS')) {
                     </div>
                 </div>
             </div>
-<?php
+            <?php
         }
+
     }
-    new PluginNameMainPageWDS;
+
+    new submenuContentWDS;
 }
 
-?>

@@ -12,6 +12,14 @@
 * License: GPL2 or higher
 */
 
+/*
+
+3) do admin rootu přidat funkci na tvorbu formulářů
+4) do admini rootu přidat funkci na zpracování formulářů
+
+*/
+
+
 if ( ! defined( 'ABSPATH' ) ) {
     exit;
 }
@@ -39,6 +47,7 @@ if( !class_exists( 'setupWDS' ) )
         {
             //init the plugin        
             add_action( 'init', [$this, 'plugin_init'] );
+
         }
 
         /**
@@ -71,16 +80,28 @@ if( !class_exists( 'setupWDS' ) )
          */
         public function plugin_init( ) {
 
+            //definice
             $this->define( 'WDS_PATH', plugin_dir_path( __FILE__ ) );
             $this->define( 'WDS_URL', plugin_dir_url( __FILE__ ) );
+            //definoujeme jméno pro lokalizaci
+            $this->define( 'TM', 'wds' );
 
             // Include utility functions
+            include_once( WDS_PATH . 'global/helpers.php'); 
             include_once( WDS_PATH . 'global/styles-scripts.php');  
+            include_once( WDS_PATH . 'global/sessions.php'); 
+            include_once( WDS_PATH . 'global/cookies.php'); 
+            
             //add admin page
-            include_once( WDS_PATH . 'admin/view/admin-page.php');        
-            //add plugin main page
-            include_once( WDS_PATH . 'admin/view/main-page.php');     //přejmenovat v tomto souboru classu podle toho, co to bude za plugin      
-
+            include_once( WDS_PATH . 'admin/main-menu.php');  
+            include_once( WDS_PATH . 'admin/sub-menu.php');  
+            include_once( WDS_PATH . 'admin/forms-builder.php'); 
+            include_once( WDS_PATH . 'admin/forms-content.php');  
+            
+            //admin views
+            include_once( WDS_PATH . 'admin/view/main-menu.php'); 
+            include_once( WDS_PATH . 'admin/view/submenu-content.php'); 
+                        
             $this->styleScript = new ScriptsStyles();
 
         }
