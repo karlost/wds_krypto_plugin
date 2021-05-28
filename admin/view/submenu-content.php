@@ -27,6 +27,31 @@ if (!class_exists('submenuContentWDS')) {
         {
             
             $fields = [
+                [
+					'box_type' => 'content',
+				],
+                [
+                    'box_type' => 'box',
+                    'layout' => 'column',
+                    'column1' => [
+                        [
+                            'type' => 'hidden',
+                            'name' => 'currenturl', 
+                            'saveAs' => 'meta',
+                            'required' => false,
+                            'value' => get_permalink()
+                        ],
+                    ], 
+                    'column2' => [
+                        [
+                            'type' => 'text',
+                            'name' => 'title', 
+                            'label' => 'Jméno',
+                            'saveAs' => 'post_title',
+                            'required' => true,
+                        ],
+                    ]
+                ],
 				[
 					'type' => 'hidden',
 					'name' => 'currenturl', 
