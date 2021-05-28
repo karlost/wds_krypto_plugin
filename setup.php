@@ -8,7 +8,7 @@
 * Author URI: https://www.wedesin.cz/
 * Requires at least: 3.0.
 * Tested up to: 5.6
-* Text Domain: doplnit
+* Text Domain: textdomain
 * License: GPL2 or higher
 */
 

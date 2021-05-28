@@ -1,34 +1,34 @@
 <?php
 
-if ( ! defined( 'ABSPATH' ) ) {
-  exit;
+if (!defined('ABSPATH')) {
+    exit;
 }
 
-if( ! class_exists( 'WDS_Front_Form' ) )
-{
-	class WDS_Front_Form
-	{
+if (!class_exists('WDS_Front_Form')) {
+    class WDS_Front_Form
+    {
 
         private $fields;
         private $session;
 
-		public function __construct($field_list = [])
-		{
+        public function __construct($field_list = [])
+        {
             $this->fields = $field_list;
 
-            add_action( 'wp_ajax_wds_frontend_form_dropzone_handle_dropped_files', [$this, 'handle_dropped_files_callback'], 10, 1 );
-            add_action( 'wp_ajax_nopriv_wds_frontend_form_dropzone_handle_dropped_files', [$this, 'handle_dropped_files_callback'], 10, 1 );
-            
-            add_action( 'wp_ajax_wds_frontend_form_dropzone_handle_deleted_files', [$this, 'handle_deleted_files_callback'], 10, 1 );
-            add_action( 'wp_ajax_nopriv_wds_frontend_form_dropzone_handle_deleted_files', [$this, 'handle_deleted_files_callback'], 10, 1 );
-            
-            add_action( 'wp_ajax_wds_frontend_form_dropzone_get_files', [$this, 'get_files_callback'], 10, 1 );
-            add_action( 'wp_ajax_nopriv_wds_frontend_form_dropzone_get_files', [$this, 'get_files_callback'], 10, 1 );
+            add_action('wp_ajax_wds_frontend_form_dropzone_handle_dropped_files', [$this, 'handle_dropped_files_callback'], 10, 1);
+            add_action('wp_ajax_nopriv_wds_frontend_form_dropzone_handle_dropped_files', [$this, 'handle_dropped_files_callback'], 10, 1);
+
+            add_action('wp_ajax_wds_frontend_form_dropzone_handle_deleted_files', [$this, 'handle_deleted_files_callback'], 10, 1);
+            add_action('wp_ajax_nopriv_wds_frontend_form_dropzone_handle_deleted_files', [$this, 'handle_deleted_files_callback'], 10, 1);
+
+            add_action('wp_ajax_wds_frontend_form_dropzone_get_files', [$this, 'get_files_callback'], 10, 1);
+            add_action('wp_ajax_nopriv_wds_frontend_form_dropzone_get_files', [$this, 'get_files_callback'], 10, 1);
 
             $this->session = new sessionClassWDS;
         }
 
-        private function check_if_fields_has($var) {
+        private function check_if_fields_has($var)
+        {
             if (empty($this->fields)) {
                 return false;
             }
@@ -41,126 +41,81 @@ if( ! class_exists( 'WDS_Front_Form' ) )
             return false;
         }
 
-        public function get_form($post_id = 'new', $post_type = 'post', $formID = 'wedesin_frontend' ) {
+        public function get_form($post_id = 'new', $post_type = 'post', $formID = 'wedesin_frontend')
+        {
 
             global $post;
 
             $return = "";
-            $query = filter_input_array( INPUT_GET );
-            $product_id = false;
+            $query = filter_input_array(INPUT_GET);
 
-            if ( get_post_type() == "product" && is_single( ) ) {
-                $product_id = get_the_ID();
-            } else if ( isset( $query['order_product'] ) && $query['order_product'] ) {
-                $product_id = $query['order_product'];
-            }
+?>
+            <div class="wrap wds-admin">
 
-            if ( $product_id && 88 != $product_id ) {
-                
-                $title = get_the_title( $product_id );
-                
-                $post_data = get_post( $product_id);
-                $parent_post_id =  $post_data->post_parent;
-                $parent_post = get_post($parent_post_id );
-                $page_parent =  $parent_post->post_title;
-                $post_thumbnail_id = get_post_thumbnail_id( $product_id );
+                <h1><?php echo esc_html(get_admin_page_title()); ?></h1>
 
-                //specifické id obrázku
-                if ( isset( $query['image-id'] ) && $query['image-id'] ) {
-                    $post_thumbnail_id = $query['image-id'];
-                }
- 
-                $image_src = wp_get_attachment_image_src( $post_thumbnail_id, 'medium');
-                $image_alt = get_post_meta( $post_thumbnail_id, '_wp_attachment_image_alt', TRUE );
-                
-                ?>
-                        
-                <div class="grid-x grid-margin-x">
-            
-                    <?php if ( $image_src && $query['submit'] != 1 ) { ?>
+                <?php settings_errors(); ?>
 
-                        <div class="cell large-5 medium-4 small-12">
-                            <img src="<?= $image_src[0] ?>" alt="<?= $image_alt ?>" id="requested_image">
+                <div class="row">
+                    <div class="column content">
+
+                        <!-- místo pro taby -->
+
+                        <div class="content-box">
+
+                            <span class="form-star"><small><?= __('* povinné pole', 'textdomain'); ?></small></span>
+
+                            <form method="post" id="<?= $formID ?>_<?= $post_id ?>_form" class="wds-form" action="<?php // the_permalink(); 
+                                                                                                                    ?>" enctype="multipart/form-data" novalidate data-abide>
+
+                                <?php $this->get_form_fields($post_id, $post_type, 1, $formID); ?>
+
+                                <?php submit_button(); ?>
+
+                            </form>
                         </div>
-                        <div class="cell large-7 medium-8 small-12 phone-align">
-                            <div class="grid-x">
-                                <div class="cell">
-                                    <div class="h3 no-margin-bottom">
-                                        <?= __('Poptáváte produkt: ', 'gramon'); ?>
-                                    </div>
-                                    <p><?= $title ?></p>
-                                </div>
-                            </div>
-                            <?php if ( $page_parent ) { ?>
-                            <div class="grid-x">
-                                <div class="cell">
-                                    <div class="h3 no-margin-bottom">
-                                        <?= __('Produkt ze sekce: ', 'gramon'); ?>
-                                    </div>
-                                    <p><?= $page_parent ?></p>
-                                </div>
-                            </div>
-                            <?php } ?>
+                    </div>
+                    <div class="column sidebar">
+                        <div class="card">
+                            <p><img src="<?php echo WDS_URL ?>assets/img/Logo-Wedesin-CZ.png" alt=""></p>
+                            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Senectus libero ut lorem ac dictumst phasellus nunc sit. Eu nisi sed viverra id aliquam enim, odio nunc.</p>
+                            <p><a href="#" class="button">tlačítko</a></p>
                         </div>
-                    <?php } ?>
-                                
-                </div>
-
-            <?php } ?>
-
-            <div class="large-12 medium-12 small-12 cell">
-                <span class="form-star"><small><?= __('* povinné pole', 'gramon' ); ?></small></span>
-            </div>
-            <form method="post" id="<?=$formID?>_<?=$post_id?>_form" class="add-edit-wedesin-form" action="<?php // the_permalink(); ?>"
-                enctype="multipart/form-data" novalidate data-abide>
-                <div data-abide-error class="alert callout" style="display: none;">
-                    <?= __('Ve formuláři je chyba. Prosíme, zkontrolujte zadaná pole.', 'gramon' ); ?>
-                </div>
-                <div class="grid-x grid-margin-x">
-                    <div class="small-12 medium-12 cell">
-
-                        <?php wp_nonce_field( $formID, 'nonce_' . $formID ); ?>
-                        <input type="hidden" value="<?=$formID?>" name="wedesin_frontend_form" />
-                        <input type="hidden" value="<?=$post_type?>" name="post_type" />
-                        <input type="hidden" value="<?=$post_id?>" name="post_id" />
-                        <input type="hidden" value="<?=get_current_user_id()?>" name="post_author" />
-
-                        <div class="grid-x grid-margin-x">
-
-                            <?php $this->get_form_fields($post_id, $post_type, 1, $formID); ?>
-
-                            <div class="cell submit-button-container">
-                                <button type="submit" class="button " onclick="needToConfirm = false;">
-                                    <?php _e('Odeslat poptávku', 'gramon'); ?>
-                                </button>
-                            </div>
+                        <div class="card info">
+                            <h3><?php echo file_get_contents(WDS_URL . "assets/icons/info-standard-line.svg"); ?>Info blok</h3>
+                            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Senectus libero ut lorem ac dictumst phasellus nunc sit. Eu nisi sed viverra id aliquam enim, odio nunc.</p>
                         </div>
                     </div>
                 </div>
-            </form>
+            </div>
             <?php
         }
 
-        private function get_form_field_index($fields, $key) {
+        private function get_form_field_index($fields, $key)
+        {
             return array_keys(array_column($fields, 'saveAs'), $key);
         }
 
-        private function get_form_field_count($fields, $key) {
+        private function get_form_field_count($fields, $key)
+        {
             return count($this->get_form_field_index($fields, $key));
         }
 
-        private function get_form_field_featuredImages_index($fields) {
+        private function get_form_field_featuredImages_index($fields)
+        {
             return array_keys(array_column($fields, 'useAsFeatured'), 1);
         }
 
-        private function get_form_field_featuredImages_count($fields) {
+        private function get_form_field_featuredImages_count($fields)
+        {
             return count($this->get_form_field_featuredImages_index($fields));
         }
 
-        private function get_field_type_from_name($name) {
+        private function get_field_type_from_name($name)
+        {
             if (isset($this->fields) && !empty($this->fields)) {
                 foreach ($this->fields as $index => $field) {
-                    if ( $field['name'] == $name ) {
+                    if ($field['name'] == $name) {
                         if (isset($this->fields[$index]['type'])) {
                             return $this->fields[$index]['type'];
                         } else {
@@ -171,7 +126,8 @@ if( ! class_exists( 'WDS_Front_Form' ) )
             }
         }
 
-        public function get_fields($fields, $key) {
+        public function get_fields($fields, $key)
+        {
             $return_fields = [];
             $indexes = $this->get_form_field_index($fields, $key);
             if (is_array($indexes) && !empty($indexes)) {
@@ -182,17 +138,19 @@ if( ! class_exists( 'WDS_Front_Form' ) )
             return $return_fields;
         }
 
-        public function get_fields_from_post($inputs, $key) {
+        public function get_fields_from_post($inputs, $key)
+        {
             if (is_array($inputs) && isset($inputs['wds_' . $key])) {
                 return $inputs['wds_' . $key];
             }
             return false;
         }
 
-        public function get_field_parameter($name, $parameter) {
+        public function get_field_parameter($name, $parameter)
+        {
             if (isset($this->fields) && !empty($this->fields)) {
                 foreach ($this->fields as $index => $field) {
-                    if ( $field['name'] == $name ) {
+                    if ($field['name'] == $name) {
                         if (isset($this->fields[$index][$parameter])) {
                             return $this->fields[$index][$parameter];
                         } else {
@@ -204,40 +162,40 @@ if( ! class_exists( 'WDS_Front_Form' ) )
         }
 
         /**
-        * 	Description
-        *
-        * 	@param $arg = fce define_arg_form();
-        *	@param $col - 1 - one column, 2 - two columns
-        *
-        * 	@author Wedesin
-        * 	@return echo
-        */
-        public function get_form_fields($post_id, $post_type = 'post', $col = 1, $formID = null, $class = "") {
+         * 	Description
+         *
+         * 	@param $arg = fce define_arg_form();
+         *
+         * 	@author Wedesin
+         * 	@return echo
+         */
+        public function get_form_fields($post_id, $post_type = 'post', $formID = null)
+        {
 
             if (empty($this->fields)) {
                 die('Fields must be set.');
             }
 
-            if ($col == 2) {
+            /*if ($col == 2) {
                 $col1 = 'medium-3 small-12 cell';
                 $col2 = 'medium-9 small-12 cell';
             } else {
                 $col1 = 'medium-12 small-12 cell';
                 $col2 = 'medium-12 small-12 cell';
-            }
+            }*/
 
             // get index
             // run some tests, all this under should be only once
-            if ( $this->get_form_field_count($this->fields, 'post_title') > 1 ) {
+            if ($this->get_form_field_count($this->fields, 'post_title') > 1) {
                 die('Fields contain more than 1 post_title.');
             }
-            if ( $this->get_form_field_count($this->fields, 'post_content') > 1 ) {
+            if ($this->get_form_field_count($this->fields, 'post_content') > 1) {
                 die('Fields contain more than 1 post_content.');
             }
-            if ( $this->get_form_field_count($this->fields, 'post_excerpt') > 1 ) {
+            if ($this->get_form_field_count($this->fields, 'post_excerpt') > 1) {
                 die('Fields contain more than 1 post_excerpt.');
             }
-            if ( $this->get_form_field_featuredImages_count($this->fields) > 1 ) {
+            if ($this->get_form_field_featuredImages_count($this->fields) > 1) {
                 die('Fields contain more than 1 featured image.');
             }
 
@@ -250,162 +208,113 @@ if( ! class_exists( 'WDS_Front_Form' ) )
                 </div>
                 <?php
             }*/
-            //preprint( $this->fields );
 
-            foreach ($this->fields as $index => $field) {
+            foreach ($this->fields as $section) {
 
-                $type = isset($field['type']) ? $field['type'] : false;
-                $name = isset($field['name']) ? $field['name'] : false;
-                $class = isset($field['class']) ? $field['class'] : false;
+                $section_headline = isset($section['headline']) ? $section['headline'] : false;
+                $section_description = isset($section['description']) ? $section['description'] : false;
 
-                if ($name && $type)  {
+                //Vše v array fields jsou automaticky sekce formuláře
+                echo '<div class="form-section">';
 
-                    $label = isset($field['label']) ? $field['label'] : false;
+                if ($section_headline) echo '<h2>' . $section_headline . '</h2>';
+                if ($section_description) echo '<p>' . $section_description . '</p>';
 
-                    //new post
-                    if ($post_id == 'new') {
+                if ($section['columns']) {
 
-                        $value = isset($field['default_value']) ? $field['default_value'] : '';
+                    echo '<div class="row xl">';
+                    //preprint($section);
 
-                    //edit post
-                    } else {
-      
-                        $value = get_post_meta($post_id, $name.'_'.$post_type, true);
+                    foreach ($section['columns'] as $column) {
 
-                        if ($type == 'gallery') {
-                            $useAsFeatured = isset($field['useAsFeatured']) && $field['useAsFeatured'] ? true : false;
+                        //preprint($column);
+                        echo '<div class="column">';
 
-                            if ($useAsFeatured) {
-                                $value = get_post_thumbnail_id($post_id);
-                            } else {
-                                $value = '';
-                            }
+                        //Pole formuláře v gridu
+                        foreach ($column as $field) {
 
-                            $gallery = get_post_meta($post_id, 'gallery_'.$name, true);
-                            $gallery = intval($gallery);
+                            $type = isset($field['type']) ? $field['type'] : false;
+                            $name = isset($field['name']) ? $field['name'] : false;
 
-                            if( $gallery ) {
-                                for ($i = 0; $i < $gallery; $i++) {
-                                    $imageId = get_post_meta($post_id, 'gallery_'.$name.'_' . $i . '_gallery_image_'.$post_type, true);
-                                    if (wp_attachment_is_image($imageId)) {
-                                        $value .= $value == '' ? $imageId : ',' . $imageId;
-                                    }
+                            if ($name && $type) {
+
+                                $is_valid = true;
+
+                                //nejdřív přidáme skrytá pole
+                                if ($type == 'hidden') {
+
+                                    $value = isset($field['value']) ? $field['value'] : '';
+                                    $this->get_input_html($type, $name, $value, $field, $is_valid);
+                                } else { ?>
+
+                                    <div class="form-item <?php echo $name; ?>">
+
+                                        <?php $this->get_input_html($type, $name, $value, $field, $is_valid); ?>
+
+                                    </div>
+
+                            <?php
                                 }
                             }
-
                         }
 
-                        if ($type == 'image') {
-                            $useAsFeatured = isset($field['useAsFeatured']) && $field['useAsFeatured'] ? true : false;
-
-                            if ($useAsFeatured) {
-                                $value = get_post_thumbnail_id($post_id);
-                            } else {
-                                $value = get_post_meta($post_id, $name . '_' . $post_type, true);;
-                            }
-
-                        }
-
-                        // switch to get correct value
-                        switch ($field['saveAs']) {
-                            case 'taxonomy':
-                                $tax = get_the_terms($post_id, $name);
-                                $value = !is_wp_error($tax) ? join(',', wp_list_pluck($tax, 'slug')) : $value;
-                                break;
-                            case 'post_title':
-                                $value = get_the_title($post_id);
-                                break;
-                            case 'post_content':
-                                $value = get_the_content(null, false, $post_id);
-                                // $value = apply_filters('the_content', $value);
-                                break;
-                            case 'post_excerpt':
-                                $value = (has_excerpt($post_id) ? get_the_excerpt($post_id) : '');
-                                break;
-                            default:
-                                // nothing
-                        }
-                    }
-                    $required = isset($field['required']) && $field['required'] == true ? ' <span class="required form-star">*</span>' : '';
-
-                    $is_valid = true;
-                    $msg = null;
-                    $tempname = $type == 'gallery' ? 'gallery_' . $name : $name;
-                    if (isset($validation_data[$tempname]) && $validation_data[$tempname]) {
-
-                        $is_valid = isset($validation_data[$tempname]['valid']) ? $validation_data[$tempname]['valid'] : false;
-                        $value = isset($validation_data[$tempname]['value']) ? $validation_data[$tempname]['value'] : $value;
-                        $msg = isset($validation_data[$tempname]['msg']) ? $validation_data[$tempname]['msg'] : null;
+                        echo '</div>';
                     }
 
-                    //nejdřív přidáme skrytá pole
-                    if ( $type == 'hidden' ) {
+                    echo '</div>';
+                }
 
-                        $value = isset($field['value']) ? $field['value'] : '';
-                        $this->get_input_html($type, $name, $value, $field, $is_valid);
+                //Pole formuláře v sekcích
+                foreach ($section as $item => $field) {
+                    //TODO #1 Přesunout row s columns pod toto foreatch, tak aby se vykreslovalo ve správném pořadí a ne jako první
+                    /*if ($section['columns']) {
+                        preprint($section['columns']) ;
+                    }*/
+                    
+                    $type = isset($field['type']) ? $field['type'] : false;
+                    $name = isset($field['name']) ? $field['name'] : false;
 
-                    } else {
+                    if ($name && $type) {
 
-                        if ( $class ) {
+                        $is_valid = true;
 
-                            ?>
-    
-                            <div class="cell <?php echo $name; ?>">
-                                <?php if ($label) { ?>
-                                    <label for="<?= $name?>"><?=$label?><?=$required?></label>
-                                    <?php
-                                        if (!$is_valid) {
-                                            echo '<span class="callout alert">'.$msg.'</span>';
-                                        }
-                                    }
-                                    ?>
-                                    <?php $this->get_input_html($type, $name, $value, $field, $is_valid); ?>
+                        //nejdřív přidáme skrytá pole
+                        if ($type == 'hidden') {
+
+                            $value = isset($field['value']) ? $field['value'] : '';
+                            $this->get_input_html($type, $name, $value, $field, $is_valid);
+                        } else { ?>
+
+                            <div class="form-item <?php echo $name; ?>">
+
+                                <?php $this->get_input_html($type, $name, $value, $field, $is_valid); ?>
+
                             </div>
-    
-                            <?php
-    
-                        } else {
-    
-                            ?>
-                            <div class="cell large-6 medium-6 small-12 <?php echo $name; ?>">
-                                <div class="<?=$col1 ?>">
-                                    <?php if ($label) { ?>
-                                    <label for="<?= $name?>"><?=$label?><?=$required?></label>
-                                    <?php
-                                        if (!$is_valid) {
-                                            echo '<span class="callout alert">'.$msg.'</span>';
-                                        }
-                                    }
-                                    ?>
-                                </div>
-                                <div class="<?=$col2?>">
-                                    <?php $this->get_input_html($type, $name, $value, $field, $is_valid); ?>
-                                </div>
-                            </div>
-    
-                            <?php
-    
+
+<?php
                         }
-
                     }
                 }
 
+                echo '</div>';
             }
 
-            $this->session->removeSession( $formID.'_validation' );
+            $this->session->removeSession($formID . '_validation');
         }
 
-        public function get_field_name($name, $saveAs = null, $type = null) {
+        /*
+        public function get_field_name($name, $saveAs = null, $type = null)
+        {
 
             $name = $type == 'gallery' ? 'gallery_' . $name : $name;
 
             // switch to get correct input name
             switch ($saveAs) {
                 case 'meta':
-                    $newName = 'wds_meta['.$name.']';
+                    $newName = 'wds_meta[' . $name . ']';
                     break;
                 case 'taxonomy':
-                    $newName = 'wds_taxonomy['.$name.']';
+                    $newName = 'wds_taxonomy[' . $name . ']';
                     break;
                 case 'post_title':
                 case 'post_content':
@@ -418,77 +327,133 @@ if( ! class_exists( 'WDS_Front_Form' ) )
 
             return $newName;
         }
+        */
 
 
-        
-
-        public function get_input_html($type, $name, $value, $args = [], $is_valid = true) {
-            $placeholder = isset($args['placeholder']) ? $args['placeholder'] : '';
+        public function get_input_html($type, $name, $value, $args = [], $is_valid = true)
+        {
 
             $multiple = isset($args['multiple']) && $args['multiple'] == true ? 'multiple' : false;
             $atts = isset($args['required']) && $args['required'] == true ? 'required="required"' : '';
             $atts .= $multiple ? ' multiple' : '';
             $class = !$is_valid ? 'callout alert' : '';
-            $name = $this->get_field_name($name, $args['saveAs'], $type);
-            $name = $name . ( $type == 'checkbox' || ( $type == 'image' && $multiple ) ? '[]' : '' );
-            $limit = isset( $args['imagesLimit'] ) ? $args['imagesLimit'] : '999999';
+            //$name = $this->get_field_name($name, $args['saveAs'], $type);
+            $name = isset($args['name']) ? $args['name'] : false;
+            $name = $name . ($type == 'checkbox' || ($type == 'image' && $multiple) ? '[]' : '');
+            $limit = isset($args['imagesLimit']) ? $args['imagesLimit'] : '999999';
             $is_required = isset($args['required']) && $args['required'] == true ? true : false;
+            $required = $is_required == true ? ' <span class="required form-star">*</span>' : '';
+            $label = isset($args['label']) ? $args['label'] : false;
+            $placeholder = isset($args['placeholder']) ? $args['placeholder'] : $label;
+            $description = isset($args['description']) ? $args['description'] : false;
+            $help_text = isset($args['help_text']) ? $args['help_text'] : false;
+            $floating_label_start = isset($args['floating_label']) && $args['floating_label'] == true ? '<span class="floating-label">' : '';
+            $floating_label_end = isset($args['floating_label']) && $args['floating_label'] == true ? '</span>' : '';
+
+            if ($is_required) {
+                $placeholder = $placeholder . ' *';
+            }
 
             switch ($type) {
 
+                /**
+                 * Input types
+                 * button            
+                 * checkbox          OK
+                 * checkbox_large    OK
+                 * switch            OK
+                 * color
+                 * date
+                 * datetime-local
+                 * email
+                 * file
+                 * hidden            OK
+                 * image
+                 * month
+                 * number
+                 * password
+                 * radio
+                 * radio_large
+                 * range
+                 * reset
+                 * search
+                 * submit
+                 * tel
+                 * text             OK
+                 * time
+                 * url
+                 * week
+                 * info a warning box    OK
+                 */
+
                 case 'email':
+                case 'tel':
+                case 'number':
                 case 'text':
                 case 'hidden':
 
-                    $id_val = str_replace( ']', '', str_replace( '[', '', $name ) );
+                    $id_val = str_replace(']', '', str_replace('[', '', $name));
 
-                    echo '<input type="' . $type . '" value="' . $value . '" name="' . $name . '" placeholder="' . $placeholder . '" '.$atts.' class="'.$class.'" id="'.$id_val.'"/>';
+                    if ($description) echo '<p>' . $description . '</p>';
 
-                    if ( $type != "hidden" && $is_required ) {
-                        
-                        $er_mess = __('Toto pole je vyžadované, prosíme, vyplňte ho.', 'gramon');
-                        if ( $type == "email" ) $er_mess = __('Prosíme, zadejte platný email.', 'gramon');
-                        echo '<span class="form-error">' . $er_mess .'</span>';
+                    if ($type != "hidden" && !$is_valid) {
+
+                        $er_mess = __('Toto pole je vyžadované, prosíme, vyplňte ho.', 'textdomain');
+                        if ($type == "email") $er_mess = __('Prosíme, zadejte platný email.', 'textdomain');
+                        echo '<p class="form-error">' . $er_mess . '</p>';
                     }
 
+                    echo $floating_label_start;
+
+                    echo '<input type="' . $type . '" value="' . $value . '" name="' . $name . '" placeholder="' . $placeholder . '" ' . $atts . ' class="' . $class . '" id="' . $id_val . '"/>';
+
+                    if ($label)  echo '<label for="' . $name . '">' . $label . $required . '</label>';
+
+                    echo $floating_label_end;
+
+                    if ($help_text) echo '<p class="help-text">' . $help_text . '</p>';
+
                     break;
+
                 case 'select':
                     $options = isset($args['options']) ? $args['options'] : [];
                     if (!empty($options)) {
-                        echo '<select name="'.$name.'" '.$atts.' class="'.$class.'">';
+                        echo '<select name="' . $name . '" ' . $atts . ' class="' . $class . '">';
                         foreach ($options as $option_key => $option_name) {
                             if ($option_key != '' && $option_name != '') {
-                                echo '<option value="' . $option_key . '" '. ( $option_key == $value ? 'selected="selected"' : '') .'>' . $option_name . '</option>';
+                                echo '<option value="' . $option_key . '" ' . ($option_key == $value ? 'selected="selected"' : '') . '>' . $option_name . '</option>';
                             }
                         }
                         echo '</select>';
-                        if ( $is_required ) {
-                            echo '<span class="form-error">' . __('Toto pole je vyžadované, prosíme, vyplňte ho.', 'gramon') .'</span>';
+                        if (!$is_valid) {
+                            echo '<span class="form-error">' . __('Toto pole je vyžadované, prosíme, vyplňte ho.', 'textdomain') . '</span>';
                         }
                     }
                     break;
-                case 'gallery':
-                    echo '<div id="media-uploader-'.$name.'" data-target="'.$name.'" data-limit="'.$limit.'" class="dropzone '.$class.'"></div>';
-                    echo '<input type="hidden" name="'.$name.'" value="'.$value.'" '.$atts.' />';
 
-                    if (!empty($placeholder)) echo '<p>'. $placeholder . '</p>';
+                /*case 'gallery':
+                    echo '<div id="media-uploader-' . $name . '" data-target="' . $name . '" data-limit="' . $limit . '" class="dropzone ' . $class . '"></div>';
+                    echo '<input type="hidden" name="' . $name . '" value="' . $value . '" ' . $atts . ' />';
+
+                    if (!empty($placeholder)) echo '<p>' . $placeholder . '</p>';
+
                     
-                    /* 
                     tady message sama nevyskočí
                     if ( $is_required ) {
-                        echo '<span class="form-error">' . __('Toto pole je vyžadované, prosíme, vyplňte ho.', 'gramon') .'</span>';
+                        echo '<span class="form-error">' . __('Toto pole je vyžadované, prosíme, vyplňte ho.', 'textdomain') .'</span>';
                     }
-                    */
-                    break;
+                    
+                    break;*/
+
                 case 'image':
-                    echo '<div id="media-uploader-'.$name.'" data-target="'.$name.'" data-limit="1" class="dropzone '.$class.'"></div>';
-                    echo '<input type="hidden" name="'.$name.'" value="'.$value.'" '.$atts.' />';
-                    if (!empty($placeholder)) echo '<p>'. $placeholder . '</p>';
-                    if ($is_required ) {
-                        echo '<span class="form-error">' . __('Toto pole je vyžadované, prosíme, vyplňte ho.', 'gramon') .'</span>';
+                    echo '<div id="media-uploader-' . $name . '" data-target="' . $name . '" data-limit="1" class="dropzone ' . $class . '"></div>';
+                    echo '<input type="hidden" name="' . $name . '" value="' . $value . '" ' . $atts . ' />';
+                    if (!empty($placeholder)) echo '<p>' . $placeholder . '</p>';
+                    if (!$is_valid) {
+                        echo '<span class="form-error">' . __('Toto pole je vyžadované, prosíme, vyplňte ho.', 'textdomain') . '</span>';
                     }
                     break;
-                case 'checkbox':
+
                 case 'radio':
                     $options = isset($args['options']) ? $args['options'] : [];
                     if (!empty($options)) {
@@ -496,7 +461,7 @@ if( ! class_exists( 'WDS_Front_Form' ) )
                         foreach ($options as $option_key => $option_name) {
                             if ($option_key != '' && $option_name != '') {
                                 if ($type == 'checkbox') {
-                                    if ( (is_array($value) && in_array($option_key, $value)) || $option_key == $value) {
+                                    if ((is_array($value) && in_array($option_key, $value)) || $option_key == $value) {
                                         $checked = 'checked';
                                     } else {
                                         $checked = '';
@@ -505,20 +470,77 @@ if( ! class_exists( 'WDS_Front_Form' ) )
                                     $checked = $option_key == $value ? 'checked' : '';
                                 }
                                 echo '<label>';
-                                    echo '<input type="' . $type . '" value="' . $option_key . '"  name="' . $name .'" '. $checked .' '.$atts.'> ';
-                                    echo $option_name;
+                                echo '<input type="' . $type . '" value="' . $option_key . '"  name="' . $name . '" ' . $checked . ' ' . $atts . '> ';
+                                echo $option_name;
                                 echo '</label>';
                             }
                         }
                     }
                     break;
 
+                case 'checkbox':
+
+                    if ($label)  {
+                        echo '<label class="checkbox ' . $class . '">';
+                        echo '<input type="checkbox" value=""  name="' . $name . '" ' . $checked . ' ' . $atts . '>';
+                        echo '<span class="checkmark"></span>';
+                        echo  $label . $required . '</label>';
+                    };
+
+                    if (!$is_valid) {
+                        echo '<span class="form-error">' . __('Toto pole je vyžadované, prosíme, vyplňte ho.', 'textdomain') . '</span>';
+                    }
+
+                    if ($description) echo '<p>' . $description . '</p>';
+
+                    if ($help_text) echo '<p class="help-text">' . $help_text . '</p>';
+
+                    break;
+
+                case 'checkbox_large':
+
+
+                    if ($label)  {
+                        echo '<label class="checkbox checkbox-large ' . $class . '" >';
+                        echo '<input type="checkbox" value=""  name="' . $name . '" ' . $checked . ' ' . $atts . '>';
+                        echo '<span class="checkmark"></span>';
+                        echo '<h3>' . $label . $required . '</h3></label>';
+                    };
+
+                    if (!$is_valid) {
+                        echo '<span class="form-error">' . __('Toto pole je vyžadované, prosíme, vyplňte ho.', 'textdomain') . '</span>';
+                    }
+
+                    if ($description) echo '<p>' . $description . '</p>';
+
+                    if ($help_text) echo '<p class="help-text">' . $help_text . '</p>';
+
+                    break;
+
+                case 'switch':
+
+                    if ($label)  {
+                        echo '<label class="switch">';
+                        echo '<input type="checkbox" value=""  name="' . $name . '" ' . $checked . ' ' . $atts . '>';
+                        echo '<span class="slider"></span>';
+                        echo '<h3>' . $label . $required . '</h3></label>';
+                    };
+
+                    if (!$is_valid) {
+                        echo '<span class="form-error">' . __('Toto pole je vyžadované, prosíme, vyplňte ho.', 'textdomain') . '</span>';
+                    }
+
+                    if ($description) echo '<p>' . $description . '</p>';
+
+                    if ($help_text) echo '<p class="help-text">' . $help_text . '</p>';
+
+                    break;
 
                 case 'textarea':
 
-                    echo '<textarea type="' . $type . '"  name="' . $name . '" placeholder="' . $placeholder . '" '.$atts.' class="'.$class.'" />' . $value . '</textarea>';
-                    if ($is_required ) {
-                        echo '<span class="form-error">' . __('Toto pole je vyžadované, prosíme, vyplňte ho.', 'gramon') .'</span>';
+                    echo '<textarea type="' . $type . '"  name="' . $name . '" placeholder="' . $placeholder . '" ' . $atts . ' class="' . $class . '" />' . $value . '</textarea>';
+                    if (!$is_valid) {
+                        echo '<span class="form-error">' . __('Toto pole je vyžadované, prosíme, vyplňte ho.', 'textdomain') . '</span>';
                     }
                     break;
 
@@ -537,50 +559,71 @@ if( ! class_exists( 'WDS_Front_Form' ) )
                         'tinymce' => true, // load TinyMCE, can be used to pass settings directly to TinyMCE using an array()
                         'quicktags' => true // load Quicktags, can be used to pass settings directly to Quicktags using an array()
                     );
-                    $editor_id = str_replace( ']', '', str_replace( '[', '', $name ));
-                    wp_editor( $value, $editor_id, $settings );
+                    $editor_id = str_replace(']', '', str_replace('[', '', $name));
+                    wp_editor($value, $editor_id, $settings);
 
-                    if ( isset( $args['length'] ) && $args['length'] ) {
-                        echo "<p>Počet znaků: <span class='word-count' data-fieldname='".$name."' id='word-length-". $name . "'>".$this->valid_leght_string($value)."</span>  / " . $args['length'] . '</p>';
+                    if (isset($args['length']) && $args['length']) {
+                        echo "<p>Počet znaků: <span class='word-count' data-fieldname='" . $name . "' id='word-length-" . $name . "'>" . $this->valid_leght_string($value) . "</span>  / " . $args['length'] . '</p>';
                     }
 
-                    if (!empty($placeholder)) echo '<p>'. $placeholder . '</p>';
+                    if (!empty($placeholder)) echo '<p>' . $placeholder . '</p>';
                     //$editor_counter++;
                     break;
+
                 case 'date':
                     $now = date("Y-m-d");
                     (empty($value) ? $value = $now : '');
                     $value = date("Y-m-d", strtotime($value));
-                    echo '<input type="date" id="'.$name.'" name="'.$name.'" value="'.$value.'">';
+                    echo '<input type="date" id="' . $name . '" name="' . $name . '" value="' . $value . '">';
                     break;
+
+                case 'info_box':
+                case 'warning_box':
+                    // Box s informací nebo varováním
+
+                    $headline = isset($args['headline']) ? $args['headline'] : false;
+                    $warning = $type == 'warning_box' ? ' warning' : '';
+                    $icon = $type == 'warning_box' ? 'assets/icons/warning-standard-line.svg' : 'assets/icons/info-standard-line.svg';
+
+
+                    echo '<div class="info-block' . $warning . '">';
+
+                    echo '<span class="icon">' . file_get_contents(WDS_URL . $icon) . '</span>';
+
+                    if ($headline) echo '<h3>' . $headline . '</h3>';
+                    if ($description) echo '<p>' . $description . '</p>';
+
+                    echo '</div>';
+
                 default:
                     # code...
                     break;
             }
         }
 
-        public function save_form() {
+        public function save_form()
+        {
             $success = false;
-            $inputs = filter_input_array( INPUT_POST, FILTER_SANITIZE_STRING );
+            $inputs = filter_input_array(INPUT_POST, FILTER_SANITIZE_STRING);
 
             //preprint( $inputs );
 
-            if ( !isset($inputs['wedesin_frontend_form']) || $inputs['wedesin_frontend_form'] == '') {
+            if (!isset($inputs['wedesin_frontend_form']) || $inputs['wedesin_frontend_form'] == '') {
                 return;
             }
 
             $formID = $inputs['wedesin_frontend_form'];
-            if( isset($inputs['nonce_'.$formID]) && wp_verify_nonce( $inputs['nonce_' . $formID], $formID ) ) {
+            if (isset($inputs['nonce_' . $formID]) && wp_verify_nonce($inputs['nonce_' . $formID], $formID)) {
 
                 //validace polí
-                if ( !$this->validate_fields($inputs, $formID) ) {
-                    $this->session->addSession( $formID.'_save', 'fail' );
-                    wp_safe_redirect( $inputs['_wp_http_referer'] );
+                if (!$this->validate_fields($inputs, $formID)) {
+                    $this->session->addSession($formID . '_save', 'fail');
+                    wp_safe_redirect($inputs['_wp_http_referer']);
                     exit;
                 }
 
                 //honeypot pole
-                if ( ( isset($inputs['wds_meta']['name']) && $inputs['wds_meta']['name'] !== "") || ( isset($inputs['wds_meta']['surname']) && $inputs['wds_meta']['surname'] !== "") ) {
+                if ((isset($inputs['wds_meta']['name']) && $inputs['wds_meta']['name'] !== "") || (isset($inputs['wds_meta']['surname']) && $inputs['wds_meta']['surname'] !== "")) {
                     exit;
                 }
 
@@ -589,33 +632,33 @@ if( ! class_exists( 'WDS_Front_Form' ) )
                 $new_post['post_title'] = isset($inputs['post_title']) ? $inputs['post_title'] : '';
                 $new_post['post_content'] = isset($inputs['post_content']) ? $inputs['post_content'] : '';
                 $new_post['post_excerpt'] = isset($inputs['post_excerpt']) ? $inputs['post_excerpt'] : '';
-                $new_post['post_author'] = isset($inputs['post_author']) ? $inputs['post_author'] : 1;               
+                $new_post['post_author'] = isset($inputs['post_author']) ? $inputs['post_author'] : 1;
 
                 if ($inputs['post_id'] == 'new') {
                     // create post
-                    $save_post = wp_insert_post( $new_post );
+                    $save_post = wp_insert_post($new_post);
                 } else {
                     // find post to update
                     $new_post['ID'] = $inputs['post_id'];
-                    $save_post = wp_update_post( $new_post );
+                    $save_post = wp_update_post($new_post);
                 }
 
-                if(!is_wp_error($save_post)) {
+                if (!is_wp_error($save_post)) {
 
                     $taxonomies = $this->get_fields_from_post($inputs, 'taxonomy');
-                    if ( $taxonomies && !empty($taxonomies) ) {
+                    if ($taxonomies && !empty($taxonomies)) {
                         foreach ($taxonomies as $taxonomy_type => $taxonomy) {
-                            wp_set_object_terms( $save_post, $taxonomy, $taxonomy_type );
+                            wp_set_object_terms($save_post, $taxonomy, $taxonomy_type);
                         }
                     }
 
                     $metas = $this->get_fields_from_post($inputs, 'meta');
 
-                    if ( $metas && !empty($metas) ) {
+                    if ($metas && !empty($metas)) {
                         foreach ($metas as $meta_key => $meta_value) {
                             $gallery = 'gallery_';
 
-                            if ( substr($meta_key, 0, strlen($gallery)) === $gallery ) {
+                            if (substr($meta_key, 0, strlen($gallery)) === $gallery) {
 
                                 // save gallery
                                 if ($meta_value && $meta_value != '') {
@@ -624,29 +667,29 @@ if( ! class_exists( 'WDS_Front_Form' ) )
 
                                     //if it is gallery
 
-                                    if (  is_array($images) && $imageCount > 0) {
+                                    if (is_array($images) && $imageCount > 0) {
 
-                                        
+
 
                                         $prevCount = get_post_meta($save_post, $meta_key, true);
                                         // delete all previous rows from database
                                         if ($prevCount > 0) {
-                                            for ($tempIndex=0; $tempIndex<$prevCount; $tempIndex++) {
-                                                delete_post_meta($save_post, $meta_key.'_'.($tempIndex).'_gallery_image_'.$inputs['post_type']);
-                                                delete_post_meta($save_post, '_'.$meta_key.'_'.($tempIndex).'_gallery_image_'.$inputs['post_type']);
+                                            for ($tempIndex = 0; $tempIndex < $prevCount; $tempIndex++) {
+                                                delete_post_meta($save_post, $meta_key . '_' . ($tempIndex) . '_gallery_image_' . $inputs['post_type']);
+                                                delete_post_meta($save_post, '_' . $meta_key . '_' . ($tempIndex) . '_gallery_image_' . $inputs['post_type']);
                                             }
                                         }
                                         // reset image count for ACF repeater
                                         delete_post_meta($save_post, $meta_key);
 
                                         $imgindex = 0;
-                                        
+
 
                                         foreach ($images as $file_path) {
 
-                                            $file_url = get_site_url() . '/' . str_replace( ABSPATH, '', $file_path );
+                                            $file_url = get_site_url() . '/' . str_replace(ABSPATH, '', $file_path);
 
-                                            update_post_meta($save_post, $meta_key.'_'.($imgindex).'_gallery_image_'.$inputs['post_type'], $file_url );
+                                            update_post_meta($save_post, $meta_key . '_' . ($imgindex) . '_gallery_image_' . $inputs['post_type'], $file_url);
 
                                             $imgindex++;
                                         }
@@ -654,79 +697,75 @@ if( ! class_exists( 'WDS_Front_Form' ) )
                                         if ($this->get_field_parameter(str_replace('gallery_', '', $meta_key), 'useAsFeatured')) {
                                             if ($imgindex > 1) {
                                                 // save the number of images to complete data for ACF repeater
-                                                update_post_meta($save_post, $meta_key, $imageCount-1 );
+                                                update_post_meta($save_post, $meta_key, $imageCount - 1);
                                             }
                                         } else {
                                             if ($imgindex > 0) {
                                                 // save the number of images to complete data for ACF repeater
-                                                update_post_meta($save_post, $meta_key, $imageCount );
+                                                update_post_meta($save_post, $meta_key, $imageCount);
                                             }
                                         }
-
                                     }
-
                                 }
-
                             } else {
 
                                 // save meta as usual
                                 if ($meta_key == 'date_time') {
                                     //$meta_value = str_replace('-', '', $meta_value);
-                                    update_post_meta($save_post, $meta_key.'_'.$inputs['post_type'], $meta_value );
+                                    update_post_meta($save_post, $meta_key . '_' . $inputs['post_type'], $meta_value);
                                 } else if ($this->get_field_type_from_name($meta_key) == 'image') {
                                     if ($this->get_field_parameter($meta_key, 'useAsFeatured')) {
-                                        set_post_thumbnail( $save_post, $meta_value );
+                                        set_post_thumbnail($save_post, $meta_value);
                                     } else {
-                                        update_post_meta($save_post, $meta_key.'_'.$inputs['post_type'], $meta_value );
+                                        update_post_meta($save_post, $meta_key . '_' . $inputs['post_type'], $meta_value);
                                     }
                                 } else {
-                                    update_post_meta($save_post, $meta_key.'_'.$inputs['post_type'], $meta_value );
+                                    update_post_meta($save_post, $meta_key . '_' . $inputs['post_type'], $meta_value);
                                 }
                             }
                         }
                     }
 
-                    $success = true;     
+                    $success = true;
                     $gdpt = isset($inputs['wds_meta']['gdpr'][0]) && $inputs['wds_meta']['gdpr'][0] == 'gdpr' ? true : false;
-                    
+
                     //napojení na API
                     $API = new openApiSetup();
                     $current_date = date('Y-m-d\TH:i:s+00:00');
                     $data = [
-                        "category" => isset($inputs['wds_meta']['maincategory']) && !empty( $inputs['wds_meta']['maincategory'] ) ? $inputs['wds_meta']['maincategory'] : '',
-                        "client_name" => isset($inputs['post_title'])&& !empty( $inputs['post_title'] ) ? $inputs['post_title'] : 'není dostupný',
-                        "company_name" => isset($inputs['wds_meta']['_company'])&& !empty( $inputs['wds_meta']['_company'] ) ? $inputs['wds_meta']['_company'] : '', 
+                        "category" => isset($inputs['wds_meta']['maincategory']) && !empty($inputs['wds_meta']['maincategory']) ? $inputs['wds_meta']['maincategory'] : '',
+                        "client_name" => isset($inputs['post_title']) && !empty($inputs['post_title']) ? $inputs['post_title'] : 'není dostupný',
+                        "company_name" => isset($inputs['wds_meta']['_company']) && !empty($inputs['wds_meta']['_company']) ? $inputs['wds_meta']['_company'] : '',
                         "date_submitted" => $current_date,
-                        'email' => isset($inputs['wds_meta']['email'])&& !empty( $inputs['wds_meta']['email'] ) ? $inputs['wds_meta']['email'] : 'není dostupný',
+                        'email' => isset($inputs['wds_meta']['email']) && !empty($inputs['wds_meta']['email']) ? $inputs['wds_meta']['email'] : 'není dostupný',
                         'gdpr_accepted' => $gdpt,
-                        'message' => isset($inputs['wds_meta']['message'])&& !empty( $inputs['wds_meta']['message'] ) ? $inputs['wds_meta']['message'] : 'není dostupná',
-                        'phone' => isset($inputs['wds_meta']['phone_number'])&& !empty( $inputs['wds_meta']['phone_number'] ) ? $inputs['wds_meta']['phone_number'] : '',
-                        'subcategory' => isset($inputs['wds_meta']['subcategory'])&& !empty( $inputs['wds_meta']['subcategory'] ) ? $inputs['wds_meta']['subcategory'] : '', 
-                        'url_product' => isset($inputs['wds_meta']['specific-image'])&& !empty( $inputs['wds_meta']['specific-image'] ) ? $inputs['wds_meta']['specific-image'] : '',
-                        'url_submitted' => isset($inputs['wds_meta']['currenturl'])&& !empty( $inputs['wds_meta']['currenturl'] ) ? $inputs['wds_meta']['currenturl'] : 'není dostupná',
-                        'device_type' => isset($inputs['wds_meta']['device_type'])&& !empty( $inputs['wds_meta']['device_type'] ) ? $inputs['wds_meta']['device_type'] : 'není dostupné',
+                        'message' => isset($inputs['wds_meta']['message']) && !empty($inputs['wds_meta']['message']) ? $inputs['wds_meta']['message'] : 'není dostupná',
+                        'phone' => isset($inputs['wds_meta']['phone_number']) && !empty($inputs['wds_meta']['phone_number']) ? $inputs['wds_meta']['phone_number'] : '',
+                        'subcategory' => isset($inputs['wds_meta']['subcategory']) && !empty($inputs['wds_meta']['subcategory']) ? $inputs['wds_meta']['subcategory'] : '',
+                        'url_product' => isset($inputs['wds_meta']['specific-image']) && !empty($inputs['wds_meta']['specific-image']) ? $inputs['wds_meta']['specific-image'] : '',
+                        'url_submitted' => isset($inputs['wds_meta']['currenturl']) && !empty($inputs['wds_meta']['currenturl']) ? $inputs['wds_meta']['currenturl'] : 'není dostupná',
+                        'device_type' => isset($inputs['wds_meta']['device_type']) && !empty($inputs['wds_meta']['device_type']) ? $inputs['wds_meta']['device_type'] : 'není dostupné',
                     ];
 
-                    $apiResult = $API->send_order( $save_post, $data );
+                    $apiResult = $API->send_order($save_post, $data);
 
                     //preprint( $apiResult );
 
                     $filepaths = $inputs['wds_meta']['gallery_orders'];
 
-                    if ( $filepaths ) {
+                    if ($filepaths) {
 
-                        $filepaths = explode( ",",  $filepaths );
+                        $filepaths = explode(",",  $filepaths);
 
-                        foreach ( $filepaths as $filepath ) {
-                        
-                            $restul = $API->send_file( (int)$apiResult->id, $filepath );
+                        foreach ($filepaths as $filepath) {
+
+                            $restul = $API->send_file((int)$apiResult->id, $filepath);
 
                             //preprint( $restul );
-                            
+
                         }
-                        
                     }
-                    
+
                     /*$a = 0;
                     $wordpress_upload_dir = wp_upload_dir();
                     if (!empty($_FILES)) {
@@ -769,13 +808,13 @@ if( ! class_exists( 'WDS_Front_Form' ) )
                                             'post_status'    => 'inherit'
                                         ), $new_file_path );*/
 
-                                        // wp_generate_attachment_metadata() won't work if you do not include this file
-                                        //require_once( ABSPATH . 'wp-admin/includes/image.php' );
+                    // wp_generate_attachment_metadata() won't work if you do not include this file
+                    //require_once( ABSPATH . 'wp-admin/includes/image.php' );
 
-                                        // Generate and save the attachment metas into the database
-                                        //wp_update_attachment_metadata( $upload_id, wp_generate_attachment_metadata( $upload_id, $new_file_path ) );
+                    // Generate and save the attachment metas into the database
+                    //wp_update_attachment_metadata( $upload_id, wp_generate_attachment_metadata( $upload_id, $new_file_path ) );
 
-                                        /*update_post_meta($save_post, $key.'_'.$inputs['post_type'], $upload_id );
+                    /*update_post_meta($save_post, $key.'_'.$inputs['post_type'], $upload_id );
 
                                         $a++;
                                     }
@@ -792,41 +831,41 @@ if( ! class_exists( 'WDS_Front_Form' ) )
                     $metas['name'] = $new_post['post_title'];
 
                     //odeslání emailu
-                    $email = get_field('email_notification', 'options') ? get_field('email_notification', 'options') : "produkce@gramon.cz";
+                    $email = get_field('email_notification', 'options') ? get_field('email_notification', 'options') : "produkce@textdomain.cz";
                     $class_email = new sendEmailContentWds();
 
                     //admin email
-                    $class_email->email_new_order( $email, $save_post, $metas);
-                   
+                    $class_email->email_new_order($email, $save_post, $metas);
+
                     //client email
-                    $class_email->email_new_order( $metas['email'], $save_post, $metas);
+                    $class_email->email_new_order($metas['email'], $save_post, $metas);
 
                     // remove field validation data
-                    $this->session->removeSession( $formID.'_validation' );
+                    $this->session->removeSession($formID . '_validation');
                     // add "all good and saved" notice
-                    $this->session->addSession( $formID.'_save', 'success' );
+                    $this->session->addSession($formID . '_save', 'success');
 
                     //redirect na nově vytvořený příspěvek
-                    $newUrl = add_query_arg(['submit' => 1], $inputs['_wp_http_referer'] ) . '#order-popup';
+                    $newUrl = add_query_arg(['submit' => 1], $inputs['_wp_http_referer']) . '#order-popup';
 
                     $links = new linksWds;
-                   
-                    if ( $links->thank_you() ) $newUrl = $links->thank_you();
 
-                    wp_safe_redirect( $newUrl );
+                    if ($links->thank_you()) $newUrl = $links->thank_you();
+
+                    wp_safe_redirect($newUrl);
 
                     exit;
-
                 }
 
-                $this->session->addSession( $formID.'_save', 'fail' );
-                wp_safe_redirect( $inputs['_wp_http_referer'] );
+                $this->session->addSession($formID . '_save', 'fail');
+                wp_safe_redirect($inputs['_wp_http_referer']);
                 exit;
                 die('Nastala chyba');
             }
         }
 
-        public function validate_fields($inputs, $formID) {
+        public function validate_fields($inputs, $formID)
+        {
             if (empty($this->fields)) {
                 die('Fields must be set.');
             }
@@ -875,32 +914,29 @@ if( ! class_exists( 'WDS_Front_Form' ) )
                             $allvalid = false;
                         }
                     }
-
                 }
 
-                if (isset($field['length']) ) {
+                if (isset($field['length'])) {
                     $num = $this->valid_leght_string($value);
 
-                    if ($num > $field['length'] ) {
+                    if ($num > $field['length']) {
                         $valid = false;
-                        $msg = 'Příliš mnoho znaků ('.$num .')';
+                        $msg = 'Příliš mnoho znaků (' . $num . ')';
                         $allvalid = false;
                     }
                 }
 
                 //validate emails
-                if ( $type == 'email' ) {
+                if ($type == 'email') {
 
-                    if ( !empty( $value ) ) {
+                    if (!empty($value)) {
 
-                        if ( !filter_var($value, FILTER_VALIDATE_EMAIL) ) {
+                        if (!filter_var($value, FILTER_VALIDATE_EMAIL)) {
                             $valid = false;
                             $msg = 'Pole není email';
                             $allvalid = false;
                         }
-
                     }
-                    
                 }
 
                 $validated[$name] = [
@@ -912,11 +948,12 @@ if( ! class_exists( 'WDS_Front_Form' ) )
 
             $validated['allvalid'] = $allvalid;
 
-            $this->session->addSession( $formID.'_validation', $validated );
+            $this->session->addSession($formID . '_validation', $validated);
             return $allvalid;
         }
 
-        public function handle_dropped_files_callback() {
+        public function handle_dropped_files_callback()
+        {
             status_header(200);
 
             $upload_dir = wp_upload_dir();
@@ -925,10 +962,10 @@ if( ! class_exists( 'WDS_Front_Form' ) )
 
             $newupload = 0;
 
-            if ( !empty($_FILES) ) {
+            if (!empty($_FILES)) {
                 $files = $_FILES;
 
-                foreach($files as $file) {
+                foreach ($files as $file) {
 
                     /* UPLOAD DO MÉDIÍ WORDPRESSU
                     $newfile = array (
@@ -942,38 +979,36 @@ if( ! class_exists( 'WDS_Front_Form' ) )
                     $_FILES = array('upload'=>$newfile);
                     */
 
-                    $upload_folder_path = WP_CONTENT_DIR. '/order-files';
+                    $upload_folder_path = WP_CONTENT_DIR . '/order-files';
 
-                    if ( !file_exists (  $upload_folder_path ) ) {
-                        mkdir(  $upload_folder_path );
+                    if (!file_exists($upload_folder_path)) {
+                        mkdir($upload_folder_path);
                     }
 
                     //preprint( $file );
                     $temp = $_FILES['photo']['tmp_name'];
-                    $data = $file['name'];    
+                    $data = $file['name'];
                     $extten = "." . substr($data, strrpos($data, '.') + 1);
-                    $file_name = substr($data, 0, strrpos( $data, '.') );
-                    $finalpath = $upload_folder_path . '/' .$file_name .  $extten;
+                    $file_name = substr($data, 0, strrpos($data, '.'));
+                    $finalpath = $upload_folder_path . '/' . $file_name .  $extten;
 
                     //oprava opakovaných souborů
-                    if ( file_exists ( $finalpath ) ) {
+                    if (file_exists($finalpath)) {
 
-                        for ($i=1; $i < 999; $i++) { 
+                        for ($i = 1; $i < 999; $i++) {
 
-                            $finalpath = $upload_folder_path . '/' .$file_name . "-". $i .  $extten;
+                            $finalpath = $upload_folder_path . '/' . $file_name . "-" . $i .  $extten;
 
-                            if ( !file_exists ( $finalpath ) ) break;
-
+                            if (!file_exists($finalpath)) break;
                         }
-                        
                     }
-                    
+
                     //UPLOAD DO MÉDIÍ WORDPRESSU $newupload = media_handle_upload( $file, 0 );*/                        
-                    if ( move_uploaded_file( $temp, $finalpath ) ) {
+                    if (move_uploaded_file($temp, $finalpath)) {
                         $newupload = $finalpath;
                     } else {
                         $newupload = 0;
-                    }                         
+                    }
                 }
             }
 
@@ -981,14 +1016,15 @@ if( ! class_exists( 'WDS_Front_Form' ) )
             die();
         }
 
-        public function handle_deleted_files_callback() {
-            if( isset($_REQUEST['media_id']) ){
+        public function handle_deleted_files_callback()
+        {
+            if (isset($_REQUEST['media_id'])) {
                 $post_id = $_REQUEST['media_id'];
 
                 //$status = wp_delete_attachment($post_id, true);
-                $status =!unlink($post_id);
+                $status = !unlink($post_id);
 
-                if( $status )
+                if ($status)
                     echo json_encode(array('status' => 'OK'));
                 else
                     echo json_encode(array('status' => 'FAILED'));
@@ -997,11 +1033,12 @@ if( ! class_exists( 'WDS_Front_Form' ) )
             die();
         }
 
-        public function get_files_callback() {
+        public function get_files_callback()
+        {
             $images = [];
             $upload_dir = wp_upload_dir();
             $upload_path = $upload_dir['basedir'] . DIRECTORY_SEPARATOR;
-            if( isset($_REQUEST['images']) ){
+            if (isset($_REQUEST['images'])) {
                 $image_ids = $_REQUEST['images'];
                 if ($image_ids) {
                     foreach (explode(',', $image_ids) as $image_id) {
@@ -1023,7 +1060,6 @@ if( ! class_exists( 'WDS_Front_Form' ) )
 
             die();
         }
-
     }
 
     new WDS_Front_Form;

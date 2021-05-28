@@ -55,6 +55,7 @@ jQuery(function ($) {
   });
 
   // Floating label
+  //TODO #2
   $(".selectize-input")
   .focusin(function () {
     $(this).parent(".selectize-control").addClass("focus");

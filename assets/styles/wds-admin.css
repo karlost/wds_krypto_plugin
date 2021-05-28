@@ -79,13 +79,12 @@ body .wds-notice a:hover {
   }
 
   .wds-admin .column.content {
-    width: calc(100% - 340px);
-    max-width: 1060px;
-    margin-right: 40px;
+    width: calc(100% - 270px);
+    margin-right: 20px;
   }
 
   .wds-admin .column.sidebar {
-    max-width: 300px;
+    max-width: 250px;
   }
 }
 @media screen and (max-width: 1300px) {
@@ -93,6 +92,17 @@ body .wds-notice a:hover {
     float: none;
     width: 100%;
     margin-right: 0;
+  }
+}
+
+@media screen and (min-width: 1300px) {
+  .wds-admin .column.content {
+    width: calc(100% - 340px);
+    max-width: 1060px;
+    margin-right: 40px;
+  }
+  .wds-admin .column.sidebar {
+    max-width: 300px;
   }
 }
 
@@ -126,10 +136,13 @@ body .wds-notice a:hover {
   border-bottom: 1px solid white;
 }
 
-.wds-admin .tab-content {
+.wds-admin .content-box {
   background-color: white;
   padding: 10px 20px;
-  border-radius: 0 4px 4px 4px;
+  border-radius: 4px;
+}
+.wds-admin .nav-tab-wrapper ~ .content-box {
+  border-top-left-radius: 0;
 }
 
 /* form 
@@ -158,6 +171,11 @@ body .wds-notice a:hover {
   color: #999;
 }
 
+.wds-admin .form-item .form-error {
+  color: red;
+  display: block;
+}
+
 /* inputs */
 .wds-admin .form-item input,
 .wds-admin .form-item textarea,
@@ -183,9 +201,17 @@ body .wds-notice a:hover {
 .form-item .selectize-input>input:focus,
 .form-item .selectize-input.focus {
   outline: 0;
-  border-color: var(--secondary);
-  box-shadow: 0px 0px 5px rgba(119, 39, 91, 0.5);
+  border-color: var(--secondary)!important;
+  box-shadow: 0px 0px 5px rgba(119, 39, 91, 0.5)!important;
 }
+
+.wds-admin .form-item input.alert,
+.wds-admin .form-item textarea.alert,
+.wds-admin .form-item select.alert,
+.form-item .selectize-input>input.alert {
+  border-color: red;
+}
+
 .wds-admin .form-item input[type="date"] {
   max-width: 200px;
 }
@@ -452,7 +478,7 @@ min-width: 60px;
   display: block;
   position: relative;
   padding: 4px 0 5px 35px;
-  margin-bottom: 10px;
+  margin-top: 10px;
 }
 
 .wds-admin .checkbox input {
@@ -484,8 +510,11 @@ min-width: 60px;
 }
 
 .wds-admin .checkbox input:focus ~ .checkmark {
-  border-color: var(--secondary);
+  border-color: var(--secondary)!important;
   box-shadow: 0px 0px 5px rgba(119, 39, 91, 0.5);
+}
+.wds-admin .checkbox.alert input ~ .checkmark {
+  border-color: red;
 }
 
 .wds-admin .checkbox .checkmark:after {

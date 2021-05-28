@@ -12,7 +12,6 @@ if (!class_exists('submenuContentWDS')) {
         //hook functions
         public function __construct()
         {
-            
         }
 
         /**
@@ -25,34 +24,141 @@ if (!class_exists('submenuContentWDS')) {
          */
         function form_page_contents()
         {
-            
+
             $fields = [
                 [
-					'box_type' => 'content',
-				],
-                [
-                    'box_type' => 'box',
-                    'layout' => 'column',
-                    'column1' => [
-                        [
-                            'type' => 'hidden',
-                            'name' => 'currenturl', 
-                            'saveAs' => 'meta',
-                            'required' => false,
-                            'value' => get_permalink()
-                        ],
-                    ], 
-                    'column2' => [
-                        [
-                            'type' => 'text',
-                            'name' => 'title', 
-                            'label' => 'Jméno',
-                            'saveAs' => 'post_title',
-                            'required' => true,
-                        ],
-                    ]
+                    'headline' => 'Nadis formuláře',
+                    'description' => 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
+                    [
+                        'type' => 'hidden',
+                        'name' => 'currenturl',
+                        'saveAs' => 'meta',
+                        'required' => false,
+                        'value' => get_permalink()
+                    ],
+                    [
+                        'type' => 'info_box',
+                        'name' => 'info_box',
+                        'headline' => 'Info box',
+                        'description' => 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Senectus libero ut lorem ac <a href="#">dictumst phasellus</a> nunc sit. Eu nisi sed viverra id aliquam enim, odio nunc.',
+                    ],
                 ],
-				[
+                [
+                    [
+                        'type' => 'switch',
+                        'name' => 'switch1',
+                        'label' => 'Checkbox as switch',
+                        'saveAs' => 'post_title',
+                        'required' => true,
+                    ],
+                    'columns' => [
+                        [
+
+                            [
+                                'type' => 'text',
+                                'name' => 'title',
+                                'label' => 'Jméno',
+                                'floating_label' => true,
+                                'saveAs' => 'post_title',
+                                'required' => true,
+                            ],
+                            [
+                                'type' => 'text',
+                                'name' => 'title',
+                                'label' => 'Jméno',
+                                'floating_label' => true,
+                                'saveAs' => 'post_title',
+                                'required' => true,
+                            ],
+                        ],
+                        [
+                            [
+                                'type' => 'text',
+                                'name' => 'title',
+                                'label' => 'Jméno',
+                                'floating_label' => true,
+                                'saveAs' => 'post_title',
+                                'required' => true,
+                            ],
+                        ],
+                    ],
+                    [
+                        'type' => 'info_box',
+                        'name' => 'info_box',
+                        'headline' => 'Info box',
+                        'description' => 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Senectus libero ut lorem ac <a href="#">dictumst phasellus</a> nunc sit. Eu nisi sed viverra id aliquam enim, odio nunc.',
+                    ],
+                ],
+                [
+                    [
+                        'type' => 'text',
+                        'name' => 'title',
+                        'label' => 'Jméno',
+                        'placeholder' => 'Vaše jméno',
+                        'help_text' => 'Definovaný placeholder jiný než label',
+                        'floating_label' => true,
+                        'saveAs' => 'post_title',
+                        'required' => true,
+                    ],
+                    [
+                        'type' => 'text',
+                        'name' => 'title',
+                        'description' => 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
+                        'label' => 'Jméno',
+                        'help_text' => 'Placeholder není definovaný (placeholder = label)',
+                        'floating_label' => true,
+                        'saveAs' => 'post_title',
+                        'required' => true,
+                    ],
+                    [
+                        'type' => 'warning_box',
+                        'name' => 'warning_box',
+                        'headline' => 'Warning box',
+                        'description' => 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Senectus libero ut lorem ac <a href="#">dictumst phasellus</a> nunc sit. Eu nisi sed viverra id aliquam enim, odio nunc.',
+                    ],
+
+                ],
+                [
+                    [
+                        'type' => 'checkbox_large',
+                        'name' => 'checkbox_large1',
+                        'label' => 'Checkbox large',
+                        'description' => 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
+                        'saveAs' => 'post_title',
+                    ],
+                    [
+                        'type' => 'checkbox',
+                        'name' => 'checkbox1',
+                        'label' => 'Checkbox Lorem ipsum dolor sit amet',
+                        'saveAs' => 'post_title',
+                    ],
+                    [
+                        'type' => 'checkbox',
+                        'name' => 'checkbox2',
+                        'label' => 'Checkbox Lorem ipsum dolor sit amet',
+                        'saveAs' => 'post_title',
+                        'required' => true,
+                    ],
+                ],
+                [
+                    [
+                        'type' => 'radio_large',
+                        'name' => 'radio_large1',
+                        'saveAs' => 'post_title',
+                        'options' => [
+                            'label' => 'Checkbox large',
+                            'description' => 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
+    
+                        ],
+                    ],
+                    [
+                        'type' => 'radio',
+                        'name' => 'radio1',
+                        'label' => 'Checkbox Lorem ipsum dolor sit amet',
+                        'saveAs' => 'post_title',
+                    ],
+                ],
+                /*[
 					'type' => 'hidden',
 					'name' => 'currenturl', 
 					'saveAs' => 'meta',
@@ -100,16 +206,15 @@ if (!class_exists('submenuContentWDS')) {
 					'label' => 'Telefon',
 					'saveAs' => 'meta',
 					'required' => false,
-				]
-				
-			];
+				]*/
 
-            $builder = new formsBuilderWDS( $fields );
-            
-            $builder->display_form( $fields ); 
-            
-        } 
-        
+            ];
+
+            $builder = new formsBuilderWDS($fields);
+
+            $builder->display_form($fields);
+        }
+
         /**
          * Zobrazení ukázkového formuláře
          *
@@ -118,10 +223,11 @@ if (!class_exists('submenuContentWDS')) {
          * @author Wedesin
          * @return true/false
          */
-        function my_admin_page_contents( ) {
+        function my_admin_page_contents()
+        {
             //Získat aktivní tab z parametru $_GET 
             $default_tab = null;
-            $tab = isset($_GET['tab']) ? $_GET['tab'] : $default_tab;?>
+            $tab = isset($_GET['tab']) ? $_GET['tab'] : $default_tab; ?>
             <div class="wrap wds-admin">
 
                 <h1><?php echo esc_html(get_admin_page_title()); ?></h1>
@@ -163,7 +269,7 @@ if (!class_exists('submenuContentWDS')) {
                             <a href="?page=wds_vyvoj_slug&tab=settings" class="nav-tab <?php if ($tab === 'settings') : ?>nav-tab-active<?php endif; ?>"><?php echo file_get_contents(WDS_URL . "assets/icons/slider-line.svg"); ?>Settings</a>
                             <a href="?page=wds_vyvoj_slug&tab=tools" class="nav-tab <?php if ($tab === 'tools') : ?>nav-tab-active<?php endif; ?>"><?php echo file_get_contents(WDS_URL . "assets/icons/settings-line.svg"); ?>Tools</a>
                         </nav>
-                        <div class="tab-content">
+                        <div class="content-box">
                             <?php switch ($tab):
                                     // Default tab
                                 default:
@@ -671,11 +777,9 @@ if (!class_exists('submenuContentWDS')) {
                     </div>
                 </div>
             </div>
-            <?php
+<?php
         }
-
     }
 
     new submenuContentWDS;
 }
-
