@@ -249,7 +249,9 @@ if (!class_exists('WDS_Front_Form')) {
 
                                     <div class="form-item <?php echo $name; ?>">
 
-                                        <?php $this->get_input_html($type, $name, $value, $field, $is_valid); ?>
+                                    <?php 
+                                    $value = isset($field['value']) ? $field['value'] : '';
+                                    $this->get_input_html($type, $name, $value, $field, $is_valid); ?>
 
                                     </div>
 
@@ -287,7 +289,9 @@ if (!class_exists('WDS_Front_Form')) {
 
                             <div class="form-item <?php echo $name; ?>">
 
-                                <?php $this->get_input_html($type, $name, $value, $field, $is_valid); ?>
+                                <?php 
+                                $value = isset($field['value']) ? $field['value'] : '';
+                                $this->get_input_html($type, $name, $value, $field, $is_valid); ?>
 
                             </div>
 
@@ -340,15 +344,15 @@ if (!class_exists('WDS_Front_Form')) {
             //$name = $this->get_field_name($name, $args['saveAs'], $type);
             $name = isset($args['name']) ? $args['name'] : false;
             $name = $name . ($type == 'checkbox' || ($type == 'image' && $multiple) ? '[]' : '');
-            $limit = isset($args['imagesLimit']) ? $args['imagesLimit'] : '999999';
+            //$limit = isset($args['imagesLimit']) ? $args['imagesLimit'] : '999999';
             $is_required = isset($args['required']) && $args['required'] == true ? true : false;
             $required = $is_required == true ? ' <span class="required form-star">*</span>' : '';
             $label = isset($args['label']) ? $args['label'] : false;
             $placeholder = isset($args['placeholder']) ? $args['placeholder'] : $label;
             $description = isset($args['description']) ? $args['description'] : false;
             $help_text = isset($args['help_text']) ? $args['help_text'] : false;
-            $floating_label_start = isset($args['floating_label']) && $args['floating_label'] == true ? '<span class="floating-label">' : '';
-            $floating_label_end = isset($args['floating_label']) && $args['floating_label'] == true ? '</span>' : '';
+            $floating_label_start = $label ? '<span class="floating-label">' : '';
+            $floating_label_end = $label ? '</span>' : '';
 
             if ($is_required) {
                 $placeholder = $placeholder . ' *';
@@ -358,37 +362,43 @@ if (!class_exists('WDS_Front_Form')) {
 
                 /**
                  * Input types
-                 * button            
-                 * checkbox          OK
-                 * checkbox_large    OK
-                 * switch            OK
-                 * color
-                 * date
-                 * datetime-local
-                 * email
+                 * -----------
+                 * button           v rámci některých polí
+                 * checkbox         OK
+                 * checkbox_large   OK
+                 * switch           OK
+                 * color            OK
+                 * date             OK
+                 * datetime-local   OK
+                 * email            OK
                  * file
-                 * hidden            OK
-                 * image
-                 * month
-                 * number
-                 * password
-                 * radio
-                 * radio_large
-                 * range
+                 * hidden           OK
+                 * image            OK upravit upload přes WP upload
+                 * month            OK
+                 * number           OK
+                 * password         OK
+                 * radio            OK
+                 * radio_large      OK
+                 * range            OK
                  * reset
                  * search
-                 * submit
-                 * tel
+                 * select           OK doplnit o js
+                 * submit           OK - wordpress
+                 * tel              OK
                  * text             OK
-                 * time
-                 * url
-                 * week
+                 * textarea         OK
+                 * editor           OK
+                 * time             OK
+                 * url              OK
+                 * week             OK
                  * info a warning box    OK
+                 * custom html
                  */
 
                 case 'email':
                 case 'tel':
                 case 'number':
+                case 'password':
                 case 'text':
                 case 'hidden':
 
@@ -403,13 +413,12 @@ if (!class_exists('WDS_Front_Form')) {
                         echo '<p class="form-error">' . $er_mess . '</p>';
                     }
 
-                    echo $floating_label_start;
+                    echo '<p>' . $floating_label_start;
 
                     echo '<input type="' . $type . '" value="' . $value . '" name="' . $name . '" placeholder="' . $placeholder . '" ' . $atts . ' class="' . $class . '" id="' . $id_val . '"/>';
-
                     if ($label)  echo '<label for="' . $name . '">' . $label . $required . '</label>';
 
-                    echo $floating_label_end;
+                    echo $floating_label_end . '</p>';
 
                     if ($help_text) echo '<p class="help-text">' . $help_text . '</p>';
 
@@ -417,17 +426,46 @@ if (!class_exists('WDS_Front_Form')) {
 
                 case 'select':
                     $options = isset($args['options']) ? $args['options'] : [];
+
+
+
                     if (!empty($options)) {
-                        echo '<select name="' . $name . '" ' . $atts . ' class="' . $class . '">';
-                        foreach ($options as $option_key => $option_name) {
-                            if ($option_key != '' && $option_name != '') {
-                                echo '<option value="' . $option_key . '" ' . ($option_key == $value ? 'selected="selected"' : '') . '>' . $option_name . '</option>';
-                            }
-                        }
-                        echo '</select>';
+
+                        if ($description) echo '<p>' . $description . '</p>';
+
                         if (!$is_valid) {
                             echo '<span class="form-error">' . __('Toto pole je vyžadované, prosíme, vyplňte ho.', 'textdomain') . '</span>';
                         }
+
+                        echo $floating_label_start;
+
+                        echo '<select name="' . $name . '" ' . $atts . ' class="selectize ' . $class . '" placeholder="' . $placeholder . '" id="' . $name . '">';
+                        foreach ($options as $option_key => $option_name) {
+                            echo '<option value="' . $option_key . '" ' . ($option_key == $value ? 'selected="selected"' : '') . '>' . $option_name . '</option>';
+                        }
+                        echo '</select>';
+
+                        if ($label)  echo '<label for="' . $name . '">' . $label . $required . '</label>';
+
+                        echo $floating_label_end;
+
+                        if ($help_text) echo '<p class="help-text">' . $help_text . '</p>';
+
+                        //todo #3 Selectize.js zprovoznění vloženého scryptu s možnostmi výběru
+                        $selectize = isset($args['selectize']) ? $args['selectize'] : [];
+                        if (!empty($selectize)) {
+                            
+                            echo '<script>$("#' . $name . '").selectize({';
+                            
+                            foreach ($selectize as $selectize_key => $selectize_value) {
+                                echo $selectize_key . ': ' . $selectize_value . ',';
+                            }
+
+                            echo '});</script>';
+
+                        }
+
+                        
                     }
                     break;
 
@@ -445,66 +483,127 @@ if (!class_exists('WDS_Front_Form')) {
                     
                     break;*/
 
-                case 'image':
-                    echo '<div id="media-uploader-' . $name . '" data-target="' . $name . '" data-limit="1" class="dropzone ' . $class . '"></div>';
-                    echo '<input type="hidden" name="' . $name . '" value="' . $value . '" ' . $atts . ' />';
-                    if (!empty($placeholder)) echo '<p>' . $placeholder . '</p>';
-                    if (!$is_valid) {
-                        echo '<span class="form-error">' . __('Toto pole je vyžadované, prosíme, vyplňte ho.', 'textdomain') . '</span>';
-                    }
-                    break;
-
-                case 'radio':
-                    $options = isset($args['options']) ? $args['options'] : [];
-                    if (!empty($options)) {
-                        //echo '<input type="' . $type . '" value=""  name="' . $name .'" checked class="hide"> ';
-                        foreach ($options as $option_key => $option_name) {
-                            if ($option_key != '' && $option_name != '') {
-                                if ($type == 'checkbox') {
-                                    if ((is_array($value) && in_array($option_key, $value)) || $option_key == $value) {
-                                        $checked = 'checked';
-                                    } else {
-                                        $checked = '';
-                                    }
-                                } else {
-                                    $checked = $option_key == $value ? 'checked' : '';
-                                }
-                                echo '<label>';
-                                echo '<input type="' . $type . '" value="' . $option_key . '"  name="' . $name . '" ' . $checked . ' ' . $atts . '> ';
-                                echo $option_name;
-                                echo '</label>';
-                            }
-                        }
-                    }
-                    break;
-
-                case 'checkbox':
-
-                    if ($label)  {
-                        echo '<label class="checkbox ' . $class . '">';
-                        echo '<input type="checkbox" value=""  name="' . $name . '" ' . $checked . ' ' . $atts . '>';
-                        echo '<span class="checkmark"></span>';
-                        echo  $label . $required . '</label>';
-                    };
-
-                    if (!$is_valid) {
-                        echo '<span class="form-error">' . __('Toto pole je vyžadované, prosíme, vyplňte ho.', 'textdomain') . '</span>';
-                    }
+                case 'url':
 
                     if ($description) echo '<p>' . $description . '</p>';
+
+                    if (!$is_valid) {
+                        echo '<span class="form-error">' . __('Toto pole je vyžadované, prosíme, vyplňte ho.', 'textdomain') . '</span>';
+                    }
+
+                    echo '<div class="input-group">';
+                    echo '<span class="input-group-label">' . file_get_contents(WDS_URL . "assets/icons/link-line.svg") . '</span>';
+                    echo  $floating_label_start;
+
+                    echo '<input type="url" value="' . $value . '" name="' . $name . '" placeholder="' . $placeholder . '" ' . $atts . ' class="' . $class . '" />';
+
+                    if ($label)  echo '<label for="' . $name . '">' . $label . $required . '</label>';
+
+                    echo $floating_label_end ;
+                    echo '</div>';
 
                     if ($help_text) echo '<p class="help-text">' . $help_text . '</p>';
 
                     break;
 
+                case 'image':
+                    //echo '<div id="media-uploader-' . $name . '" data-target="' . $name . '" data-limit="1" class="dropzone ' . $class . '"></div>';
+                    //echo '<input type="hidden" name="' . $name . '" value="' . $value . '" ' . $atts . ' />';
+                    //if (!empty($placeholder)) echo '<p>' . $placeholder . '</p>';
+
+                    if ($description) echo '<p>' . $description . '</p>';
+
+                    if (!$is_valid) {
+                        echo '<span class="form-error">' . __('Toto pole je vyžadované, prosíme, vyplňte ho.', 'textdomain') . '</span>';
+                    }
+                    
+                    echo '<div class="input-group">';
+                    echo '<span class="input-group-label">' . file_get_contents(WDS_URL . "assets/icons/link-line.svg") . '</span>';
+                    echo  $floating_label_start;
+
+                    echo '<input type="url" value="' . $value . '" name="' . $name . '" placeholder="' . $placeholder . '" ' . $atts . ' class="' . $class . '" />';
+
+                    if ($label)  echo '<label for="' . $name . '">' . $label . $required . '</label>';
+
+                    echo $floating_label_end ;
+
+                    echo '<a href="#" class="button">' . file_get_contents(WDS_URL . "assets/icons/upload-cloud-line.svg") . 'Nahrát</a>';
+
+
+                    echo '</div>';
+
+                    if ($help_text) echo '<p class="help-text">' . $help_text . '</p>';
+                    
+                    if ($value) {
+                        echo '<p><div class=upload-img-preview>';
+                        echo '<img src="' . $value . '" width="300" height="200" alt="alt">';
+                        echo '<a href="#" class="button white icon">' . file_get_contents(WDS_URL . "assets/icons/trash-line.svg") . 'Odstranit</a>';
+                        echo '</div></p>';
+                    }
+
+                    break;
+
+                case 'radio':
+                case 'radio_large':
+
+                    $options = isset($args['options']) ? $args['options'] : [];
+
+                    if ($type == 'radio_large') {
+                        $class = 'radio-large ' . $class;
+                    }
+
+                    if (!empty($options)) {
+
+                        if ($description) echo '<p>' . $description . '</p>';
+
+                        if (!$is_valid) {
+                            echo '<span class="form-error">' . __('Toto pole je vyžadované, prosíme, vyplňte ho.', 'textdomain') . '</span>';
+                        }
+
+                        echo '<div class="radio-wrap">';
+
+                        //echo '<input type="' . $type . '" value=""  name="' . $name .'" checked class="hide"> ';
+                        foreach ($options as $option_key => $option_name) {
+                            if ($option_key != '' && $option_name != '') {
+
+                                $checked = $option_key == $value ? 'checked' : '';
+
+                                echo '<label class="radio ' . $class . '">';
+                                echo '<input type="radio" value="' . $option_key . '"  name="' . $name . '" ' . $checked . ' ' . $atts . '> ';
+                                echo '<span class="checkmark"></span>';
+
+                                if ($type == 'radio_large') echo '<h3>';
+                                echo is_array($option_name)?  $option_name[0] :  $option_name ;
+                                if ($type == 'radio_large') echo '</h3>';
+                                echo is_array($option_name)? '<p class="help-text">' . $option_name[1] . '</p>' : '' ;
+
+                                echo '</label>';
+                            }
+                        }
+
+                        echo '</div>';
+
+                        if ($help_text) echo '<p class="help-text">' . $help_text . '</p>';
+
+                    }
+                    break;
+
+                case 'checkbox':
                 case 'checkbox_large':
 
+                    if ($type == 'checkbox_large') {
+                        $class = 'checkbox-large ' . $class;
+                    }
 
                     if ($label)  {
-                        echo '<label class="checkbox checkbox-large ' . $class . '" >';
-                        echo '<input type="checkbox" value=""  name="' . $name . '" ' . $checked . ' ' . $atts . '>';
+                        echo '<label class="checkbox ' . $class . '">';
+                        echo '<input type="checkbox" value="' . $name . '"  name="' . $name . '" ' . $checked . ' ' . $atts . '>';
                         echo '<span class="checkmark"></span>';
-                        echo '<h3>' . $label . $required . '</h3></label>';
+                        if ($type == 'checkbox_large') echo '<h3>';
+                        echo  $label . $required ;
+                        if ($type == 'checkbox_large') echo '</h3>';
+                        echo '</label>';
+
                     };
 
                     if (!$is_valid) {
@@ -538,11 +637,59 @@ if (!class_exists('WDS_Front_Form')) {
 
                 case 'textarea':
 
-                    echo '<textarea type="' . $type . '"  name="' . $name . '" placeholder="' . $placeholder . '" ' . $atts . ' class="' . $class . '" />' . $value . '</textarea>';
+                    if ($description) echo '<p>' . $description . '</p>';
+
                     if (!$is_valid) {
                         echo '<span class="form-error">' . __('Toto pole je vyžadované, prosíme, vyplňte ho.', 'textdomain') . '</span>';
                     }
+
+                    echo $floating_label_start;
+
+                    echo '<textarea type="' . $type . '"  name="' . $name . '" placeholder="' . $placeholder . '" ' . $atts . ' class="' . $class . '" />' . $value . '</textarea>';
+                    if ($label)  echo '<label for="' . $name . '">' . $label . $required . '</label>';
+                    echo $floating_label_end;
+
+                    if ($help_text) echo '<p class="help-text">' . $help_text . '</p>';
+
                     break;
+
+                case 'range':
+
+                    $max = isset($args['max']) ? 'max="' . $args['max'] . '" ' : '';
+                    $min = isset($args['min']) ? 'min="' . $args['min'] . '" ' : '';
+                    $step = isset($args['step']) ? 'step="' . $args['step'] . '" ' : '';
+                    $show_attr = isset($args['show_attr']) ? $args['show_attr'] : false;
+                    $unit = isset($args['unit']) ? $args['unit'] : '';
+                    $wrap_class = $unit ? 'val-right-large' : 'val-right';
+                    $wrap_class = $show_attr == true ? $wrap_class . ' show-attr' : $wrap_class;
+
+                        if ($label) echo '<p>' . $label . $required . '</p>';
+    
+                        if (!$is_valid) {
+                            echo '<span class="form-error">' . __('Toto pole je vyžadované, prosíme, vyplňte ho.', 'textdomain') . '</span>';
+                        }
+    
+                        if ($description) echo '<p>' . $description . '</p>';
+
+                        echo '<div class="range-wrap ' . $wrap_class . '">';
+                        echo '<input name="' . $name . '" type="range" class="range" ' . $max . $min . $step . ' value="' . $value . '">';
+                        if ($unit) echo '<div class="input-group">';
+                        echo '<input class="outval small" type="number" ' . $max . $min . $step . ' value="' . $value . '" source="[name=' . $name . ']">';
+                        if (is_array($unit)){
+                            echo '<div class="select-button small"><select>';
+                            foreach ($unit as $unit_key => $unit_name) {
+                                echo '<option value="' . $unit_key . '">' . $unit_name . '</option>';
+                            }
+                            echo '</select></div>';
+                        } else {
+                            echo '<span class="input-group-label">' . $unit . '</span>';
+                        }
+                        if ($unit) echo '</div>';
+                        echo '</div>';
+    
+                        if ($help_text) echo '<p class="help-text">' . $help_text . '</p>';
+    
+                        break;
 
                 case 'editor':
 
@@ -559,22 +706,68 @@ if (!class_exists('WDS_Front_Form')) {
                         'tinymce' => true, // load TinyMCE, can be used to pass settings directly to TinyMCE using an array()
                         'quicktags' => true // load Quicktags, can be used to pass settings directly to Quicktags using an array()
                     );
+
+                    if ($description) echo '<p>' . $description . '</p>';
+
                     $editor_id = str_replace(']', '', str_replace('[', '', $name));
                     wp_editor($value, $editor_id, $settings);
+
+                    if ($help_text) echo '<p class="help-text">' . $help_text . '</p>';
 
                     if (isset($args['length']) && $args['length']) {
                         echo "<p>Počet znaků: <span class='word-count' data-fieldname='" . $name . "' id='word-length-" . $name . "'>" . $this->valid_leght_string($value) . "</span>  / " . $args['length'] . '</p>';
                     }
 
-                    if (!empty($placeholder)) echo '<p>' . $placeholder . '</p>';
                     //$editor_counter++;
                     break;
 
                 case 'date':
-                    $now = date("Y-m-d");
-                    (empty($value) ? $value = $now : '');
-                    $value = date("Y-m-d", strtotime($value));
-                    echo '<input type="date" id="' . $name . '" name="' . $name . '" value="' . $value . '">';
+                case 'datetime-local':
+                case 'time':
+                case 'month':
+                case 'week':
+
+                    /*if ($type == 'date') {
+                        $now = date("Y-m-d");
+                        (empty($value) ? $value = $now : '');
+                        $value = date("Y-m-d", strtotime($value));
+                    }*/
+
+                    $icon = $type == 'time' ? "assets/icons/clock-line.svg" : "assets/icons/calendar-line.svg";
+
+                    if ($description) echo '<p>' . $description . '</p>';
+                    
+                    if (!$is_valid) {
+                        echo '<span class="form-error">' . __('Toto pole je vyžadované, prosíme, vyplňte ho.', 'textdomain') . '</span>';
+                    }
+
+                    echo '<div class="input-group">';
+                    echo '<span class="input-group-label">' . file_get_contents(WDS_URL . $icon) . '</span>';
+                    echo $floating_label_start;
+                    echo '<input type="' . $type . '" id="' . $name . '" name="' . $name . '" value="' . $value . '">';
+                    if ($label)  echo '<label for="' . $name . '">' . $label . $required . '</label>';
+                    echo $floating_label_end;
+                    echo '</div>';
+
+                    if ($help_text) echo '<p class="help-text">' . $help_text . '</p>';
+
+                    break;
+
+                case 'color':
+
+                    $default = isset($args['value']) ? $args['value'] : '';
+
+                    if ($label)  echo '<p>' . $label . $required . '</p>';
+                    if ($description) echo '<p>' . $description . '</p>';
+
+                    if (!$is_valid) {
+                        echo '<span class="form-error">' . __('Toto pole je vyžadované, prosíme, vyplňte ho.', 'textdomain') . '</span>';
+                    }
+
+                    echo '<p><input type="text" class="color-picker" data-alpha-enabled="true" data-default-color="' . $default . '" id="' . $name . '" name="' . $name . '" value="' . $value . '"></p>';
+
+                    if ($help_text) echo '<p class="help-text">' . $help_text . '</p>';
+
                     break;
 
                 case 'info_box':
@@ -594,6 +787,16 @@ if (!class_exists('WDS_Front_Form')) {
                     if ($description) echo '<p>' . $description . '</p>';
 
                     echo '</div>';
+                    break;
+
+                case 'html':
+                    // Vlasní html obsah
+
+                    $content = isset($args['content']) ? $args['content'] : false;
+
+                    echo $content;
+
+                    break;
 
                 default:
                     # code...

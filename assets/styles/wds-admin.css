@@ -212,7 +212,11 @@ body .wds-notice a:hover {
   border-color: red;
 }
 
-.wds-admin .form-item input[type="date"] {
+.wds-admin .form-item input[type="date"],
+.wds-admin .form-item input[type="datetime-local"],
+.wds-admin .form-item input[type="time"],
+.wds-admin .form-item input[type="month"],
+.wds-admin .form-item input[type="week"] {
   max-width: 200px;
 }
 
@@ -537,6 +541,10 @@ min-width: 60px;
 }
 
 /* radio */
+.wds-admin .radio-wrap {
+  margin-top: 10px;
+}
+
 .wds-admin .radio {
   cursor: pointer;
   -webkit-user-select: none;
@@ -544,6 +552,7 @@ min-width: 60px;
   -ms-user-select: none;
   user-select: none;
 }
+
 .wds-admin .radio:not(.radio-large) {
   display: inline-block;
   position: relative;
@@ -601,8 +610,13 @@ min-width: 60px;
   display: block;
 }
 
+.wds-admin .radio-large {
+  position: relative;
+  display: block;
+  margin-top: 10px;
+}
 .wds-admin .radio-large .checkmark {
-  transform: translateX(10px);
+  transform: translate(-50px, 0px);
 }
 
 /* input group */
@@ -695,6 +709,20 @@ min-width: 60px;
   width: 140px;
   float: right;
   margin-top: 0;
+}
+
+.wds-admin .range-wrap.show-attr input.range {
+  margin: 5px 0;
+}
+.wds-admin .range-wrap.show-attr  input.range:before {
+  content: attr(min);
+  font-size: 11px;
+  margin-right: 5px;
+}
+.wds-admin .range-wrap.show-attr  input.range:after {
+  content: attr(max);
+  font-size: 11px;
+  margin-left: 5px;
 }
 
 .wds-admin input[type="range"]:focus {
