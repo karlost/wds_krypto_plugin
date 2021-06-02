@@ -69,6 +69,9 @@ class ScriptsStyles extends setupWDS {
     $admin_script = filemtime(  WDS_PATH . 'assets/scripts/wds-admin.js' );
     wp_enqueue_script( 'star-comments', WDS_URL . 'assets/scripts/wds-admin.js', array( 'jquery' ), $admin_script, true );
     
+    //WP media uploader
+    wp_enqueue_media();
+
     //color picker scripts
     $colorpicker_script = filemtime(  WDS_PATH . 'assets/scripts/wp-color-picker-alpha.min.js' );
     wp_enqueue_script( 'wp-color-picker-alpha', WDS_URL . 'assets/scripts/wp-color-picker-alpha.min.js', array( 'wp-color-picker' ), $colorpicker_script, true );

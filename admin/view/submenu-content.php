@@ -337,6 +337,17 @@ if (!class_exists('submenuContentWDS')) {
                 ],
                 [
                     [
+                        'type' => 'image',
+                        'name' => 'obrazek2',
+                        'label' => 'Obrázek',
+                        'description' => 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Senectus libero ut lorem ac dictumst phasellus nunc sit. Eu nisi sed viverra id aliquam enim, odio nunc.',
+                        'help_text' => 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
+                        'value' => 'https://via.placeholder.com/300x200',
+                        'floating_label' => true,
+                        'saveAs' => 'post_title',
+                        'required' => true,
+                    ],
+                    [
                         'type' => 'date',
                         'name' => 'datum',
                         'label' => 'Datum',

@@ -521,13 +521,13 @@ if (!class_exists('WDS_Front_Form')) {
                     echo '<span class="input-group-label">' . file_get_contents(WDS_URL . "assets/icons/link-line.svg") . '</span>';
                     echo  $floating_label_start;
 
-                    echo '<input type="url" value="' . $value . '" name="' . $name . '" placeholder="' . $placeholder . '" ' . $atts . ' class="' . $class . '" />';
+                    echo '<input type="url" id="wds-media-url" value="' . $value . '" name="' . $name . '" placeholder="' . $placeholder . '" ' . $atts . ' class="' . $class . '" />';
 
                     if ($label)  echo '<label for="' . $name . '">' . $label . $required . '</label>';
 
                     echo $floating_label_end ;
 
-                    echo '<a href="#" class="button">' . file_get_contents(WDS_URL . "assets/icons/upload-cloud-line.svg") . 'Nahrát</a>';
+                    echo '<a href="#" id="wds-media-upload" class="button">' . file_get_contents(WDS_URL . "assets/icons/upload-cloud-line.svg") . 'Nahrát</a>';
 
 
                     echo '</div>';
