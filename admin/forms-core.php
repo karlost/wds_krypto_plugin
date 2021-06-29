@@ -41,10 +41,8 @@ if (!class_exists('WDS_Front_Form')) {
             return false;
         }
 
-        public function get_form($post_id = 'new', $post_type = 'post', $formID = 'wedesin_frontend')
+        public function get_form($formID = 'wds_admin_form')
         {
-
-            global $post;
 
             $return = "";
             $query = filter_input_array(INPUT_GET);
@@ -65,10 +63,11 @@ if (!class_exists('WDS_Front_Form')) {
 
                             <span class="form-star"><small><?= __('* povinné pole', 'textdomain'); ?></small></span>
 
-                            <form method="post" id="<?= $formID ?>_<?= $post_id ?>_form" class="wds-form" action="<?php // the_permalink(); 
+                            <form method="post" id="<?= $formID ?>_form" class="wds-form" action="<?php // the_permalink(); 
                                                                                                                     ?>" enctype="multipart/form-data" novalidate data-abide>
-
-                                <?php $this->get_form_fields($post_id, $post_type, 1, $formID); ?>
+                                <?php wp_nonce_field( $formID, 'nonce_' . $formID ); ?>
+                                <input type="hidden" value="<?=$formID?>" name="form_id_wds" />                                                             
+                                <?php $this->get_form_fields($formID); ?>
 
                                 <?php submit_button(); ?>
 
@@ -169,7 +168,7 @@ if (!class_exists('WDS_Front_Form')) {
          * 	@author Wedesin
          * 	@return echo
          */
-        public function get_form_fields($post_id, $post_type = 'post', $formID = null)
+        public function get_form_fields($formID = null)
         {
 
             if (empty($this->fields)) {
@@ -208,7 +207,6 @@ if (!class_exists('WDS_Front_Form')) {
                 </div>
                 <?php
             }*/
-
             foreach ($this->fields as $section) {
 
                 $section_headline = isset($section['headline']) ? $section['headline'] : false;
@@ -220,7 +218,8 @@ if (!class_exists('WDS_Front_Form')) {
                 if ($section_headline) echo '<h2>' . $section_headline . '</h2>';
                 if ($section_description) echo '<p>' . $section_description . '</p>';
 
-                if ($section['columns']) {
+                /* ZATÍM JEN ZAKOMENTOVÁNO, ALE PŘESUNUTO DO ZPRACOVÁNÍ VE FOREACH SECTION
+                if (isset($section['columns']) && $section['columns']) {
 
                     echo '<div class="row xl">';
                     //preprint($section);
@@ -264,15 +263,55 @@ if (!class_exists('WDS_Front_Form')) {
                     }
 
                     echo '</div>';
-                }
+                }*/
 
                 //Pole formuláře v sekcích
                 foreach ($section as $item => $field) {
-                    //TODO #1 Přesunout row s columns pod toto foreatch, tak aby se vykreslovalo ve správném pořadí a ne jako první
-                    /*if ($section['columns']) {
-                        preprint($section['columns']) ;
-                    }*/
-                    
+                    // Pokud je ve formuláři columns, zobrazí se zde, pokud je nařadě
+                    if ($item === 'columns') {
+                        echo '<div class="row xl">';
+                        $row = $field;
+                        foreach ($row as $column) {
+
+                            //preprint($column);
+                            echo '<div class="column">';
+
+                            //Pole formuláře v gridu
+                            foreach ($column as $subfield) {
+
+                                $type = isset($subfield['type']) ? $subfield['type'] : false;
+                                $name = isset($subfield['name']) ? $subfield['name'] : false;
+
+                                if ($name && $type) {
+
+                                    $is_valid = true;
+
+                                    //nejdřív přidáme skrytá pole
+                                    if ($type == 'hidden') {
+
+                                        $value = isset($subfield['value']) ? $subfield['value'] : '';
+                                        $this->get_input_html($type, $name, $value, $subfield, $is_valid);
+                                    } else { ?>
+
+                                        <div class="form-item <?php echo $name; ?>">
+
+                                        <?php 
+                                        $value = isset($subfield['value']) ? $subfield['value'] : '';
+                                        $this->get_input_html($type, $name, $value, $subfield, $is_valid); ?>
+
+                                        </div>
+
+                                <?php
+                                    }
+                                }
+                            }
+
+                            echo '</div>';
+                        }
+
+                        echo '</div>';                       
+
+                    }
                     $type = isset($field['type']) ? $field['type'] : false;
                     $name = isset($field['name']) ? $field['name'] : false;
 
@@ -809,15 +848,11 @@ if (!class_exists('WDS_Front_Form')) {
             $success = false;
             $inputs = filter_input_array(INPUT_POST, FILTER_SANITIZE_STRING);
 
-            //preprint( $inputs );
-
-            if (!isset($inputs['wedesin_frontend_form']) || $inputs['wedesin_frontend_form'] == '') {
+            if (!isset($inputs['form_id_wds']) || $inputs['form_id_wds'] == '') {
                 return;
             }
-
-            $formID = $inputs['wedesin_frontend_form'];
+            $formID = $inputs['form_id_wds'];
             if (isset($inputs['nonce_' . $formID]) && wp_verify_nonce($inputs['nonce_' . $formID], $formID)) {
-
                 //validace polí
                 if (!$this->validate_fields($inputs, $formID)) {
                     $this->session->addSession($formID . '_save', 'fail');
@@ -829,7 +864,8 @@ if (!class_exists('WDS_Front_Form')) {
                 if ((isset($inputs['wds_meta']['name']) && $inputs['wds_meta']['name'] !== "") || (isset($inputs['wds_meta']['surname']) && $inputs['wds_meta']['surname'] !== "")) {
                     exit;
                 }
-
+// Milan - Pokračovat validací
+//die('semtu');
                 $new_post = ['post_status' => 'publish'];
                 $new_post['post_type'] = $inputs['post_type'];
                 $new_post['post_title'] = isset($inputs['post_title']) ? $inputs['post_title'] : '';
@@ -1072,6 +1108,8 @@ if (!class_exists('WDS_Front_Form')) {
             if (empty($this->fields)) {
                 die('Fields must be set.');
             }
+            /*preprint($inputs);
+            preprint($this->fields);*/
             $allvalid = true;
 
             $validated = [];

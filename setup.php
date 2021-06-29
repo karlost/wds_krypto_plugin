@@ -96,7 +96,7 @@ if( !class_exists( 'setupWDS' ) )
             include_once( WDS_PATH . 'admin/main-menu.php');  
             include_once( WDS_PATH . 'admin/sub-menu.php');  
             include_once( WDS_PATH . 'admin/forms-builder.php'); 
-            include_once( WDS_PATH . 'admin/forms-content.php');  
+            include_once( WDS_PATH . 'admin/forms-core.php');  
             
             //admin views
             include_once( WDS_PATH . 'admin/view/main-menu.php'); 
