@@ -83,8 +83,10 @@ if( !class_exists( 'setupWDS' ) )
             //definice
             $this->define( 'WDS_PATH', plugin_dir_path( __FILE__ ) );
             $this->define( 'WDS_URL', plugin_dir_url( __FILE__ ) );
-            //definoujeme jméno pro lokalizaci
+            //definujeme jméno pro lokalizaci
             $this->define( 'TM', 'wds' );
+            //definujeme ID pluginu ve struktuře našich pluginů
+            $this->define( 'WDS_ID', 'template' );
 
             // Include utility functions
             include_once( WDS_PATH . 'global/helpers.php'); 

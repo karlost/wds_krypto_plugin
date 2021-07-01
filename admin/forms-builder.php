@@ -78,8 +78,7 @@ if( ! class_exists( 'formsBuilderWDS' ) )
 							'type' => 'switch',
 							'name' => 'switch1',
 							'label' => 'Checkbox as switch',
-							'saveAs' => 'post_title',
-							'required' => true,
+							'saveAs' => 'meta',
 						],
 						'columns' => [
 							[
@@ -88,7 +87,7 @@ if( ! class_exists( 'formsBuilderWDS' ) )
 									'type' => 'text',
 									'name' => 'title',
 									'label' => 'Jméno',
-									'saveAs' => 'post_title',
+									'saveAs' => 'meta',
 									'required' => true,
 								],
 								[
@@ -96,7 +95,7 @@ if( ! class_exists( 'formsBuilderWDS' ) )
 									'name' => 'email1',
 									'label' => 'E-mail',
 									'floating_label' => true,
-									'saveAs' => 'post_title',
+									'saveAs' => 'meta',
 									'required' => true,
 								],
 								[
@@ -104,21 +103,21 @@ if( ! class_exists( 'formsBuilderWDS' ) )
 									'name' => 'telephone',
 									'label' => 'Telefon',
 									'floating_label' => true,
-									'saveAs' => 'post_title',
+									'saveAs' => 'meta',
 								],
 								[
 									'type' => 'number',
 									'name' => 'cislo',
 									'label' => 'Nějaké číslo',
 									'floating_label' => true,
-									'saveAs' => 'post_title',
+									'saveAs' => 'meta',
 								],
 								[
 									'type' => 'password',
 									'name' => 'heslo',
 									'label' => 'Vaše heslo',
 									'floating_label' => true,
-									'saveAs' => 'post_title',
+									'saveAs' => 'meta',
 								],
 							],
 							[
@@ -137,7 +136,7 @@ if( ! class_exists( 'formsBuilderWDS' ) )
 										'sesty' => 'Šestý',
 										'sedmi' => 'Sedmí',
 									],
-									'saveAs' => 'post_title',
+									'saveAs' => 'meta',
 								],
 								[
 									'type' => 'select',
@@ -159,14 +158,14 @@ if( ! class_exists( 'formsBuilderWDS' ) )
 										//'sortField' => '"text"', // hodnota včetně uvozovek
 										'maxItems' => 3,
 									],
-									'saveAs' => 'post_title',
+									'saveAs' => 'meta',
 								],
 								[
 									'type' => 'textarea',
 									'name' => 'dlouhytext',
 									'label' => 'Dlouhý text',
 									'floating_label' => true,
-									'saveAs' => 'post_title',
+									'saveAs' => 'meta',
 								],
 							],
 						],
@@ -191,7 +190,7 @@ if( ! class_exists( 'formsBuilderWDS' ) )
 							'placeholder' => 'Vaše jméno',
 							'help_text' => 'Definovaný placeholder jiný než label',
 							'floating_label' => true,
-							'saveAs' => 'post_title',
+							'saveAs' => 'meta',
 							'required' => true,
 						],
 						[
@@ -201,7 +200,7 @@ if( ! class_exists( 'formsBuilderWDS' ) )
 							'label' => 'Jméno',
 							'help_text' => 'Placeholder není definovaný (placeholder = label)',
 							'floating_label' => true,
-							'saveAs' => 'post_title',
+							'saveAs' => 'meta',
 							'required' => true,
 						],
 						[
@@ -218,19 +217,19 @@ if( ! class_exists( 'formsBuilderWDS' ) )
 							'name' => 'checkbox_large1',
 							'label' => 'Checkbox large',
 							'description' => 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
-							'saveAs' => 'post_title',
+							'saveAs' => 'meta',
 						],
 						[
 							'type' => 'checkbox',
 							'name' => 'checkbox1',
 							'label' => 'Checkbox Lorem ipsum dolor sit amet',
-							'saveAs' => 'post_title',
+							'saveAs' => 'meta',
 						],
 						[
 							'type' => 'checkbox',
 							'name' => 'checkbox2',
 							'label' => 'Checkbox Lorem ipsum dolor sit amet',
-							'saveAs' => 'post_title',
+							'saveAs' => 'meta',
 							'required' => true,
 						],
 					],
@@ -239,7 +238,7 @@ if( ! class_exists( 'formsBuilderWDS' ) )
 							'type' => 'radio_large',
 							'name' => 'radio_large1',
 							'description' => 'Radio large - Radio tlačíta zobrazená jako jednotlivé bloky s h3 nadpisem',
-							'saveAs' => 'post_title',
+							'saveAs' => 'meta',
 							'options' => [
 								'check1' => ['Checkbox large 1','Lorem ipsum dolor sit amet, consectetur adipiscing elit.'], // label, help text
 								'check2' => ['Checkbox large 1','Lorem ipsum dolor sit amet, consectetur adipiscing elit.'],
@@ -264,13 +263,13 @@ if( ! class_exists( 'formsBuilderWDS' ) )
 								'sedmi' => 'Sedmí',
 							],
 							'value' => 'treti',
-							'saveAs' => 'post_title',
+							'saveAs' => 'meta',
 						],
 						[
 							'type' => 'radio',
 							'name' => 'radio2',
 							'description' => 'Radio 2 - I běžná radio tlačítka mohou být doplněny o pomocný text',
-							'saveAs' => 'post_title',
+							'saveAs' => 'meta',
 							'options' => [
 								'check1' => ['Checkbox large 1','Lorem ipsum dolor sit amet'], // label, help text
 								'check2' => ['Checkbox large 1','Lorem ipsum dolor sit amet'],
@@ -289,7 +288,7 @@ if( ! class_exists( 'formsBuilderWDS' ) )
 							'placeholder' => 'test nahoře',
 							'help_text' => 'Definovaný placeholder jiný než label',
 							'floating_label' => true,
-							'saveAs' => 'post_title',
+							'saveAs' => 'meta',
 							'required' => true,
 						],
 						'columns' => [
@@ -299,8 +298,7 @@ if( ! class_exists( 'formsBuilderWDS' ) )
 									'name' => 'switch',
 									'label' => 'Checkbox as switch',
 									'description' => 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Senectus libero ut lorem ac dictumst phasellus nunc sit. Eu nisi sed viverra id aliquam enim, odio nunc.',
-									'saveAs' => 'post_title',
-									'required' => true,
+									'saveAs' => 'meta',
 								],
 								[
 									'type' => 'range',
@@ -311,7 +309,7 @@ if( ! class_exists( 'formsBuilderWDS' ) )
 									'min' => 0,
 									'step' => 10,
 									'value' => 40,
-									'saveAs' => 'post_title',
+									'saveAs' => 'meta',
 									'required' => true,
 								],
 								
@@ -328,7 +326,7 @@ if( ! class_exists( 'formsBuilderWDS' ) )
 									'value' => 1250,
 									'unit' => 'px',
 									'show_attr' => true,
-									'saveAs' => 'post_title',
+									'saveAs' => 'meta',
 								],
 								[
 									'type' => 'range',
@@ -346,7 +344,7 @@ if( ! class_exists( 'formsBuilderWDS' ) )
 										'vh' => 'vh',
 										'vw' => 'vw',
 									],
-									'saveAs' => 'post_title',
+									'saveAs' => 'meta',
 								],
 							],
 						],
@@ -357,7 +355,7 @@ if( ! class_exists( 'formsBuilderWDS' ) )
 							'placeholder' => 'test dole',
 							'help_text' => 'Definovaný placeholder jiný než label',
 							'floating_label' => true,
-							'saveAs' => 'post_title',
+							'saveAs' => 'meta',
 							'required' => true,
 						],
 						
@@ -370,7 +368,7 @@ if( ! class_exists( 'formsBuilderWDS' ) )
 							'description' => 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Senectus libero ut lorem ac dictumst phasellus nunc sit. Eu nisi sed viverra id aliquam enim, odio nunc.',
 							'help_text' => 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
 							'floating_label' => true,
-							'saveAs' => 'post_title',
+							'saveAs' => 'meta',
 							'required' => true,
 						],
 						[
@@ -381,7 +379,7 @@ if( ! class_exists( 'formsBuilderWDS' ) )
 							'help_text' => 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
 							'value' => 'https://via.placeholder.com/300x200',
 							'floating_label' => true,
-							'saveAs' => 'post_title',
+							'saveAs' => 'meta',
 							'required' => true,
 						],
 					],
@@ -394,7 +392,7 @@ if( ! class_exists( 'formsBuilderWDS' ) )
 							'help_text' => 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
 							'value' => 'https://via.placeholder.com/300x200',
 							'floating_label' => true,
-							'saveAs' => 'post_title',
+							'saveAs' => 'meta',
 							'required' => true,
 						],
 						[
@@ -404,7 +402,7 @@ if( ! class_exists( 'formsBuilderWDS' ) )
 							'description' => 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Senectus libero ut lorem ac dictumst phasellus nunc sit. Eu nisi sed viverra id aliquam enim, odio nunc.',
 							'help_text' => 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
 							'floating_label' => true,
-							'saveAs' => 'post_title',
+							'saveAs' => 'meta',
 							'required' => true,
 						],
 						[
@@ -412,7 +410,7 @@ if( ! class_exists( 'formsBuilderWDS' ) )
 							'name' => 'cas',
 							'label' => 'Čas',
 							'floating_label' => true,
-							'saveAs' => 'post_title',
+							'saveAs' => 'meta',
 							'required' => true,
 						],
 						[
@@ -420,21 +418,21 @@ if( ! class_exists( 'formsBuilderWDS' ) )
 							'name' => 'mesic',
 							'label' => 'Měsíc',
 							'floating_label' => true,
-							'saveAs' => 'post_title',
+							'saveAs' => 'meta',
 						],
 						[
 							'type' => 'week',
 							'name' => 'tyden',
 							'label' => 'Týden',
 							'floating_label' => true,
-							'saveAs' => 'post_title',
+							'saveAs' => 'meta',
 						],
 						[
 							'type' => 'datetime-local',
 							'name' => 'datumcas',
 							'label' => 'Datum a Čas',
 							'floating_label' => true,
-							'saveAs' => 'post_title',
+							'saveAs' => 'meta',
 						],
 					],
 					[
@@ -445,7 +443,7 @@ if( ! class_exists( 'formsBuilderWDS' ) )
 							'description' => 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Senectus libero ut lorem ac dictumst phasellus nunc sit. Eu nisi sed viverra id aliquam enim, odio nunc.',
 							'help_text' => 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
 							'value' => '#ff00dd', // rgba(30,30,30,0.64)
-							'saveAs' => 'post_title',
+							'saveAs' => 'meta',
 							'required' => true,
 						],
 						
@@ -518,7 +516,7 @@ if( ! class_exists( 'formsBuilderWDS' ) )
 							'type' => 'text',
 							'name' => 'title',
 							'label' => 'Jméno',
-							'saveAs' => 'post_title',
+							'saveAs' => 'meta',
 							'required' => true,
 						],
 						[
@@ -526,7 +524,7 @@ if( ! class_exists( 'formsBuilderWDS' ) )
 							'name' => 'email1',
 							'label' => 'E-mail',
 							'floating_label' => true,
-							'saveAs' => 'post_title',
+							'saveAs' => 'meta',
 							'required' => true,
 						]
 					],
