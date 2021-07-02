@@ -195,6 +195,7 @@ if (!class_exists('WDS_Front_Form')) {
                 </div>
                 <?php
             }
+            //preprint($validation_data);
             foreach ($this->fields as $section) {
 
                 $section_headline = isset($section['headline']) ? $section['headline'] : false;
@@ -232,8 +233,8 @@ if (!class_exists('WDS_Front_Form')) {
 
                                         $value = isset($subfield['value']) ? $subfield['value'] : $this->get_data($name);
                                         $this->get_input_html($type, $name, $value, $subfield, $is_valid);
-                                    } else { ?>
-
+                                    } else { 
+                                        $is_valid = isset($validation_data[$name]['valid']) ? $validation_data[$name]['valid'] : $is_valid; ?>
                                         <div class="form-item <?php echo $name; ?>">
 
                                         <?php 
@@ -270,12 +271,15 @@ if (!class_exists('WDS_Front_Form')) {
                         if ($type == 'hidden') {
                             $value = isset($field['value']) ? $field['value'] : $this->get_data($name);
                             $this->get_input_html($type, $name, $value, $field, $is_valid);
-                        } else { ?>
+                        } else { 
+                            $is_valid = isset($validation_data[$name]['valid']) ? $validation_data[$name]['valid'] : $is_valid; ?>
 
                             <div class="form-item <?php echo $name; ?>">
 
                                 <?php 
-                                if ($this->get_data($name)) {
+                                if (isset($validation_data[$name]['value'])) {
+                                    $value = $validation_data[$name]['value'];
+                                }else if ($this->get_data($name)) {
                                     $value = $this->get_data($name);
                                 }elseif(isset($field['value'])) {
                                     $value = $field['value'];
@@ -332,7 +336,7 @@ if (!class_exists('WDS_Front_Form')) {
             $class = !$is_valid ? 'callout alert' : '';
             //$name = $this->get_field_name($name, $args['saveAs'], $type);
             $name = isset($args['name']) ? $args['name'] : false;
-            $name = $name . ($type == 'checkbox' || ($type == 'image' && $multiple) ? '[]' : '');
+            $name = $name . ( ($type == 'image' && $multiple) ? '[]' : '');
             //$limit = isset($args['imagesLimit']) ? $args['imagesLimit'] : '999999';
             $is_required = isset($args['required']) && $args['required'] == true ? true : false;
             $required = $is_required == true ? ' <span class="required form-star">*</span>' : '';
@@ -353,9 +357,9 @@ if (!class_exists('WDS_Front_Form')) {
                  * Input types
                  * -----------
                  * button           v rámci některých polí
-                 * checkbox         OK
-                 * checkbox_large   OK
-                 * switch           OK
+                 * checkbox         nefunguje ukládání
+                 * checkbox_large   nefunguje ukládání
+                 * switch           nefunguje ukládání
                  * color            OK
                  * date             OK
                  * datetime-local   OK
@@ -582,16 +586,22 @@ if (!class_exists('WDS_Front_Form')) {
                     if ($type == 'checkbox_large') {
                         $class = 'checkbox-large ' . $class;
                     }
-
-                    if ($label)  {
-                        echo '<label class="checkbox ' . $class . '">';
-                        echo '<input type="checkbox" value="' . $name . '"  name="' . $name . '" ' . $checked . ' ' . $atts . '>';
-                        echo '<span class="checkmark"></span>';
-                        if ($type == 'checkbox_large') echo '<h3>';
-                        echo  $label . $required ;
-                        if ($type == 'checkbox_large') echo '</h3>';
-                        echo '</label>';
-
+                    $options = isset($args['options']) ? $args['options'] : [];
+                    $value = ($this->get_data($name) ? $this->get_data($name) : 0);
+                    if (empty($options)){
+                        $options[$name] = $label;
+                    }
+                    if ($label && $options)  {
+                        foreach ($options as $val => $text) {
+                            $checked = ($value && in_array($val,$value) ? 'checked' : "");
+                            echo '<label class="checkbox ' . $class . '">';
+                            echo '<input type="checkbox" value="' . $val . '"  name="' . $name. '['/*.$val*/ .']' . '" ' . $checked . ' ' . $atts . '>';
+                            echo '<span class="checkmark"></span>';
+                            if ($type == 'checkbox_large') echo '<h3>';
+                            echo  $text . $required ;
+                            if ($type == 'checkbox_large') echo '</h3>';
+                            echo '</label>';
+                        }
                     };
 
                     if (!$is_valid) {
@@ -605,10 +615,11 @@ if (!class_exists('WDS_Front_Form')) {
                     break;
 
                 case 'switch':
-                    $checked = ($value == 1 ? 'checked' : "");
+                    $value = ($this->get_data($name) == 1 ? 0 : 1);
+                    $checked = ($this->get_data($name) == 1 ? 'checked' : "");
                     if ($label)  {
                         echo '<label class="switch">';
-                        echo '<input type="checkbox" value=""  name="' . $name . '" ' . $checked . ' ' . $atts . '>';
+                        echo '<input type="checkbox" value="'.$value.'"  name="' . $name . '" ' . $checked . ' ' . $atts . '>';
                         echo '<span class="slider"></span>';
                         echo '<h3>' . $label . $required . '</h3></label>';
                     };
@@ -642,7 +653,6 @@ if (!class_exists('WDS_Front_Form')) {
                     break;
 
                 case 'range':
-
                     $max = isset($args['max']) ? 'max="' . $args['max'] . '" ' : '';
                     $min = isset($args['min']) ? 'min="' . $args['min'] . '" ' : '';
                     $step = isset($args['step']) ? 'step="' . $args['step'] . '" ' : '';
@@ -650,6 +660,11 @@ if (!class_exists('WDS_Front_Form')) {
                     $unit = isset($args['unit']) ? $args['unit'] : '';
                     $wrap_class = $unit ? 'val-right-large' : 'val-right';
                     $wrap_class = $show_attr == true ? $wrap_class . ' show-attr' : $wrap_class;
+                    // přidání validace a uložení změny jednotek
+                    $validation_data = $this->session->getSession( $this->form_ID.'_validation' );
+                    $unit_value = ( $validation_data[$name.'_unit']['value'] ? $validation_data[$name.'_unit']['value'] : "");
+                    $unit_value = (empty($unit_value) && $this->get_data($name.'_unit') ? $this->get_data($name.'_unit') : $unit_value);
+
 
                         if ($label) echo '<p>' . $label . $required . '</p>';
     
@@ -664,9 +679,9 @@ if (!class_exists('WDS_Front_Form')) {
                         if ($unit) echo '<div class="input-group">';
                         echo '<input class="outval small" type="number" ' . $max . $min . $step . ' value="' . $value . '" source="[name=' . $name . ']">';
                         if (is_array($unit)){
-                            echo '<div class="select-button small"><select>';
+                            echo '<div class="select-button small"><select name="'.$name.'_unit">';
                             foreach ($unit as $unit_key => $unit_name) {
-                                echo '<option value="' . $unit_key . '">' . $unit_name . '</option>';
+                                echo '<option value="' . $unit_key . '" '.($unit_key == $unit_value ? 'selected="selected"' : '').'>' . $unit_name . '</option>';
                             }
                             echo '</select></div>';
                         } else {
@@ -802,6 +817,8 @@ if (!class_exists('WDS_Front_Form')) {
             $this->form_ID = $formID;
             if (isset($inputs['nonce_' . $formID]) && wp_verify_nonce($inputs['nonce_' . $formID], $formID)) {
                 //validace polí
+                //preprint($inputs);
+                //die('test některých polí');
                 if (!$this->validate_fields($inputs, $formID)) {
                     $this->session->addSession($formID . '_save', 'fail');
                     wp_safe_redirect($inputs['_wp_http_referer']);
@@ -812,12 +829,28 @@ if (!class_exists('WDS_Front_Form')) {
                     exit;
                 }
                 $metas = $inputs;
+                $validation_data = $this->session->getSession( $this->form_ID.'_validation' );
+                //preprint($validation_data);
+
+                // Doplnění dat z odškrtnutých checkboxů
+                foreach ($validation_data as $input_name => $input_data) {
+                        if ( isset($input_data['type']) && (
+                            $input_data['type'] == 'checkbox' || 
+                            $input_data['type'] == 'switch' || 
+                            $input_data['type'] == 'checkbox_large' )
+                        ){
+                            if (empty($input_data['value']) ) {
+                                $metas[$input_name] = 0;
+                            }
+                        }
+                }
                 //vyhodit hodnoty, které se nemají uložit
                 if(isset($metas['_wp_http_referer'])) unset($metas['_wp_http_referer']);
                 if(isset($metas['form_id_wds'])) unset($metas['form_id_wds']);
-                if(isset($metas['currenturl'])) unset($metas['currenturl']);
                 if(isset($metas['submit'])) unset($metas['submit']);
                 if(isset($metas['nonce_' . $formID])) unset($metas['nonce_' . $formID]);
+                // preprint($metas);
+                // die();
                 //zde budeme zpracovávat ukládání hodnot
                 if ($metas && !empty($metas)) {
                     foreach ($metas as $meta_key => $meta_value) {
@@ -912,7 +945,7 @@ if (!class_exists('WDS_Front_Form')) {
             }
             $fields_all = $this->fields; // všechny pole formuláře
             $ffv = []; // pole určené k validaci
-//preprint($this->fields);
+            //preprint($this->fields);
             $allvalid = true;
 
             $validated = [];
@@ -1009,11 +1042,25 @@ if (!class_exists('WDS_Front_Form')) {
                         }
                     }
                 }
+                //validate range unit
+                if ($type == 'range') {
+                    $unit = (isset($inputs[$name.'_unit']) ? $inputs[$name.'_unit'] : '');
+                    if (!empty($unit)) {
+                        if (!filter_var($unit, FILTER_VALIDATE_EMAIL)) {
+                            $validated[$name.'_unit'] = [
+                                'value' => $inputs[$name.'_unit'],
+                                'valid' => true,
+                                'msg' => "",
+                            ];
+                        }
+                    }
+                }
 
                 $validated[$name] = [
                     'value' => $value,
                     'valid' => $valid,
                     'msg' => $msg,
+                    'type' => $type
                 ];
             }
             $validated['allvalid'] = $allvalid;

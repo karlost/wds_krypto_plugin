@@ -29,6 +29,7 @@ if (!class_exists('submenuContentWDS')) {
             //$builder = new formsBuilderWDS("test_form_mini");
 
             //$builder->display_form("test_form_mini");
+            //$builder->display_form("test_form_mini_2");
             $builder->display_form("test_form_all");
         }
 

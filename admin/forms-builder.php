@@ -281,16 +281,6 @@ if( ! class_exists( 'formsBuilderWDS' ) )
 						],
 					],
 					[
-						[
-							'type' => 'text',
-							'name' => 'title',
-							'label' => 'test nahoře',
-							'placeholder' => 'test nahoře',
-							'help_text' => 'Definovaný placeholder jiný než label',
-							'floating_label' => true,
-							'saveAs' => 'meta',
-							'required' => true,
-						],
 						'columns' => [
 							[
 								[
@@ -347,17 +337,7 @@ if( ! class_exists( 'formsBuilderWDS' ) )
 									'saveAs' => 'meta',
 								],
 							],
-						],
-						[
-							'type' => 'text',
-							'name' => 'title',
-							'label' => 'test dole',
-							'placeholder' => 'test dole',
-							'help_text' => 'Definovaný placeholder jiný než label',
-							'floating_label' => true,
-							'saveAs' => 'meta',
-							'required' => true,
-						],
+						]
 						
 					],
 					[
@@ -500,33 +480,118 @@ if( ! class_exists( 'formsBuilderWDS' ) )
 						'headline' => 'Nadis formuláře',
 						'description' => 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
 						[
-							'type' => 'hidden',
-							'name' => 'currenturl',
-							'saveAs' => 'meta',
-							'required' => false,
-							'value' => get_permalink()
-						],
-						[
-							'type' => 'info_box',
-							'name' => 'info_box',
-							'headline' => 'Info box',
-							'description' => 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Senectus libero ut lorem ac <a href="#">dictumst phasellus</a> nunc sit. Eu nisi sed viverra id aliquam enim, odio nunc.',
-						],
-						[
-							'type' => 'text',
-							'name' => 'title',
-							'label' => 'Jméno',
-							'saveAs' => 'meta',
-							'required' => true,
-						],
-						[
 							'type' => 'email',
 							'name' => 'email1',
 							'label' => 'E-mail',
 							'floating_label' => true,
 							'saveAs' => 'meta',
 							'required' => true,
+						],
+						/*[
+							'type' => 'range',
+							'name' => 'range2',
+							'label' => 'Výběr hodnoty s danou jednotkou',
+							'description' => 'V tomto výběru je daná jednotkou a zobrazuje se minimální a maximální hodnota',
+							'help_text' => 'Defaultně nastavena hodnota 1250 px',
+							'max' => 2400,
+							'min' => 0,
+							'value' => 1250,
+							'unit' => 'px',
+							'show_attr' => true,
+							'saveAs' => 'meta',
+						],*/
+						[
+							'type' => 'range',
+							'name' => 'range3',
+							'label' => 'Výběr hodnoty s výběrem jednotky',
+							'help_text' => 'Defaultně nastavena hodnota 1250 px',
+							'max' => 2400,
+							'min' => 0,
+							'value' => 1250,
+							'unit' => [
+								'px' => 'px',
+								'%' => '%',
+								'rem' => 'rem',
+								'em' => 'em',
+								'vh' => 'vh',
+								'vw' => 'vw',
+							],
+							'saveAs' => 'meta',
+						],
+						[
+							'type' => 'switch',
+							'name' => 'switch1',
+							'label' => 'Checkbox as switch',
+							'saveAs' => 'meta',
+						],
+						[
+							'type' => 'checkbox',
+							'name' => 'checkbox2',
+							'label' => 'Checkbox Lorem ipsum dolor sit amet',
+							'saveAs' => 'meta',
+						],
+						[
+							'type' => 'checkbox',
+							'name' => 'checkboxMulti',
+							'label' => 'Checkbox Lorem ipsum dolor sit amet',
+							'saveAs' => 'meta',
+							'options' => [
+								'check1' => 'Lorem ipsum dolor sit amet', // label, help text
+								'check2' => 'Lorem ipsum dolor sit amet',
+								'check3' => 'Lorem ipsum dolor sit amet',
+								'check4' => 'Lorem ipsum dolor sit amet',
+		
+							],
 						]
+					],
+				];
+			} else if ($formID == 'test_form_mini_2') {
+				$fields=[
+					[
+						'headline' => 'Nadis formuláře',
+						'description' => 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
+						[
+							'type' => 'email',
+							'name' => 'email2',
+							'label' => 'E-mail',
+							'floating_label' => true,
+							'saveAs' => 'meta',
+							'required' => true,
+						],
+						[
+							'type' => 'range',
+							'name' => 'range',
+							'label' => 'Výběr hodnoty s výběrem jednotky',
+							'help_text' => 'Defaultně nastavena hodnota 1250 px',
+							'max' => 400,
+							'min' => 0,
+							'value' => 250,
+							'unit' => [
+								'px' => 'px',
+								'%' => '%',
+								'rem' => 'rem',
+								'em' => 'em',
+								'vh' => 'vh',
+								'vw' => 'vw',
+							],
+							'saveAs' => 'meta',
+						],
+						[
+							'type' => 'checkbox',
+							'name' => 'checkbox2',
+							'label' => 'Checkbox Lorem ipsum dolor sit amet',
+							'saveAs' => 'meta',
+						],
+						[
+							'type' => 'url',
+							'name' => 'odkaz',
+							'label' => 'Url',
+							'description' => 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Senectus libero ut lorem ac dictumst phasellus nunc sit. Eu nisi sed viverra id aliquam enim, odio nunc.',
+							'help_text' => 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
+							'floating_label' => true,
+							'saveAs' => 'meta',
+							'required' => true,
+						],
 					],
 				];
 			}
