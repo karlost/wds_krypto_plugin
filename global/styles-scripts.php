@@ -10,7 +10,7 @@
 if ( ! defined( 'ABSPATH' ) ) {
   exit;
 }
-class ScriptsStyles extends setupWDS {
+class ScriptsStyles {
 
   /**
    * 
@@ -23,8 +23,6 @@ class ScriptsStyles extends setupWDS {
    */
   public function __construct()
   {
-    parent::__construct();
-
     //scripty
     add_action( 'wp_enqueue_scripts', [$this, 'add_scripts']);
 
@@ -91,3 +89,4 @@ class ScriptsStyles extends setupWDS {
   }
 
 }
+new ScriptsStyles;

@@ -26,6 +26,8 @@ if (!class_exists('WDS_Front_Form')) {
 
             add_action('wp_ajax_wds_frontend_form_dropzone_get_files', [$this, 'get_files_callback'], 10, 1);
             add_action('wp_ajax_nopriv_wds_frontend_form_dropzone_get_files', [$this, 'get_files_callback'], 10, 1);
+            //ukládání metadat do kuponu (licence)
+            add_action('save_post', [$this, 'save_cpt_meta']);
 
             $this->session = new sessionClassWDS;
         }
@@ -50,15 +52,13 @@ if (!class_exists('WDS_Front_Form')) {
             $return = "";
             $query = filter_input_array(INPUT_GET);
 
-?>
+            ?>
             <div class="wrap wds-admin">
-
-                <h1><?php echo esc_html(get_admin_page_title()); ?></h1>
 
                 <?php settings_errors(); ?>
 
                 <div class="row">
-                    <div class="column content">
+                    <div class="content">
 
                         <!-- místo pro taby -->
 
@@ -75,17 +75,6 @@ if (!class_exists('WDS_Front_Form')) {
                                 <?php submit_button(); ?>
 
                             </form>
-                        </div>
-                    </div>
-                    <div class="column sidebar">
-                        <div class="card">
-                            <p><img src="<?php echo WDS_URL ?>assets/img/Logo-Wedesin-CZ.png" alt=""></p>
-                            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Senectus libero ut lorem ac dictumst phasellus nunc sit. Eu nisi sed viverra id aliquam enim, odio nunc.</p>
-                            <p><a href="#" class="button">tlačítko</a></p>
-                        </div>
-                        <div class="card info">
-                            <h3><?php echo file_get_contents(WDS_URL . "assets/icons/info-standard-line.svg"); ?>Info blok</h3>
-                            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Senectus libero ut lorem ac dictumst phasellus nunc sit. Eu nisi sed viverra id aliquam enim, odio nunc.</p>
                         </div>
                     </div>
                 </div>
@@ -1270,6 +1259,67 @@ if (!class_exists('WDS_Front_Form')) {
         $num = strlen($return);
 
         return $num;
+        }
+        /**
+         * Zobrazování formuláře pro cpt
+         *
+         * @param $data - array načtení polí z forms builderu
+         * 
+         * @author Wedesin
+         * @return true/false
+         */ 
+        function get_html_form_cpt($data){
+            global $post;
+            if ($data){
+                ?>
+                <div class="wds-admin">
+                    <div class="form-section">
+                        <?php
+                        foreach ($data as $field) {
+                            if ($field && is_array($field)) {
+                                $type = $field['type'];
+                                $name = $field['name'];
+                                $label = $field['label'];
+                                $value = ($post && isset($post->ID) ? get_post_meta($post->ID, $name, true) : "");
+                                ?>
+                                <div class="form-item">
+                                    <p><label for="<?= $name ?>" class="wds_post_meta_label"><?= $label ?></label></p>
+                                    <?php 
+                                    $this->get_input_html($type, $name, $value,$field); ?>
+                                </div>
+                                <?php
+                                
+
+                            }
+                        }?>
+                    </div>
+                </div>
+                <?php
+            }
+
+        }
+        /**
+         * Ukládání polí do meta v cpt
+         *
+         * 
+         * @author Wedesin
+         * @return true/false
+         */ 
+        function save_cpt_meta(){
+            global $post;
+            if ($post && isset($post->post_type) && !empty($post->post_type)){
+                $builder = new formsBuilderWDS;
+                $all_fields = $builder->get_fields_cpt_form($post->post_type);
+                if (!empty($all_fields)) {
+                    foreach ($all_fields as $field) {
+                        $name = $field['name'];
+                        if ($field && isset($name) && isset($post->ID) && isset($_POST[$name])) {
+                            update_post_meta($post->ID, $name, $_POST[$name]);
+                        }
+                    }
+                }
+
+            }
         }
     }
 
