@@ -14,6 +14,9 @@
 
 /*
 
+1) přidt do pluginu emaily pluf email templatu
+2) přidat do pluginu log
+3) informační bloky vpravo
 3) do admin rootu přidat funkci na tvorbu formulářů
 4) do admini rootu přidat funkci na zpracování formulářů
 
@@ -42,6 +45,10 @@ include_once( WDS_PATH . 'global/helpers.php');
 include_once( WDS_PATH . 'global/styles-scripts.php');  
 include_once( WDS_PATH . 'global/sessions.php'); 
 include_once( WDS_PATH . 'global/cookies.php'); 
+include_once( WDS_PATH . 'global/cookies.php'); 
+include_once( WDS_PATH . 'global/log/log-setup.php'); 
+include_once( WDS_PATH . 'global/log/log-settings.php'); 
+include_once( WDS_PATH . 'global/log/log-functions.php'); 
 
 //add admin page
 include_once( WDS_PATH . 'admin/framework/main-menu.php');  
