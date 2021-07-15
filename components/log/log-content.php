@@ -19,6 +19,7 @@ if( ! class_exists( 'wedesinLogSettings' ) )
             
             //spuštní
             add_action( 'admin_menu',  [$this, 'admin_page_wds_log'] );
+            add_action('wds_plugin_log_tab_content', [$this, 'add_tab'] );
 
             //testování
             add_action( 'init',  [$this, 'test__log'] );
@@ -100,6 +101,10 @@ if( ! class_exists( 'wedesinLogSettings' ) )
                     include_once( 'templates/table-footer.php' );
                 }
             }
+        }
+
+        public function add_tab( ) {
+            echo "sem tu";
         }
 
     }

@@ -1,42 +1,38 @@
 <?php 
 
-if ( ! defined( 'ABSPATH' ) ) {
+//namespace components\log\setup;
 
-  exit;
-
-}
-
-if( ! class_exists( 'logSetupWDS' ) )
-
+if( ! class_exists( 'logSetupWDS') )
 {
 	class logSetupWDS
 	{
 
 		public function __construct()
 		{
-      add_action( 'init',  [$this, 'new_folder_wds_log'] );
-      add_action( 'admin_menu',  [$this, 'admin_page_wds_log'] );
-    }
+            add_action( 'init',  [$this, 'new_folder_wds_log'] );
+            add_action( 'admin_menu',  [$this, 'admin_page_wds_log'] );
+        }
 
 		/**
-     * Přidává stránku s log výpisem do adminu
-     *
-     * @param none
-     * 
-     * @author Wedesin
-     * @return true/false
-     */ 
-      public function admin_page_wds_log() {
-        add_menu_page(
-            __( 'Wedesin Log', TM ),
-            __( 'WDS Log', TM ),
-            'manage_options',
-            'wds-logs',
-            array( $this, 'my_admin_page_contents' ),
-            'dashicons-archive',
-            65
-        );
-    }
+         * Přidává stránku s log výpisem do adminu
+         *
+         * @param none
+         * 
+         * @author Wedesin
+         * @return true/false
+         */ 
+        public function admin_page_wds_log() {
+            add_menu_page(
+                __( 'Wedesin Log', TM ),
+                __( 'WDS Log', TM ),
+                'manage_options',
+                'wds-logs',
+                array( $this, 'my_admin_page_contents' ),
+                'dashicons-archive',
+                65
+            );
+        }
+
     /**
      * Zobrazení hlavní admin stránky v adminu wordpressu
      *
@@ -50,13 +46,19 @@ if( ! class_exists( 'logSetupWDS' ) )
         $tab = isset($_GET['tab']) ? $_GET['tab'] : $default_tab;
         ?>
         <div class="wrap">
-
             <h2><?php echo esc_html( get_admin_page_title() ); ?></h2>
             <nav class="nav-tab-wrapper">
-                <a href="?page=wds-logs" class="nav-tab <?php if($tab===null):?>nav-tab-active<?php endif; ?>">Defaultní lo</a>
+                <a href="?page=wds-logs" class="nav-tab <?php if($tab===null):?>nav-tab-active<?php endif; ?>">
+                    <?= WDS_ID ?>
+                </a>
             </nav>
             <div class="tab-content">
-                <?php switch($tab) :
+                
+                <?php 
+
+                do_action('wds_plugin_log_tab_content');
+                
+                /*switch($tab) :
                 default:
                     if( class_exists( 'wedesinLog' ) ) {
                         $log = new wedesinLog;
@@ -65,7 +67,7 @@ if( ! class_exists( 'logSetupWDS' ) )
                         echo '<p>žádný log k dispozici</p>';
                     }
                     break;
-                endswitch; ?>
+                endswitch; */?>
             </div>
 
         </div>

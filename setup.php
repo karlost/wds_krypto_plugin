@@ -41,14 +41,14 @@ define( 'WDS_ID', 'template' );
 ********************************/
 
 // Include utility functions
-include_once( WDS_PATH . 'global/helpers.php'); 
-include_once( WDS_PATH . 'global/styles-scripts.php');  
-include_once( WDS_PATH . 'global/sessions.php'); 
-include_once( WDS_PATH . 'global/cookies.php'); 
-include_once( WDS_PATH . 'global/cookies.php'); 
-include_once( WDS_PATH . 'global/log/log-setup.php'); 
-include_once( WDS_PATH . 'global/log/log-settings.php'); 
-include_once( WDS_PATH . 'global/log/log-functions.php'); 
+include_once( WDS_PATH . 'components/helpers.php'); 
+include_once( WDS_PATH . 'components/styles-scripts.php');  
+include_once( WDS_PATH . 'components/sessions.php'); 
+include_once( WDS_PATH . 'components/cookies.php'); 
+include_once( WDS_PATH . 'components/cookies.php'); 
+include_once( WDS_PATH . 'components/log/log-setup.php'); 
+include_once( WDS_PATH . 'components/log/log-content.php'); 
+include_once( WDS_PATH . 'components/log/log-functions.php'); 
 
 //add admin page
 include_once( WDS_PATH . 'admin/framework/main-menu.php');  

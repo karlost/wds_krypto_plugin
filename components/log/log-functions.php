@@ -53,8 +53,8 @@ if( ! class_exists( 'wedesinLog' ) )
      * @return true/false
      */ 
     public function get_log_dir() { 
-        $settings = new wedesinLogSettings;
-        return $settings->get_wds_log_folder();
+        /*$settings = new wedesinLogSettings;
+        return $settings->get_wds_log_folder();*/
     }
 
     /**
@@ -80,8 +80,8 @@ if( ! class_exists( 'wedesinLog' ) )
      * @return true/false
      */ 
     public function is_log_file_exists() { 
-      $settings = new wedesinLogSettings;
-      return file_exists($this->LogFile);
+      /*$settings = new wedesinLogSettings;
+      return file_exists($this->LogFile);*/
     }
 
     /****************************************************************************************
@@ -99,10 +99,10 @@ if( ! class_exists( 'wedesinLog' ) )
      * @return folder address
      */ 
     public function get_user_log_dir() { 
-      $settings = new wedesinLogSettings;
+      /*$settings = new wedesinLogSettings;
       $log = $settings->get_wds_log_folder();
       $userLog = $log . '/'.WDS_ID;
-      return $userLog;
+      return $userLog;*/
     }
 
 
