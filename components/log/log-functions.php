@@ -16,10 +16,64 @@ if( ! class_exists( 'wedesinLog' ) )
     
     public $LogFile;
 		//hook functions
-
 		public function __construct()
 		{
-      $this->LogFile = $this->get_log_dir() .'/'. WDS_ID . '/' . WDS_ID .'.log';
+
+      $settings = new wedesinLogSettings;
+      $this->LogFile = $settings->get_log_dir() .'/'. WDS_ID . '/' . WDS_ID .'.log';
+
+      //testování
+      add_action( 'init',  [$this, 'test__log'] );
+      add_action( 'init',  [$this, 'test__user_log'] );
+
+    }
+
+
+
+    /**
+     * Zapíše zprávu do logu
+     *
+     * @param none
+     * 
+     * @author Wedesin
+     * @return true/false
+     */ 
+    public function test__log() {
+      if ( isset($_GET['test_log']) && $_GET['test_log'] == 1  ) {
+        $log = new wedesinLog;
+        $log->add_log(            
+            'ahoj',
+            'testuji si tu uložení',
+            111,
+            get_current_user_id(),
+            'blabla'
+        );
+
+        die('tu');
+      }
+    }
+
+    /**
+     * Zapíše zprávu do logu
+     *
+     * @param none
+     * 
+     * @author Wedesin
+     * @return true/false
+     */ 
+    public function test__user_log() {
+      if ( isset($_GET['test_user_log']) && $_GET['test_user_log'] == 1  ) {
+        $log = new wedesinLog;
+        $log->add_user_log(            
+            'ahoj',
+            'testuji si tu uložení',
+            111,
+            get_current_user_id(),
+            'blabla', 
+            'šestý parametr'
+        );
+        die('tu');
+      }
     }
 
     /**
@@ -44,45 +98,9 @@ if( ! class_exists( 'wedesinLog' ) )
         fwrite($file, $date . " | " . $event . " | " . $message . " | " . $postID. " | " .$userID. " | " .$note . "\n". ' || '); 
         fclose($file);
     }
-    /**
-     * Vrátí složku pro log
-     *
-     * @param none
-     * 
-     * @author Wedesin
-     * @return true/false
-     */ 
-    public function get_log_dir() { 
-        /*$settings = new wedesinLogSettings;
-        return $settings->get_wds_log_folder();*/
-    }
+    
 
-    /**
-     * Výpis logu do admina 
-     *
-     * @param none
-     * 
-     * @author Wedesin
-     * @return true/false
-     */ 
-    public function the_log_excerpt_admin() { 
-      if($this->is_log_file_exists()) {
-        include_once( 'templates/view-log.php' );
-      }
-    }
 
-    /**
-     * Zkontroluje, jestli existuje soubor s logem
-     *
-     * @param none
-     * 
-     * @author Wedesin
-     * @return true/false
-     */ 
-    public function is_log_file_exists() { 
-      /*$settings = new wedesinLogSettings;
-      return file_exists($this->LogFile);*/
-    }
 
     /****************************************************************************************
      *                                                                                      *
@@ -99,10 +117,10 @@ if( ! class_exists( 'wedesinLog' ) )
      * @return folder address
      */ 
     public function get_user_log_dir() { 
-      /*$settings = new wedesinLogSettings;
+      $settings = new wedesinLogSettings;
       $log = $settings->get_wds_log_folder();
       $userLog = $log . '/'.WDS_ID;
-      return $userLog;*/
+      return $userLog;
     }
 
 
@@ -138,6 +156,7 @@ if( ! class_exists( 'wedesinLog' ) )
       if($filename)  
         return $filename;
     }
+
     /**
     * Zapíše zprávu do logu uživatele
     *
@@ -167,4 +186,3 @@ if( ! class_exists( 'wedesinLog' ) )
 	new wedesinLog;
 
 }
-?>

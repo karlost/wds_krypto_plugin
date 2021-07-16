@@ -9,152 +9,157 @@
  *
  * @link    https://github.com/Lablnet/PHP-Cookie-manipulation-Class
  */
-class CookiesWDS
+
+if( ! class_exists( 'CookiesWDS' ) )
 {
-    private $name; // name of cookie
 
-    private $value; // value of cookie
-
-    private $expire; // expire of cookie
-
-    private $domain; // domain of cookie
-
-    private $path; // path of cookie
-
-    private $secure; // secure of cookie
-
-    private $httponly; // httponly of cookie
-
-    /**
-     * __Construct set the default values.
-     *
-     * @return void
-     */
-    public function __construct()
+    class CookiesWDS
     {
-        $this->expire = 0;
+        private $name; // name of cookie
 
-        $this->domain = '/';
+        private $value; // value of cookie
 
-        $this->path = '/';
+        private $expire; // expire of cookie
 
-        $this->secure = true;
+        private $domain; // domain of cookie
 
-        $this->httponly = false;
-    }
+        private $path; // path of cookie
 
-    /**
-     * Set the cookie value.
-     *
-     * @param
-     * $name of cookie
-     * $value of cookie
-     * $expire of cookie
-     * $domain of cookie
-     * $secure of cookie
-     * $httponly of cookie
-     *
-     * @return bool
-     */
-    public function Set($params)
-    {
-        if (is_array($params)) {
-            if (preg_match("/[=,; \t\r\n\013\014]/", $params['name'])) {
-                $this->name = rand(1, 25);
-            } else {
-                $this->name = $params['name'];
-            }
+        private $secure; // secure of cookie
 
-            if ($params['expire'] instanceof \DateTime) {
-                $expire = $expire->format('U');
-            } elseif (!is_numeric($params['expire'])) {
-                $expire = strtotime($params['expire']);
-            } else {
-                $this->expire = $params['expire'];
-            }
+        private $httponly; // httponly of cookie
 
-            $this->value = $params['value'];
+        /**
+         * __Construct set the default values.
+         *
+         * @return void
+         */
+        public function __construct()
+        {
+            $this->expire = 0;
 
-            //$this->domain = empty($params['domain']) ? $this->domain : $params['domain']; 
+            $this->domain = '/';
 
-            $this->path = empty($path) ? $this->path : $params['path'];
+            $this->path = '/';
 
-            $this->secure = empty($params['secure']) ? $this->secure : $params['secure']; 
+            $this->secure = true;
 
-            //$this->httponly  = empty($params['httponly']) ? $this->httponly : $params['httponly']; 
-
-            //set the cookie
-            setcookie($this->name,  $this->value, $this->expire , $this->path /*, $this->domain,  $this->httponly*/);
-
-            return true;
-        } else {
-            return false;
+            $this->httponly = false;
         }
-    }
 
-    /**
-     * Check if cookie set or not.
-     *
-     * @param  $name of cookie
-     *
-     * @return bool
-     */
-    public function IsCookie($name)
-    {
-        if (isset($name) && !empty($name)) {
-            if (isset($_COOKIE[$name])) {
-                return true;
-            } else {
-                return false;
-            }
-        } else {
-            return false;
-        }
-    }
+        /**
+         * Set the cookie value.
+         *
+         * @param
+         * $name of cookie
+         * $value of cookie
+         * $expire of cookie
+         * $domain of cookie
+         * $secure of cookie
+         * $httponly of cookie
+         *
+         * @return bool
+         */
+        public function Set($params)
+        {
+            if (is_array($params)) {
+                if (preg_match("/[=,; \t\r\n\013\014]/", $params['name'])) {
+                    $this->name = rand(1, 25);
+                } else {
+                    $this->name = $params['name'];
+                }
 
-    /**
-     * Get the cookie value.
-     *
-     * @param  $name of cookie
-     *
-     * @return string | boolean
-     */
-    public function Get($name)
-    {
-        if (isset($name) && !empty($name)) {
-            if (isset($_COOKIE[$name])) {
-                return $_COOKIE[$name];
-            } else {
-                return false;
-            }
-        } else {
-            return false;
-        }
-    }
+                if ($params['expire'] instanceof \DateTime) {
+                    $expire = $expire->format('U');
+                } elseif (!is_numeric($params['expire'])) {
+                    $expire = strtotime($params['expire']);
+                } else {
+                    $this->expire = $params['expire'];
+                }
 
-    /**
-     * Delete the cookie.
-     *
-     * @param  $name of cookie
-     *
-     * @return bool
-     */
-    public function Delete($name)
-    {
-        if (isset($name) && !empty($name)) {
-            if (self::IsCookie($name)) {
-                $this->name = $name;
+                $this->value = $params['value'];
 
-                $this->value = self::Get($name);
+                //$this->domain = empty($params['domain']) ? $this->domain : $params['domain']; 
 
-                setcookie($this->name, $this->value, time() - 3600, $this->path );
+                $this->path = empty($path) ? $this->path : $params['path'];
+
+                $this->secure = empty($params['secure']) ? $this->secure : $params['secure']; 
+
+                //$this->httponly  = empty($params['httponly']) ? $this->httponly : $params['httponly']; 
+
+                //set the cookie
+                setcookie($this->name,  $this->value, $this->expire , $this->path /*, $this->domain,  $this->httponly*/);
 
                 return true;
             } else {
                 return false;
             }
-        } else {
-            return false;
+        }
+
+        /**
+         * Check if cookie set or not.
+         *
+         * @param  $name of cookie
+         *
+         * @return bool
+         */
+        public function IsCookie($name)
+        {
+            if (isset($name) && !empty($name)) {
+                if (isset($_COOKIE[$name])) {
+                    return true;
+                } else {
+                    return false;
+                }
+            } else {
+                return false;
+            }
+        }
+
+        /**
+         * Get the cookie value.
+         *
+         * @param  $name of cookie
+         *
+         * @return string | boolean
+         */
+        public function Get($name)
+        {
+            if (isset($name) && !empty($name)) {
+                if (isset($_COOKIE[$name])) {
+                    return $_COOKIE[$name];
+                } else {
+                    return false;
+                }
+            } else {
+                return false;
+            }
+        }
+
+        /**
+         * Delete the cookie.
+         *
+         * @param  $name of cookie
+         *
+         * @return bool
+         */
+        public function Delete($name)
+        {
+            if (isset($name) && !empty($name)) {
+                if (self::IsCookie($name)) {
+                    $this->name = $name;
+
+                    $this->value = self::Get($name);
+
+                    setcookie($this->name, $this->value, time() - 3600, $this->path );
+
+                    return true;
+                } else {
+                    return false;
+                }
+            } else {
+                return false;
+            }
         }
     }
 }
