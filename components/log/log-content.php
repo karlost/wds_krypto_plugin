@@ -18,7 +18,7 @@ if( ! class_exists( 'wedesinLogSettings' ) )
 		{
             
             //spuštní
-            add_action( 'admin_menu',  [$this, 'admin_page_wds_log'] );
+            //add_action( 'admin_menu',  [$this, 'admin_page_wds_log'] );
             add_action('wds_plugin_log_tab_content', [$this, 'add_tab'] );
 
             //testování
