@@ -52,6 +52,7 @@ include_once( WDS_PATH . 'admin/framework/main-menu.php');
 include_once( WDS_PATH . 'admin/sub-menu.php');  
 include_once( WDS_PATH . 'admin/framework/forms-builder.php'); 
 include_once( WDS_PATH . 'admin/framework/forms-core.php');  
+include_once( WDS_PATH . 'admin/framework/emails.php');  
 include_once( WDS_PATH . 'admin/form_fields.php'); 
 
 //admin views
