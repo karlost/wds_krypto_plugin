@@ -6,11 +6,9 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 }
 
-if( ! class_exists( 'mainMenu' ) )
-
+if( ! class_exists( 'mainMenuWDS' ) )
 {
     class mainMenuWDS
-
 	{
 		//hook functions
 		public function __construct()
@@ -102,5 +100,4 @@ if( ! class_exists( 'mainMenu' ) )
 
     }
 	new mainMenuWDS;
-
 }

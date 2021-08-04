@@ -29,15 +29,15 @@ if ( ! defined( 'ABSPATH' ) ) {
     exit;
 }
 
+use components\log\wedesinLogSettings;
+
 /*******************************
 /           DEFINE             *
 ********************************/
+
 //definice
 define( 'WDS_PATH', plugin_dir_path( __FILE__ ) );
 define( 'WDS_URL', plugin_dir_url( __FILE__ ) );
-//definujeme jméno pro lokalizaci
-define( 'TM', 'wds' );
-//definujeme ID pluginu ve struktuře našich pluginů
 define( 'WDS_ID', 'template' );
 
 /*******************************
@@ -49,10 +49,7 @@ include_once( WDS_PATH . 'components/helpers.php');
 include_once( WDS_PATH . 'components/styles-scripts.php');  
 include_once( WDS_PATH . 'components/sessions.php'); 
 include_once( WDS_PATH . 'components/cookies.php'); 
-include_once( WDS_PATH . 'components/cookies.php'); 
 include_once( WDS_PATH . 'components/log/log-setup.php'); 
-include_once( WDS_PATH . 'components/log/log-content.php'); 
-include_once( WDS_PATH . 'components/log/log-functions.php'); 
 
 //add admin page
 include_once( WDS_PATH . 'admin/framework/main-menu.php');  
@@ -65,3 +62,6 @@ include_once( WDS_PATH . 'admin/form_fields.php');
 //admin views
 include_once( WDS_PATH . 'admin/view/main-menu.php'); 
 include_once( WDS_PATH . 'admin/view/submenu-content.php'); 
+
+//setup log
+new wedesinLogSettings;

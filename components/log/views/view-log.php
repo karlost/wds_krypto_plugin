@@ -1,6 +1,8 @@
+<?php 
+use components\log2\wedesinLogSettings;
+?>
+
 <div class="wrap">
-	<h2><?php echo esc_html( get_admin_page_title() ); ?></h2>
-    <div style="clear:both;"></div>  
     <div class="col-12">
         <div class="box-info">
             <div class="box-header">
