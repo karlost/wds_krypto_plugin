@@ -21,7 +21,7 @@
 4) do admini rootu přidat funkci na zpracování formulářů
 
 Při založení nového pluginu je vždy potřeba:
-1. Změnit všechny define názvy
+1. Změnit všechny define názvy - TM_PLUGSEC musí zůstat
 2.Přejmenovat defaultní classy
 3. namespace
 */
@@ -29,39 +29,37 @@ if ( ! defined( 'ABSPATH' ) ) {
     exit;
 }
 
-use components\log\wedesinLogSettings;
 
 /*******************************
 /           DEFINE             *
 ********************************/
 
 //definice
-define( 'WDS_PATH', plugin_dir_path( __FILE__ ) );
-define( 'WDS_URL', plugin_dir_url( __FILE__ ) );
-define( 'WDS_ID', 'template' );
+define( 'TM_PLUGSEC', 'wds_plugins' );
+define( 'WDS_PATHSEC', plugin_dir_path( __FILE__ ) );
+define( 'WDS_URLSEC', plugin_dir_url( __FILE__ ) );
+define( 'WDS_IDSEC', 'template' );
 
 /*******************************
 /       INCLUDE PARTS          *
 ********************************/
-
-// Include utility functions
-include_once( WDS_PATH . 'components/helpers.php'); 
-include_once( WDS_PATH . 'components/styles-scripts.php');  
-include_once( WDS_PATH . 'components/sessions.php'); 
-include_once( WDS_PATH . 'components/cookies.php'); 
-include_once( WDS_PATH . 'components/log/log-setup.php'); 
+//framework
+include_once( WDS_PATHSEC . 'framework/styles-scripts.php');  
+include_once( WDS_PATHSEC . 'framework/main-menu.php');  
+include_once( WDS_PATHSEC . 'framework/log/log-setup.php');  
+include_once( WDS_PATHSEC . 'framework/forms-builder.php'); 
+include_once( WDS_PATHSEC . 'framework/sessions.php'); 
+include_once( WDS_PATHSEC . 'framework/cookies.php'); 
+include_once( WDS_PATHSEC . 'framework/forms-core.php');
+include_once( WDS_PATHSEC . 'framework/helpers.php'); 
+include_once( WDS_PATHSEC . 'framework/forms-core.php');  
+//include_once( WDS_PATHSEC . 'framework/emails.php'); 
 
 //add admin page
-include_once( WDS_PATH . 'admin/framework/main-menu.php');  
-include_once( WDS_PATH . 'admin/sub-menu.php');  
-include_once( WDS_PATH . 'admin/framework/forms-builder.php'); 
-include_once( WDS_PATH . 'admin/framework/forms-core.php');  
-//include_once( WDS_PATH . 'components/emails.php');  
-include_once( WDS_PATH . 'admin/form_fields.php'); 
+include_once( WDS_PATHSEC . 'admin/sub-menu.php');  
+include_once( WDS_PATHSEC . 'admin/form_fields.php'); 
+include_once( WDS_PATHSEC . 'admin/view/main-menu.php'); 
+include_once( WDS_PATHSEC . 'admin/view/submenu-content.php'); 
 
-//admin views
-include_once( WDS_PATH . 'admin/view/main-menu.php'); 
-include_once( WDS_PATH . 'admin/view/submenu-content.php'); 
-
-//setup log
-new wedesinLogSettings;
+// Include utility functions
+//include_once( WDS_PATHSEC . 'components/email-content.php'); 

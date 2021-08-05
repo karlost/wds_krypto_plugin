@@ -28,8 +28,8 @@ if( ! class_exists( 'mainMenuWDS' ) )
 
             if (!isset( $GLOBALS['admin_page_hooks']['wds-plugins']) || empty( $GLOBALS['admin_page_hooks']['wds-plugins'] ) ) {
                 add_menu_page(
-                    __( 'WDS Plugins', TM ),
-                    __( 'WDS Plugins', TM ),
+                    __( 'WDS Plugins', TM_PLUGSEC ),
+                    __( 'WDS Plugins', TM_PLUGSEC ),
                     'manage_options',
                     'wds-plugins',
                     array( $this, 'my_admin_page_contents' ),
@@ -39,8 +39,8 @@ if( ! class_exists( 'mainMenuWDS' ) )
         
             }
             
+            
         }
-
 
         /**
          * Zobrazení hlavní admin stránky v adminu wordpressu
@@ -90,7 +90,6 @@ if( ! class_exists( 'mainMenuWDS' ) )
                         } ?>
                     </ul>
                     <?php
-
                 }
 
                 ?>

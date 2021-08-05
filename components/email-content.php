@@ -40,6 +40,3 @@ if( ! class_exists( 'sendEmailContentWDS' ) )
 	}
 	
 }
-new sendEmailContentWDS;
-
-?>

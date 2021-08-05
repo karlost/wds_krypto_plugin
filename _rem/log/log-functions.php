@@ -20,7 +20,7 @@ if( ! class_exists( 'wedesinLog' ) )
 		{
 
       $settings = new wedesinLogSettings;
-      $this->LogFile = $settings->get_log_dir() .'/'. WDS_ID . '/' . WDS_ID .'.log';
+      $this->LogFile = $settings->get_log_dir() .'/'. WDS_IDSEC . '/' . WDS_IDSEC .'.log';
 
       //testování
       add_action( 'init',  [$this, 'test__log'] );
@@ -119,7 +119,7 @@ if( ! class_exists( 'wedesinLog' ) )
     public function get_user_log_dir() { 
       $settings = new wedesinLogSettings;
       $log = $settings->get_wds_log_folder();
-      $userLog = $log . '/'.WDS_ID;
+      $userLog = $log . '/'.WDS_IDSEC;
       return $userLog;
     }
 

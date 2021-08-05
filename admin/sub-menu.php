@@ -1,5 +1,5 @@
 <?php 
-
+namespace pluginslug\admin\submenu;
 if ( ! defined( 'ABSPATH' ) ) {
 
   exit;
@@ -43,16 +43,8 @@ if( ! class_exists( 'subMenuWDS' ) )
             $submenus = [
                 [
                     'wds-plugins',                              
-                    __( 'WDS Plugins', TM ),                    
-                    __('Testovací formulář', TM),               
-                    'manage_options',                           
-                    'test-form',                              
-                    [$subcontent, 'form_page_contents'],          
-                ],
-                [
-                    'wds-plugins',                              
-                    __( 'Vývoj', TM ),                    
-                    __('Vývoj', TM),               
+                    __( 'Vývoj', TM_PLUGSEC ),                    
+                    __('Vývoj', TM_PLUGSEC),               
                     'manage_options',                           
                     'wds_vyvoj_slug',                              
                     [$subcontent, 'my_admin_page_contents'],          

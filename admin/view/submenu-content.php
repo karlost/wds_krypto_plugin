@@ -1,13 +1,12 @@
 <?php
-
+namespace pluginslug\admin\submenu;
 if (!defined('ABSPATH')) {
 
     exit;
 }
 
-
 if (!class_exists('submenuContentWDS')) {
-    class submenuContentWDS extends subMenuWDS
+    class submenuContentWDS
     {
         //hook functions
         public function __construct()
@@ -42,7 +41,8 @@ if (!class_exists('submenuContentWDS')) {
          * @return true/false
          */
         function my_admin_page_contents()
-        {
+        {   
+
             //Získat aktivní tab z parametru $_GET 
             $default_tab = null;
             $tab = isset($_GET['tab']) ? $_GET['tab'] : $default_tab; ?>
@@ -51,7 +51,6 @@ if (!class_exists('submenuContentWDS')) {
                 <h1><?php echo esc_html(get_admin_page_title()); ?></h1>
 
                 <?php settings_errors(); ?>
-
                 <div class="notice notice-info wds-notice is-dismissible">
                     <a href="#" class="button right">tlačítko</a>
                     <h3>Info blok</h3>
@@ -83,9 +82,9 @@ if (!class_exists('submenuContentWDS')) {
                 <div class="row">
                     <div class="column content">
                         <nav class="nav-tab-wrapper">
-                            <a href="?page=wds_vyvoj_slug" class="nav-tab <?php if ($tab === null) : ?>nav-tab-active<?php endif; ?>"> <?php echo file_get_contents(WDS_URL . "assets/icons/home-line.svg"); ?> Default Tab</a>
-                            <a href="?page=wds_vyvoj_slug&tab=settings" class="nav-tab <?php if ($tab === 'settings') : ?>nav-tab-active<?php endif; ?>"><?php echo file_get_contents(WDS_URL . "assets/icons/slider-line.svg"); ?>Settings</a>
-                            <a href="?page=wds_vyvoj_slug&tab=tools" class="nav-tab <?php if ($tab === 'tools') : ?>nav-tab-active<?php endif; ?>"><?php echo file_get_contents(WDS_URL . "assets/icons/settings-line.svg"); ?>Tools</a>
+                            <a href="?page=wds_vyvoj_slug" class="nav-tab <?php if ($tab === null) : ?>nav-tab-active<?php endif; ?>"> <?php echo file_get_contents(WDS_URLSEC . "assets/icons/home-line.svg"); ?> Default Tab</a>
+                            <a href="?page=wds_vyvoj_slug&tab=settings" class="nav-tab <?php if ($tab === 'settings') : ?>nav-tab-active<?php endif; ?>"><?php echo file_get_contents(WDS_URLSEC . "assets/icons/slider-line.svg"); ?>Settings</a>
+                            <a href="?page=wds_vyvoj_slug&tab=tools" class="nav-tab <?php if ($tab === 'tools') : ?>nav-tab-active<?php endif; ?>"><?php echo file_get_contents(WDS_URLSEC . "assets/icons/settings-line.svg"); ?>Tools</a>
                         </nav>
                         <div class="content-box">
                             <?php switch ($tab):
@@ -381,7 +380,7 @@ if (!class_exists('submenuContentWDS')) {
                                                 <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Senectus libero ut lorem ac dictumst phasellus nunc sit. Eu nisi sed viverra id aliquam enim, odio nunc.</p>
 
                                                 <div class="input-group">
-                                                    <span class="input-group-label"><?php echo file_get_contents(WDS_URL . "assets/icons/link-line.svg"); ?></span>
+                                                    <span class="input-group-label"><?php echo file_get_contents(WDS_URLSEC . "assets/icons/link-line.svg"); ?></span>
                                                     <span class="floating-label">
                                                         <input type="url" name="url" id="url" placeholder="Lorem ipsum">
                                                         <label for="url" class="">Lorem ipsum</label>
@@ -406,7 +405,7 @@ if (!class_exists('submenuContentWDS')) {
                                             </div>
                                             <div class="form-item">
                                                 <div class="info-block">
-                                                    <span class="icon"><?php echo file_get_contents(WDS_URL . "assets/icons/info-standard-line.svg"); ?></span>
+                                                    <span class="icon"><?php echo file_get_contents(WDS_URLSEC . "assets/icons/info-standard-line.svg"); ?></span>
                                                     <h3>Info blok</h3>
                                                     <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Senectus libero ut lorem ac <a href="#">dictumst phasellus</a> nunc sit. Eu nisi sed viverra id aliquam enim, odio nunc.</p>
                                                 </div>
@@ -426,19 +425,19 @@ if (!class_exists('submenuContentWDS')) {
 
 
                                                 <div class="input-group">
-                                                    <span class="input-group-label"><?php echo file_get_contents(WDS_URL . "assets/icons/link-line.svg"); ?></span>
+                                                    <span class="input-group-label"><?php echo file_get_contents(WDS_URLSEC . "assets/icons/link-line.svg"); ?></span>
                                                     <span class="floating-label">
                                                         <input type="url" name="image_path" id="image_path" placeholder="Lorem ipsum">
                                                         <label for="url" class="">Lorem ipsum</label>
                                                     </span>
-                                                    <a href="#" class="button"><?php echo file_get_contents(WDS_URL . "assets/icons/upload-cloud-line.svg"); ?> Nahrát</a>
+                                                    <a href="#" class="button"><?php echo file_get_contents(WDS_URLSEC . "assets/icons/upload-cloud-line.svg"); ?> Nahrát</a>
 
                                                 </div>
 
                                                 <p>
                                                 <div class=upload-img-preview>
                                                     <img src="https://via.placeholder.com/300x200" width="300" height="200" alt="placeholder image">
-                                                    <a href="#" class="button white icon"><?php echo file_get_contents(WDS_URL . "assets/icons/trash-line.svg"); ?> Odstranit</a>
+                                                    <a href="#" class="button white icon"><?php echo file_get_contents(WDS_URLSEC . "assets/icons/trash-line.svg"); ?> Odstranit</a>
                                                 </div>
                                                 </p>
                                             </div>
@@ -457,7 +456,7 @@ if (!class_exists('submenuContentWDS')) {
 
 
                                                 <div class="input-group">
-                                                    <span class="input-group-label"><?php echo file_get_contents(WDS_URL . "assets/icons/calendar-line.svg"); ?></span>
+                                                    <span class="input-group-label"><?php echo file_get_contents(WDS_URLSEC . "assets/icons/calendar-line.svg"); ?></span>
                                                     <span class="floating-label">
                                                         <input type="date" name="date" id="date" placeholder="Lorem ipsum">
                                                         <label for="date" class="">Lorem ipsum</label>
@@ -468,7 +467,7 @@ if (!class_exists('submenuContentWDS')) {
 
                                             <div class="form-item">
                                                 <div class="info-block warning">
-                                                    <span class="icon"><?php echo file_get_contents(WDS_URL . "assets/icons/warning-standard-line.svg"); ?></span>
+                                                    <span class="icon"><?php echo file_get_contents(WDS_URLSEC . "assets/icons/warning-standard-line.svg"); ?></span>
                                                     <h3>Info blok warning</h3>
                                                     <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Senectus libero ut lorem ac <a href="#">dictumst phasellus</a> nunc sit. Eu nisi sed viverra id aliquam enim, odio nunc.</p>
                                                 </div>
@@ -584,12 +583,12 @@ if (!class_exists('submenuContentWDS')) {
                     </div>
                     <div class="column sidebar">
                         <div class="card">
-                            <p><img src="<?php echo WDS_URL ?>assets/img/Logo-Wedesin-CZ.png" alt=""></p>
+                            <p><img src="<?php echo WDS_URLSEC ?>assets/img/Logo-Wedesin-CZ.png" alt=""></p>
                             <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Senectus libero ut lorem ac dictumst phasellus nunc sit. Eu nisi sed viverra id aliquam enim, odio nunc.</p>
                             <p><a href="#" class="button">tlačítko</a></p>
                         </div>
                         <div class="card info">
-                            <h3><?php echo file_get_contents(WDS_URL . "assets/icons/info-standard-line.svg"); ?>Info blok</h3>
+                            <h3><?php echo file_get_contents(WDS_URLSEC . "assets/icons/info-standard-line.svg"); ?>Info blok</h3>
                             <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Senectus libero ut lorem ac dictumst phasellus nunc sit. Eu nisi sed viverra id aliquam enim, odio nunc.</p>
                         </div>
                     </div>
