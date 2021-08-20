@@ -554,6 +554,76 @@ if( ! class_exists( 'thisPluginField' ) )
 						],
 					],
 				];
+			} else if ($formID == 'emails_settings') {
+				$fields=[
+					[
+						'headline' => 'Nastavení emailů',
+						'description' => 'Pro správné používání emailů je potřeba přizpůsobit jejich vzhled a nastavení.',
+						[
+							'type' => 'switch',
+							'name' => 'switch',
+							'label' => 'Aktivace emailů',
+							'description' => 'Zaškrtnutí tlačítka aktivuje odesílání emailů',
+							'saveAs' => 'meta',
+						],
+					],
+					[           
+                        'headline' => 'Nastavení vzhledu emailu',     
+						'columns' => [   
+							[
+								[
+									'type' => 'color',
+									'name' => 'footer_bg_color',
+									'label' => 'Barva pozadí zápatí',
+									'help_text' => 'Vyberte si barvu, kterou bude mít zápatí emailů',
+									'value' => '#0a0a0a', // rgba(30,30,30,0.64)
+									'saveAs' => 'meta',
+									'required' => true,
+								]
+							],
+							[
+								[
+									'type' => 'color',
+									'name' => 'footer_color',
+									'label' => 'Barva textu zápatí',
+									'help_text' => 'Vyberte si barvu, kterou bude mít text  v zápatí emailů',
+									'value' => '#ff00dd', // rgba(30,30,30,0.64)
+									'saveAs' => 'meta',
+									'required' => true,
+								]
+							]
+						],
+                        [
+                            'type' => 'image',
+                            'name' => 'header_logo',
+                            'label' => 'Logo do hlavičky emailu',
+                            'description' => 'Chcete-li vložit do emailu své logo, zde ho nahrajte',
+                            'help_text' => 'Chcete-li vložit do emailu své logo, zde ho nahrajte. Nahrávejte ve formátu jpg, nebo png o šířce alespoň 200px',
+                            'value' => '',
+                            'floating_label' => true,
+                            'saveAs' => 'meta'
+                        ],     
+                    ],
+					[           
+                        'headline' => 'Nastavení textace jednotlivých emailů',     
+						[
+                            'type' => 'editor',
+                            'name' => 'mail_text_license_wds',
+                            'label' => 'Text emailu',
+                            'description' => 'Text emailu',
+                            'help_text' => 'Pomocný text pro editor',
+                            'floating_label' => true,
+                            'saveAs' => 'meta',
+                        ],
+						[
+                            'type' => 'text',
+                            'name' => 'license_email_subject',
+                            'saveAs' => 'meta',
+                            'label' => 'Předmět emailu',
+                            'help_text' => 'Vyplňte předmět, který má být uvedem v emailu s odeslanou licencí',
+                        ]
+					]
+				];
 			}
 			return $fields;
         

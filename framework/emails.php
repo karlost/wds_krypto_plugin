@@ -23,21 +23,23 @@ if( ! class_exists( 'WdsSendEmail' ) )
       private $lineHeight;
       private $fontFamily;
       private $buttonColor;
+      private $settings;
   
-      public function __construct(){
+      public function __construct($settings = []){
         add_filter( 'wp_mail', [$this, 'change_headers'] );
         add_action( 'init', [$this,'email_test'] );
-        $this->settings_css();
+        $this->settings_css($settings);
       }
-      public function settings_css() {
-        $this->background = '#414b55';
+      public function settings_css($settings = []) {
+        $this->background = (isset($settings['footer_bg_color']) ? $settings['footer_bg_color'] : '#414b55' );
         $this->fontColorText = '#151B24';
         $this->fontColorLink = '#03acff';
-        $this->fontColorFooter = '#03acff';
+        $this->fontColorFooter = (isset($settings['footer_bg_color']) ? $settings['footer_color'] : '#03acff' );
         $this->fontSize = '12px';
         $this->lineHeight = '16px';
         $this->fontFamily = 'Arial, sans-serif';
         $this->buttonColor = array('bg'=> '#B0EA91!important', 'color'=>'#151B24', 'hover'=> '#ffffff!important');
+        $this->settings = $settings;
       }
       public function default_font_style(){
         $css = 'font-size: '.$this->fontSize.'; 
@@ -49,7 +51,7 @@ if( ! class_exists( 'WdsSendEmail' ) )
       public function text_settings(){
         $text = array(
           'footer_copy'=> '© '. date('Y') .' TIS partners, s.r.o',
-          'footer_text'=> 'Tento email byl odeslán z webu '. get_home_url()
+          'footer_text'=> 'Automatický email v webové stránky '. get_home_url()
         );
         return $text;
       }

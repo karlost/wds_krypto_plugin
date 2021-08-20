@@ -176,10 +176,18 @@ if (!class_exists('WDS_Front_Form')) {
 
             $this->form_ID = $formID;
             $validation_data = $this->session->getSession( $formID.'_validation' );
+            $save_progress = $this->session->getSession( $formID.'_save' );
             if (isset($validation_data['allvalid']) && !$validation_data['allvalid']) {
                 ?>
                 <div class="notice notice-error wds-notice is-dismissible">
-                    <?php _e('Nastavení se nepodařilo uložit. Formulář obsahuje chyby. Zkontrolujte správnost vyplnění následujících položek.', TM_PLUGSEC); ?>
+                    <?= '<p>'.__('Nastavení se nepodařilo uložit. Formulář obsahuje chyby. Zkontrolujte správnost vyplnění následujících položek.', TM_PLUGSEC). '</p>'?>
+                    <button type="button" class="notice-dismiss"><span class="screen-reader-text">Skrýt toto upozornění.</span></button>
+                </div>
+                <?php
+            } else if ( $save_progress == 'success') {
+                ?>
+                <div class="notice notice-success wds-notice is-dismissible">
+                    <?= '<p>'. __('Nastavení bylo uloženo.', TM_PLUGSEC) . '</p>' ?>
                     <button type="button" class="notice-dismiss"><span class="screen-reader-text">Skrýt toto upozornění.</span></button>
                 </div>
                 <?php

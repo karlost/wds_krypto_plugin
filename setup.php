@@ -24,6 +24,16 @@ Při založení nového pluginu je vždy potřeba:
 1. Změnit všechny define názvy - TM_PLUGSEC musí zůstat
 2.Přejmenovat defaultní classy
 3. namespace
+
+Co opravit templatě
+2) Přidat templatu emailů
+3) Kompletně zprovoznit gulpfile
+5) Nefungoval rovnou ukládání core metaboxů. 
+6) Přidat rovnou classu na tvorbu metaboxů a rovnou jí zprovoznit.
+7) Přidat do emailu rovnou funkci send_general_email s parametrem předmětu a obsahu
+8) V emailech vyřešit "replyto"
+9) Logo v emailu v záhlaví nějak hromadně opravit.
+
 */
 if ( ! defined( 'ABSPATH' ) ) {
     exit;
@@ -52,14 +62,23 @@ include_once( WDS_PATHSEC . 'framework/sessions.php');
 include_once( WDS_PATHSEC . 'framework/cookies.php'); 
 include_once( WDS_PATHSEC . 'framework/forms-core.php');
 include_once( WDS_PATHSEC . 'framework/helpers.php'); 
-include_once( WDS_PATHSEC . 'framework/forms-core.php');  
-//include_once( WDS_PATHSEC . 'framework/emails.php'); 
-
+ 
 //add admin page
 include_once( WDS_PATHSEC . 'admin/sub-menu.php');  
 include_once( WDS_PATHSEC . 'admin/form_fields.php'); 
 include_once( WDS_PATHSEC . 'admin/view/main-menu.php'); 
-include_once( WDS_PATHSEC . 'admin/view/submenu-content.php'); 
+include_once( WDS_PATHSEC . 'admin/view/settings-content.php'); 
+
+/*******************************
+/       Emaily                 *
+********************************/
+include_once( WDS_PATHSEC . 'framework/emails.php'); 
+include_once( WDS_PATHSEC . 'admin/email-setup.php');
+include_once( WDS_PATHSEC . 'components/email-content.php');  
+
+/* KONEC EMAILŮ  - nezapomenout změnit namespace v email-setup a email-content !!!!
+*/
 
 // Include utility functions
-//include_once( WDS_PATHSEC . 'components/email-content.php'); 
+
+//include_once( WDS_PATHSEC . 'components/custom-post-types.php');

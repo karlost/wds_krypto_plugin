@@ -45,6 +45,7 @@ if (!class_exists('submenuContentWDS')) {
 
             //Získat aktivní tab z parametru $_GET 
             $default_tab = null;
+            $builder = new \formsBuilderWDS();
             $tab = isset($_GET['tab']) ? $_GET['tab'] : $default_tab; ?>
             <div class="wrap wds-admin">
 
@@ -85,6 +86,13 @@ if (!class_exists('submenuContentWDS')) {
                             <a href="?page=wds_vyvoj_slug" class="nav-tab <?php if ($tab === null) : ?>nav-tab-active<?php endif; ?>"> <?php echo file_get_contents(WDS_URLSEC . "assets/icons/home-line.svg"); ?> Default Tab</a>
                             <a href="?page=wds_vyvoj_slug&tab=settings" class="nav-tab <?php if ($tab === 'settings') : ?>nav-tab-active<?php endif; ?>"><?php echo file_get_contents(WDS_URLSEC . "assets/icons/slider-line.svg"); ?>Settings</a>
                             <a href="?page=wds_vyvoj_slug&tab=tools" class="nav-tab <?php if ($tab === 'tools') : ?>nav-tab-active<?php endif; ?>"><?php echo file_get_contents(WDS_URLSEC . "assets/icons/settings-line.svg"); ?>Tools</a>
+                            <?php
+                                $mailingForm = $builder->get_fields_form("emails_settings");
+                            if (!empty($mailingForm)){
+                                ?>
+                                <a href="?page=wds_vyvoj_slug&tab=emails" class="nav-tab <?php if ($tab === 'emails') : ?>nav-tab-active<?php endif; ?>"><?php echo file_get_contents(WDS_URLSEC . "assets/icons/link-line.svg"); ?>Emaily</a>
+                                <?php 
+                            } ?>
                         </nav>
                         <div class="content-box">
                             <?php switch ($tab):
@@ -566,9 +574,8 @@ if (!class_exists('submenuContentWDS')) {
 
                                     //Tab 2
                                 case 'settings':
-                                ?>
-                                    Settings tab content
-                                <?php
+                                    $builder->display_form("test_form_mini");
+
                                     break;
 
                                     //Tab 3
@@ -576,6 +583,11 @@ if (!class_exists('submenuContentWDS')) {
                                 ?>
                                     Tools tab content
                             <?php
+                                    break;
+                                case 'emails':
+                                    if (!empty($mailingForm)){
+                                        $builder->display_form("emails_settings");
+                                    }
                                     break;
 
                             endswitch; ?>

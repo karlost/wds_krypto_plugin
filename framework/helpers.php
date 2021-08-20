@@ -134,3 +134,66 @@ if ( !function_exists('valid_leght_string') ) {
     }
 
 }
+/**
+ * Vrací konkrétní hodnotu nastavení pokud je definovaná, pokud není, buď vrací předdefinocanou a nebo false
+ *
+ * @param $meta_name - jméno metadata
+ * @param $default - volitelná, vrací hodnotu v případě, že jí nemáme definovanou
+ * 
+ * @author Wedesin
+ * @return echo string
+ */ 
+
+if ( !function_exists('wds_get_option') ) {
+
+    function wds_get_option( $meta_name, $default = "" ) {
+
+        if ( get_option( $meta_name ) ) {
+            return get_option( $meta_name );
+        } else if ( $default ) {
+            return $default;
+        } else {
+            return false; 
+        }  
+
+    }
+
+}
+
+/**
+ * User redirect to refferer
+ *
+ * @param none
+ * 
+ * @author Wedesin
+ * @return true/false
+ */ 
+if ( !function_exists( 'redirect_back' ) ) {
+    function redirect_back( $parameter = "" ){
+      $location = ( isset( $_SERVER['HTTP_REFERER'] ) ? $_SERVER['HTTP_REFERER'] : "" );
+  
+      if ( !empty( $location ) )
+        wp_safe_redirect($location . $parameter);
+      exit;
+    }
+}
+
+/**
+ * Vrací konkrétní hodnotu nastavení pokud je definovaná, pokud není, buď vrací předdefinocanou a nebo false
+ *
+ * @param $meta_name - jméno metadata
+ * @param $default - volitelná, vrací hodnotu v případě, že jí nemáme definovanou
+ * 
+ * @author Wedesin
+ * @return echo string
+ */ 
+
+if ( !function_exists('wds_meta_name') ) {
+
+    function wds_meta_name( $form_prefix, $meta_name ) {
+
+        return '_wds_'. $form_prefix. '_' .$meta_name;
+
+    }
+
+}
