@@ -603,6 +603,13 @@ if( ! class_exists( 'thisPluginField' ) )
                             'floating_label' => true,
                             'saveAs' => 'meta'
                         ],     
+						[
+                            'type' => 'text',
+                            'name' => 'reply_to_email',
+                            'saveAs' => 'meta',
+                            'label' => 'Email pro odpověď',
+                            'help_text' => 'Vyplňte email, na který má přijít odpověď',
+                        ]
                     ],
 					[           
                         'headline' => 'Nastavení textace jednotlivých emailů',     

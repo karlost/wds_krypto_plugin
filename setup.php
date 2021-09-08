@@ -3,7 +3,7 @@
 /**
 * Plugin Name: Šablona pluginů
 * Description: ...
-* Version: 1.00
+* Version: 1.10
 * Author: WeDesIn
 * Author URI: https://www.wedesin.cz/
 * Requires at least: 3.0.

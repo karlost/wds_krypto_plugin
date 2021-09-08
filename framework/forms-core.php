@@ -806,7 +806,7 @@ if (!class_exists('WDS_Front_Form')) {
 
         public function save_form()
         {
-            $inputs = filter_input_array(INPUT_POST, FILTER_SANITIZE_STRING);
+            $inputs = filter_input_array(INPUT_POST);
             if (!isset($inputs['form_id_wds']) || $inputs['form_id_wds'] == '') {
                 return;
             }

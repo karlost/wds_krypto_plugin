@@ -40,8 +40,7 @@ if( ! class_exists( 'formsBuilderWDS' ) )
 			echo $this->wds_form->get_form($formID );
 		}
 		public function save_form() {
-			$inputs = filter_input_array(INPUT_POST, FILTER_SANITIZE_STRING);
-
+			$inputs = filter_input_array(INPUT_POST);
             if (isset($inputs['form_id_wds']) && !empty($inputs['form_id_wds'])) {
 				$formID = $inputs['form_id_wds'];
 				$field = $this->get_fields_form($formID);
