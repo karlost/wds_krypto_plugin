@@ -80,5 +80,6 @@ include_once( WDS_PATHSEC . 'components/email-content.php');
 */
 
 // Include utility functions
-
+include_once( WDS_PATHSEC . 'admin/info-box/volaniapi.php');
+include_once( WDS_PATHSEC . 'admin/info-box/zobrazeni.php');  
 //include_once( WDS_PATHSEC . 'components/custom-post-types.php');

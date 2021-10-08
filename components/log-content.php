@@ -134,7 +134,7 @@ class wedesinLogSettings
         if ($file) $fileLog = $this->the_log_file($file);
         if($this->is_log_file_exists($file)) {
             $viewfile = $fileLog;
-            include_once( WDS_PATH. 'admin/framework/log/views/view-log.php' );
+            include_once( WDS_PATHSEC. 'framework/log/views/view-log.php' );
         }
     }
 }
