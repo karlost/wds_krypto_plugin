@@ -4,7 +4,7 @@
  * 
  * @author Wedesin
  */ 
-
+namespace ticker\admin\info_box\call;
 if ( ! defined( 'ABSPATH' ) ) {
   exit;
 }

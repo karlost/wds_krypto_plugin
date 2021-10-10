@@ -1,9 +1,9 @@
 <?php
-
+namespace ticker;
 /**
-* Plugin Name: Šablona pluginů
-* Description: ...
-* Version: 1.10
+* Plugin Name: WDS krypto  
+* Description: Zobrazování cen určité kryptoměny
+* Version: 1.0.0
 * Author: WeDesIn
 * Author URI: https://www.wedesin.cz/
 * Requires at least: 3.0.
@@ -45,10 +45,10 @@ if ( ! defined( 'ABSPATH' ) ) {
 ********************************/
 
 //definice
-define( 'TM_PLUGSEC', 'wds_plugins' );
+define( 'TM_PLUGSEC', 'wds_krypto' );
 define( 'WDS_PATHSEC', plugin_dir_path( __FILE__ ) );
 define( 'WDS_URLSEC', plugin_dir_url( __FILE__ ) );
-define( 'WDS_IDSEC', 'template' );
+define( 'WDS_IDSEC', 'krypto' );
 
 /*******************************
 /       INCLUDE PARTS          *
@@ -82,4 +82,7 @@ include_once( WDS_PATHSEC . 'components/email-content.php');
 // Include utility functions
 include_once( WDS_PATHSEC . 'admin/info-box/volaniapi.php');
 include_once( WDS_PATHSEC . 'admin/info-box/zobrazeni.php');  
+include_once( WDS_PATHSEC . 'admin/api/volaniapi.php');
+include_once( WDS_PATHSEC . 'admin/api/zobrazeni.php');
+include_once( WDS_PATHSEC . 'admin/info-krypto.php');
 //include_once( WDS_PATHSEC . 'components/custom-post-types.php');

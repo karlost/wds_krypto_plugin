@@ -437,72 +437,49 @@ if( ! class_exists( 'thisPluginField' ) )
 			} else if ($formID == 'test_form_mini') {
 				$fields=[
 					[
-						'headline' => 'Nadis formuláře',
-						'description' => 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
+						'headline' => 'Nastavení kryptoměny',
+						'description' => 'Zvolte kryptoměny pro zobrazení',
+					
 						[
-							'type' => 'email',
-							'name' => 'email1',
-							'label' => 'E-mail',
+							'type' => 'select',
+							'name' => 'krypto',
+							'label' => 'Výber kryptoměny',
+							'multiple' => true,
 							'floating_label' => true,
-							'saveAs' => 'meta',
-							'required' => true,
-						],
-						/*[
-							'type' => 'range',
-							'name' => 'range2',
-							'label' => 'Výběr hodnoty s danou jednotkou',
-							'description' => 'V tomto výběru je daná jednotkou a zobrazuje se minimální a maximální hodnota',
-							'help_text' => 'Defaultně nastavena hodnota 1250 px',
-							'max' => 2400,
-							'min' => 0,
-							'value' => 1250,
-							'unit' => 'px',
-							'show_attr' => true,
-							'saveAs' => 'meta',
-						],*/
-						[
-							'type' => 'range',
-							'name' => 'range3',
-							'label' => 'Výběr hodnoty s výběrem jednotky',
-							'help_text' => 'Defaultně nastavena hodnota 1250 px',
-							'max' => 2400,
-							'min' => 0,
-							'value' => 1250,
-							'unit' => [
-								'px' => 'px',
-								'%' => '%',
-								'rem' => 'rem',
-								'em' => 'em',
-								'vh' => 'vh',
-								'vw' => 'vw',
-							],
-							'saveAs' => 'meta',
-						],
-						[
-							'type' => 'switch',
-							'name' => 'switch1',
-							'label' => 'Checkbox as switch',
-							'saveAs' => 'meta',
-						],
-						[
-							'type' => 'checkbox',
-							'name' => 'checkbox2',
-							'label' => 'Checkbox Lorem ipsum dolor sit amet',
-							'saveAs' => 'meta',
-						],
-						[
-							'type' => 'checkbox',
-							'name' => 'checkboxMulti',
-							'label' => 'Checkbox Lorem ipsum dolor sit amet',
-							'saveAs' => 'meta',
 							'options' => [
-								'check1' => 'Lorem ipsum dolor sit amet', // label, help text
-								'check2' => 'Lorem ipsum dolor sit amet',
-								'check3' => 'Lorem ipsum dolor sit amet',
-								'check4' => 'Lorem ipsum dolor sit amet',
-		
+								'' => 'None',
+								'bitcoin' => 'Bitcoin',
+								'litecoin' => 'Litecoin',
+								'solana' => 'Solana',
+								'binancecoin' => 'Binance Coin',
+								
 							],
-						]
+							'selectize' => [ //nutno zprovoznit (issue #3)
+								'sortField' => '"text"', // hodnota včetně uvozovek
+								'maxItems' => 3,	
+							],
+							'saveAs' => 'meta',
+						],
+						[
+							'type' => 'select',
+							'name' => 'fiat',
+							'label' => 'Výber fiat',
+							'multiple' => true,
+							'floating_label' => true,
+							'options' => [
+								'' => 'None',
+								'usd' => 'Dollar',
+								'eur' => 'EURO',
+								
+							],
+							'maxItems' => 3,
+							'selectize' => [ //nutno zprovoznit (issue #3)
+								//'sortField' => '"text"', // hodnota včetně uvozovek
+								'maxItems' => 3,	
+							],
+							'saveAs' => 'meta',
+						],
+						
 					],
 				];
 			} else if ($formID == 'test_form_mini_2') {
@@ -749,28 +726,7 @@ $fields = [
                     ],
                     'saveAs' => 'meta',
                 ],
-                [
-                    'type' => 'select',
-                    'name' => 'multiselect',
-                    'label' => 'Multi výběr',
-                    'multiple' => true,
-                    'floating_label' => true,
-                    'options' => [
-                        '' => 'None',
-                        'prvni' => 'První',
-                        'druhy' => 'Druhý',
-                        'treti' => 'Třetí',
-                        'ctvrty' => 'Čtvrtý',
-                        'paty' => 'Pátý',
-                        'sesty' => 'Šestý',
-                        'sedmi' => 'Sedmí',
-                    ],
-                    'selectize' => [ //nutno zprovoznit (issue #3)
-                        //'sortField' => '"text"', // hodnota včetně uvozovek
-                        'maxItems' => 3,
-                    ],
-                    'saveAs' => 'meta',
-                ],
+                
                 [
                     'type' => 'textarea',
                     'name' => 'dlouhytext',

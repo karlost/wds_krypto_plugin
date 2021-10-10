@@ -1,2 +1,2 @@
-# hvezdickove-komentare
-Plugin na hvězdičkové komentáře
+# WDS-Krypto-Plugin
+Wordpress plugin APi coingecko 

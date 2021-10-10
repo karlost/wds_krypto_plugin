@@ -1,5 +1,5 @@
 <?php 
-namespace pluginslug\admin\submenu;
+namespace ticker\admin\submenu;
 if ( ! defined( 'ABSPATH' ) ) {
 
   exit;
@@ -38,15 +38,15 @@ if( ! class_exists( 'subMenuWDS' ) )
             6) callback na přidání obsahu
             */
 
-            $subcontent = new submenuContentWDS;
+            $subcontent = new \ticker\admin\submenu\content\submenuContentWDS;
 
             $submenus = [
                 [
                     'wds-plugins',                              
-                    __( 'Vývoj', TM_PLUGSEC ),                    
-                    __('Vývoj', TM_PLUGSEC),               
+                    __( 'Kryptoměny', TM_PLUGSEC ),                    
+                    __('Kryptoměny', TM_PLUGSEC),               
                     'manage_options',                           
-                    'wds_vyvoj_slug',                              
+                    'krypto',                              
                     [$subcontent, 'my_admin_page_contents'],          
                 ]
             ];
@@ -68,7 +68,7 @@ if( ! class_exists( 'subMenuWDS' ) )
 
     }
 
-	new subMenuWDS;
+	new \ticker\admin\submenu\subMenuWDS;
 
 }
 
