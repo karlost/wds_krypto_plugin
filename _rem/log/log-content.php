@@ -16,7 +16,7 @@ class wedesinLogSettings
     public function __construct()
     {
         
-        $this->LogFile = $this->get_log_dir() .'/'. WDS_IDSEC . '/' . WDS_IDSEC .'.log';
+        $this->LogFile = $this->get_log_dir() .'/'. TM_IDKRYPTO . '/' . TM_IDKRYPTO .'.log';
 
         //spuštní
         add_action('wds_plugin_log_tab_content', [$this, 'add_tab'] );
@@ -89,7 +89,7 @@ class wedesinLogSettings
         $tab = isset($_GET['tab']) ? $_GET['tab'] : $default_tab;
         ?>
         <a href="?page=wds-logs" class="nav-tab <?php if($tab===null):?>nav-tab-active<?php endif; ?>">
-            <?= WDS_IDSEC ?>
+            <?= TM_IDKRYPTO ?>
         </a>
     <?php }
 

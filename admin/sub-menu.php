@@ -43,8 +43,8 @@ if( ! class_exists( 'subMenuWDS' ) )
             $submenus = [
                 [
                     'wds-plugins',                              
-                    __( 'Kryptoměny', TM_PLUGSEC ),                    
-                    __('Kryptoměny', TM_PLUGSEC),               
+                    __( 'Kryptoměny', TM_PLUGKRYPTO ),                    
+                    __('Kryptoměny', TM_PLUGKRYPTO),               
                     'manage_options',                           
                     'krypto',                              
                     [$subcontent, 'my_admin_page_contents'],          

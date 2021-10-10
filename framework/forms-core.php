@@ -16,7 +16,7 @@ if (!class_exists('WDS_Front_Form')) {
         public function __construct($field_list = [])
         {
             $this->fields = $field_list;
-            $this->prefix = '_wds_'.WDS_IDSEC.'_';
+            $this->prefix = '_wds_'.TM_IDKRYPTO.'_';
 
             add_action('wp_ajax_wds_frontend_form_dropzone_handle_dropped_files', [$this, 'handle_dropped_files_callback'], 10, 1);
             add_action('wp_ajax_nopriv_wds_frontend_form_dropzone_handle_dropped_files', [$this, 'handle_dropped_files_callback'], 10, 1);
@@ -180,14 +180,14 @@ if (!class_exists('WDS_Front_Form')) {
             if (isset($validation_data['allvalid']) && !$validation_data['allvalid']) {
                 ?>
                 <div class="notice notice-error wds-notice is-dismissible">
-                    <?= '<p>'.__('Nastavení se nepodařilo uložit. Formulář obsahuje chyby. Zkontrolujte správnost vyplnění následujících položek.', TM_PLUGSEC). '</p>'?>
+                    <?= '<p>'.__('Nastavení se nepodařilo uložit. Formulář obsahuje chyby. Zkontrolujte správnost vyplnění následujících položek.', TM_PLUGKRYPTO). '</p>'?>
                     <button type="button" class="notice-dismiss"><span class="screen-reader-text">Skrýt toto upozornění.</span></button>
                 </div>
                 <?php
             } else if ( $save_progress == 'success') {
                 ?>
                 <div class="notice notice-success wds-notice is-dismissible">
-                    <?= '<p>'. __('Nastavení bylo uloženo.', TM_PLUGSEC) . '</p>' ?>
+                    <?= '<p>'. __('Nastavení bylo uloženo.', TM_PLUGKRYPTO) . '</p>' ?>
                     <button type="button" class="notice-dismiss"><span class="screen-reader-text">Skrýt toto upozornění.</span></button>
                 </div>
                 <?php
@@ -482,7 +482,7 @@ if (!class_exists('WDS_Front_Form')) {
                     }
 
                     echo '<div class="input-group">';
-                    echo '<span class="input-group-label">' . file_get_contents(WDS_URLSEC . "assets/icons/link-line.svg") . '</span>';
+                    echo '<span class="input-group-label">' . file_get_contents(TM_URLKRYPTO . "assets/icons/link-line.svg") . '</span>';
                     echo  $floating_label_start;
 
                     echo '<input type="url" value="' . $value . '" name="' . $name . '" placeholder="' . $placeholder . '" ' . $atts . ' class="' . $class . '" />';
@@ -508,7 +508,7 @@ if (!class_exists('WDS_Front_Form')) {
                     }
                     
                     echo '<div class="input-group">';
-                    echo '<span class="input-group-label">' . file_get_contents(WDS_URLSEC . "assets/icons/link-line.svg") . '</span>';
+                    echo '<span class="input-group-label">' . file_get_contents(TM_URLKRYPTO . "assets/icons/link-line.svg") . '</span>';
                     echo  $floating_label_start;
 
                     echo '<input type="url" id="wds-media-url" value="' . $value . '" name="' . $name . '" placeholder="' . $placeholder . '" ' . $atts . ' class="' . $class . '" />';
@@ -517,7 +517,7 @@ if (!class_exists('WDS_Front_Form')) {
 
                     echo $floating_label_end ;
 
-                    echo '<a href="#" id="wds-media-upload" class="button">' . file_get_contents(WDS_URLSEC . "assets/icons/upload-cloud-line.svg") . 'Nahrát</a>';
+                    echo '<a href="#" id="wds-media-upload" class="button">' . file_get_contents(TM_URLKRYPTO . "assets/icons/upload-cloud-line.svg") . 'Nahrát</a>';
 
 
                     echo '</div>';
@@ -527,7 +527,7 @@ if (!class_exists('WDS_Front_Form')) {
                     if ($value) {
                         echo '<p><div class=upload-img-preview>';
                         echo '<img src="' . $value . '" width="300" height="200" alt="alt">';
-                        echo '<a href="#" class="button white icon">' . file_get_contents(WDS_URLSEC . "assets/icons/trash-line.svg") . 'Odstranit</a>';
+                        echo '<a href="#" class="button white icon">' . file_get_contents(TM_URLKRYPTO . "assets/icons/trash-line.svg") . 'Odstranit</a>';
                         echo '</div></p>';
                     }
 
@@ -742,7 +742,7 @@ if (!class_exists('WDS_Front_Form')) {
                     }
 
                     echo '<div class="input-group">';
-                    echo '<span class="input-group-label">' . file_get_contents(WDS_URLSEC . $icon) . '</span>';
+                    echo '<span class="input-group-label">' . file_get_contents(TM_URLKRYPTO . $icon) . '</span>';
                     echo $floating_label_start;
                     echo '<input type="' . $type . '" id="' . $name . '" name="' . $name . '" value="' . $value . '">';
                     if ($label)  echo '<label for="' . $name . '">' . $label . $required . '</label>';
@@ -781,7 +781,7 @@ if (!class_exists('WDS_Front_Form')) {
 
                     echo '<div class="info-block' . $warning . '">';
 
-                    echo '<span class="icon">' . file_get_contents(WDS_URLSEC . $icon) . '</span>';
+                    echo '<span class="icon">' . file_get_contents(TM_URLKRYPTO . $icon) . '</span>';
 
                     if ($headline) echo '<h3>' . $headline . '</h3>';
                     if ($description) echo '<p>' . $description . '</p>';

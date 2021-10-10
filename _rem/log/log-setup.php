@@ -3,8 +3,8 @@ namespace components\log\wedesinLogSettings;
 use components\log;
 
 //přidáme další soubory
-//include_once( WDS_PATHSEC . 'components/log/log-content.php'); 
-include_once( WDS_PATHSEC . 'components/log/log-functions.php'); 
+//include_once( TM_PATHKRYPTO . 'components/log/log-content.php'); 
+include_once( TM_PATHKRYPTO . 'components/log/log-functions.php'); 
 
 if( ! class_exists( 'logSetupWDS') )
 {
@@ -82,7 +82,7 @@ if( ! class_exists( 'logSetupWDS') )
                 mkdir( $upload_dir, 0700 );
             }
 
-            $upload_dir_user = $upload_dir . '/'.WDS_IDSEC;
+            $upload_dir_user = $upload_dir . '/'.TM_IDKRYPTO;
             if (! is_dir($upload_dir_user)) {
                 mkdir( $upload_dir_user, 0700 );
             }

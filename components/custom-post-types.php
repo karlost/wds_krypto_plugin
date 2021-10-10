@@ -1,5 +1,5 @@
 <?php 
-namespace pluginslugsec\addCPT;
+namespace tickersec\addCPT;
 if ( ! defined( 'ABSPATH' ) ) {
   exit;
 }
@@ -24,12 +24,12 @@ if( ! class_exists( 'registerCustomPostTypes' ) )
 			register_post_type( 'simple_order_form',
 			    array(
 					'labels' => array(
-						'name' => __( 'Objednávkové formuláře', WDS_IDSEC ),
-						'add_new' => __( 'Přidat formulář', WDS_IDSEC ),
-						'view_item'=> __( 'Zobrazit formulář', WDS_IDSEC ),
-						'edit_item' => __( 'Upravit formulář', WDS_IDSEC ),
-						'singular_name' => __( 'Objednávkový formulář', WDS_IDSEC ),
-						'menu_name' => __( 'Objednávkové formuláře', WDS_IDSEC ),
+						'name' => __( 'Objednávkové formuláře', TM_IDKRYPTO ),
+						'add_new' => __( 'Přidat formulář', TM_IDKRYPTO ),
+						'view_item'=> __( 'Zobrazit formulář', TM_IDKRYPTO ),
+						'edit_item' => __( 'Upravit formulář', TM_IDKRYPTO ),
+						'singular_name' => __( 'Objednávkový formulář', TM_IDKRYPTO ),
+						'menu_name' => __( 'Objednávkové formuláře', TM_IDKRYPTO ),
 					),
 					'public' => false,
 					'menu_icon' => 'dashicons-archive',
@@ -47,12 +47,12 @@ if( ! class_exists( 'registerCustomPostTypes' ) )
 			register_post_type( 'simple_order',
 			    array(
 			      'labels' => array(
-			        'name' => __( 'Objednávka', WDS_IDSEC ),
-			        'add_new' => __( 'Přidat objednávku', WDS_IDSEC  ),
-			        'view_item'=> __( 'Zobrazit objednávku', WDS_IDSEC ),
-			        'edit_item' => __( 'Upravit objednávku', WDS_IDSEC ),
-			        'singular_name' => __( 'Objednávka', WDS_IDSEC ),
-			        'menu_name' => __( 'Objednávky', WDS_IDSEC ),
+			        'name' => __( 'Objednávka', TM_IDKRYPTO ),
+			        'add_new' => __( 'Přidat objednávku', TM_IDKRYPTO  ),
+			        'view_item'=> __( 'Zobrazit objednávku', TM_IDKRYPTO ),
+			        'edit_item' => __( 'Upravit objednávku', TM_IDKRYPTO ),
+			        'singular_name' => __( 'Objednávka', TM_IDKRYPTO ),
+			        'menu_name' => __( 'Objednávky', TM_IDKRYPTO ),
 			      ),
 				  'public' => false,
 				  'show_ui' => true,

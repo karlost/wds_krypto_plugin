@@ -1,5 +1,5 @@
 <?php 
-namespace pluginslugsec\email;
+namespace tickersec\email;
 if ( ! defined( 'ABSPATH' ) ) {
 
   exit;
@@ -36,7 +36,7 @@ if( ! class_exists( 'setupEmail' ) )
         }
         function wds_meta_name( $form_prefix, $meta_name ) {
 
-            return '_wds_'.WDS_IDSEC.'_'.  $form_prefix. '_' .$meta_name;
+            return '_wds_'.TM_IDKRYPTO.'_'.  $form_prefix. '_' .$meta_name;
     
         }
     }

@@ -67,14 +67,14 @@ add_action( 'form_fields.php', 'save_data' );
                 <div class="row">
                     <div class="column content">
                         <nav class="nav-tab-wrapper">
-                            <a href="?page=krypto" class="nav-tab <?php if ($tab === null) : ?>nav-tab-active<?php endif; ?>"> <?php echo file_get_contents(WDS_URLSEC . "assets/icons/home-line.svg"); ?> Default Tab</a>
-                            <a href="?page=krypto&tab=settings" class="nav-tab <?php if ($tab === 'settings') : ?>nav-tab-active<?php endif; ?>"><?php echo file_get_contents(WDS_URLSEC . "assets/icons/slider-line.svg"); ?>Settings</a>
-                            <a href="?page=krypto&tab=tools" class="nav-tab <?php if ($tab === 'tools') : ?>nav-tab-active<?php endif; ?>"><?php echo file_get_contents(WDS_URLSEC . "assets/icons/settings-line.svg"); ?>Tools</a>
+                            <a href="?page=krypto" class="nav-tab <?php if ($tab === null) : ?>nav-tab-active<?php endif; ?>"> <?php echo file_get_contents(TM_URLKRYPTO . "assets/icons/home-line.svg"); ?> Default Tab</a>
+                            <a href="?page=krypto&tab=settings" class="nav-tab <?php if ($tab === 'settings') : ?>nav-tab-active<?php endif; ?>"><?php echo file_get_contents(TM_URLKRYPTO . "assets/icons/slider-line.svg"); ?>Settings</a>
+                            <a href="?page=krypto&tab=tools" class="nav-tab <?php if ($tab === 'tools') : ?>nav-tab-active<?php endif; ?>"><?php echo file_get_contents(TM_URLKRYPTO . "assets/icons/settings-line.svg"); ?>Tools</a>
                             <?php
                                 $mailingForm = $builder->get_fields_form("emails_settings");
                             if (!empty($mailingForm)){
                                 ?>
-                                <a href="?page=krypto&tab=emails" class="nav-tab <?php if ($tab === 'emails') : ?>nav-tab-active<?php endif; ?>"><?php echo file_get_contents(WDS_URLSEC . "assets/icons/link-line.svg"); ?>Emaily</a>
+                                <a href="?page=krypto&tab=emails" class="nav-tab <?php if ($tab === 'emails') : ?>nav-tab-active<?php endif; ?>"><?php echo file_get_contents(TM_URLKRYPTO . "assets/icons/link-line.svg"); ?>Emaily</a>
                                 <?php 
                             } ?>
                         </nav>
@@ -125,7 +125,7 @@ add_action( 'form_fields.php', 'save_data' );
                 
                  
                         <?php   
-                       // $zobrazeni->wedesin_dashboard_widget_display('plugins');
+                        $zobrazeni->wedesin_dashboard_widget_display('plugins');
                         ?>
                         <h3><?php echo file_get_contents(WDS_BRANDURL . "assets/icons/info-standard-line.svg"); ?>
                     

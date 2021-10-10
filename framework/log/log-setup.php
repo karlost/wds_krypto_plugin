@@ -23,8 +23,8 @@ if( ! class_exists( 'logSetupWDS') )
         public function admin_page_wds_log() {
             add_submenu_page(
                 'wds-plugins',                              
-                    __( 'Wedesin Log', TM_PLUGSEC ),                    
-                    __('WDS Log', TM_PLUGSEC),               
+                    __( 'Wedesin Log', TM_PLUGKRYPTO ),                    
+                    __('WDS Log', TM_PLUGKRYPTO),               
                     'manage_options',                           
                     'wds-logs',                              
                     array( $this, 'my_admin_page_contents' )
@@ -62,7 +62,7 @@ if( ! class_exists( 'logSetupWDS') )
                     $tab = isset($_GET['tab']) ? $_GET['tab'] : $default_tab;
                     ?>
                     <a href="?page=wds-logs" class="nav-tab <?= ($tab===null ? 'nav-tab-active' : '')?>">
-                        <?= __('Přehled logů', TM_PLUGSEC) ?>
+                        <?= __('Přehled logů', TM_PLUGKRYPTO) ?>
                     </a>
                     <?php 
                         do_action('wds_plugin_log_header_content');
@@ -118,6 +118,6 @@ if( ! class_exists( 'logSetupWDS') )
 
 }
 //přidáme další soubory
-include_once( WDS_PATHSEC . 'components/log-content.php'); 
+include_once( TM_PATHKRYPTO . 'components/log-content.php'); 
 //use log\functions;
-include_once( WDS_PATHSEC . 'framework/log/log-functions.php'); 
+include_once( TM_PATHKRYPTO . 'framework/log/log-functions.php'); 

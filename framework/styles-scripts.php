@@ -46,20 +46,20 @@ if ( !class_exists('ScriptsStylesWDS') ) {
     public function add_scripts( ) {
   
       //Register style
-      $star_style = filemtime(  WDS_PATHSEC . 'assets/styles/star-rating.css' );
-      wp_enqueue_style( 'star-comments', WDS_URLSEC . 'assets/styles/star-rating.css', array( ), $star_style, 'all' );
+      $star_style = filemtime(  TM_PATHKRYPTO . 'assets/styles/star-rating.css' );
+      wp_enqueue_style( 'star-comments', TM_URLKRYPTO . 'assets/styles/star-rating.css', array( ), $star_style, 'all' );
   
       //register gavascript
-      $star_script = filemtime(  WDS_PATHSEC . 'assets/scripts/star-rating.js' );
-      wp_enqueue_script( 'star-comments', WDS_URLSEC . 'assets/scripts/star-rating.js', array( 'jquery' ), $star_script, true );
+      $star_script = filemtime(  TM_PATHKRYPTO . 'assets/scripts/star-rating.js' );
+      wp_enqueue_script( 'star-comments', TM_URLKRYPTO . 'assets/scripts/star-rating.js', array( 'jquery' ), $star_script, true );
       
     }
   
     public function add_admin_scripts( ) {
   
       //Register style
-      $admin_style = filemtime(  WDS_PATHSEC . 'assets/styles/wds-admin.css' );
-      wp_enqueue_style( 'star-comments', WDS_URLSEC . 'assets/styles/wds-admin.css', array( ), $admin_style, 'all' );
+      $admin_style = filemtime(  TM_PATHKRYPTO . 'assets/styles/wds-admin.css' );
+      wp_enqueue_style( 'star-comments', TM_URLKRYPTO . 'assets/styles/wds-admin.css', array( ), $admin_style, 'all' );
     
       wp_enqueue_style( 'fonts-gstatic', 'https://fonts.gstatic.com' );
       wp_enqueue_style( 'font-Lato', 'https://fonts.googleapis.com/css2?family=Lato:ital@0;1&display=swap' );
@@ -67,15 +67,15 @@ if ( !class_exists('ScriptsStylesWDS') ) {
       wp_enqueue_style( 'wp-color-picker' );
   
       //register javascript
-      $admin_script = filemtime(  WDS_PATHSEC . 'assets/scripts/wds-admin.js' );
-      wp_enqueue_script( 'star-comments', WDS_URLSEC . 'assets/scripts/wds-admin.js', array( 'jquery' ), $admin_script, true );
+      $admin_script = filemtime(  TM_PATHKRYPTO . 'assets/scripts/wds-admin.js' );
+      wp_enqueue_script( 'star-comments', TM_URLKRYPTO . 'assets/scripts/wds-admin.js', array( 'jquery' ), $admin_script, true );
       
       //WP media uploader
       wp_enqueue_media();
   
       //color picker scripts
-      $colorpicker_script = filemtime(  WDS_PATHSEC . 'assets/scripts/wp-color-picker-alpha.min.js' );
-      wp_enqueue_script( 'wp-color-picker-alpha', WDS_URLSEC . 'assets/scripts/wp-color-picker-alpha.min.js', array( 'wp-color-picker' ), $colorpicker_script, true );
+      $colorpicker_script = filemtime(  TM_PATHKRYPTO . 'assets/scripts/wp-color-picker-alpha.min.js' );
+      wp_enqueue_script( 'wp-color-picker-alpha', TM_URLKRYPTO . 'assets/scripts/wp-color-picker-alpha.min.js', array( 'wp-color-picker' ), $colorpicker_script, true );
   
       wp_add_inline_script(
         'wp-color-picker-alpha',
@@ -83,11 +83,11 @@ if ( !class_exists('ScriptsStylesWDS') ) {
       );
   
       //Selectize.js
-      $selectize_script = filemtime(  WDS_PATHSEC . 'assets/scripts/selectize.js' );
-      wp_enqueue_script( 'selectize', WDS_URLSEC . 'assets/scripts/selectize.js', array( 'jquery' ), $selectize_script, true );
+      $selectize_script = filemtime(  TM_PATHKRYPTO . 'assets/scripts/selectize.js' );
+      wp_enqueue_script( 'selectize', TM_URLKRYPTO . 'assets/scripts/selectize.js', array( 'jquery' ), $selectize_script, true );
   
-      $selectize_style = filemtime(  WDS_PATHSEC . 'assets/styles/selectize.css' );
-      wp_enqueue_style( 'selectize', WDS_URLSEC . 'assets/styles/selectize.css', array( ), $selectize_style, 'all' );
+      $selectize_style = filemtime(  TM_PATHKRYPTO . 'assets/styles/selectize.css' );
+      wp_enqueue_style( 'selectize', TM_URLKRYPTO . 'assets/styles/selectize.css', array( ), $selectize_style, 'all' );
       
     }
   

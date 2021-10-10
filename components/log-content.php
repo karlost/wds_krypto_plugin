@@ -1,11 +1,11 @@
 <?php 
-namespace pluginslug\log;
+namespace ticker\log;
 if ( ! defined( 'ABSPATH' ) ) {
 
   exit;
 
 }
-
+if (!class_exists('wedesinLogSettings')){
 class wedesinLogSettings
 {
     public $LogFile;
@@ -134,8 +134,9 @@ class wedesinLogSettings
         if ($file) $fileLog = $this->the_log_file($file);
         if($this->is_log_file_exists($file)) {
             $viewfile = $fileLog;
-            include_once( WDS_PATHSEC. 'framework/log/views/view-log.php' );
+            include_once( TM_PATHKRYPTO. 'framework/log/views/view-log.php' );
         }
     }
 }
+ }
 new wedesinLogSettings;

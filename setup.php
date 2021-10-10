@@ -21,7 +21,7 @@ namespace ticker;
 4) do admini rootu přidat funkci na zpracování formulářů
 
 Při založení nového pluginu je vždy potřeba:
-1. Změnit všechny define názvy - TM_PLUGSEC musí zůstat
+1. Změnit všechny define názvy - TM_PLUGKRYPTO musí zůstat
 2.Přejmenovat defaultní classy
 3. namespace
 
@@ -45,44 +45,45 @@ if ( ! defined( 'ABSPATH' ) ) {
 ********************************/
 
 //definice
-define( 'TM_PLUGSEC', 'wds_krypto' );
-define( 'WDS_PATHSEC', plugin_dir_path( __FILE__ ) );
-define( 'WDS_URLSEC', plugin_dir_url( __FILE__ ) );
-define( 'WDS_IDSEC', 'krypto' );
+define( 'TM_PLUGKRYPTO', 'wds_krypto' );
+define( 'TM_PATHKRYPTO', plugin_dir_path( __FILE__ ) );
+define( 'TM_URLKRYPTO', plugin_dir_url( __FILE__ ) );
+define( 'TM_IDKRYPTO', 'krypto' );
 
 /*******************************
 /       INCLUDE PARTS          *
 ********************************/
 //framework
-include_once( WDS_PATHSEC . 'framework/styles-scripts.php');  
-include_once( WDS_PATHSEC . 'framework/main-menu.php');  
-include_once( WDS_PATHSEC . 'framework/log/log-setup.php');  
-include_once( WDS_PATHSEC . 'framework/forms-builder.php'); 
-include_once( WDS_PATHSEC . 'framework/sessions.php'); 
-include_once( WDS_PATHSEC . 'framework/cookies.php'); 
-include_once( WDS_PATHSEC . 'framework/forms-core.php');
-include_once( WDS_PATHSEC . 'framework/helpers.php'); 
+include_once( TM_PATHKRYPTO . 'framework/styles-scripts.php');  
+include_once( TM_PATHKRYPTO . 'framework/main-menu.php');  
+include_once( TM_PATHKRYPTO . 'framework/log/log-setup.php');  
+include_once( TM_PATHKRYPTO . 'framework/forms-builder.php'); 
+include_once( TM_PATHKRYPTO . 'framework/sessions.php'); 
+include_once( TM_PATHKRYPTO . 'framework/cookies.php'); 
+include_once( TM_PATHKRYPTO . 'framework/forms-core.php');
+include_once( TM_PATHKRYPTO . 'framework/helpers.php'); 
  
 //add admin page
-include_once( WDS_PATHSEC . 'admin/sub-menu.php');  
-include_once( WDS_PATHSEC . 'admin/form_fields.php'); 
-include_once( WDS_PATHSEC . 'admin/view/main-menu.php'); 
-include_once( WDS_PATHSEC . 'admin/view/settings-content.php'); 
+include_once( TM_PATHKRYPTO . 'admin/sub-menu.php');  
+include_once( TM_PATHKRYPTO . 'admin/form_fields.php'); 
+include_once( TM_PATHKRYPTO . 'admin/view/main-menu.php'); 
+include_once( TM_PATHKRYPTO . 'admin/view/settings-content.php'); 
 
 /*******************************
 /       Emaily                 *
 ********************************/
-include_once( WDS_PATHSEC . 'framework/emails.php'); 
-include_once( WDS_PATHSEC . 'admin/email-setup.php');
-include_once( WDS_PATHSEC . 'components/email-content.php');  
+include_once( TM_PATHKRYPTO . 'framework/emails.php'); 
+include_once( TM_PATHKRYPTO . 'admin/email-setup.php');
+include_once( TM_PATHKRYPTO . 'components/email-content.php');  
 
 /* KONEC EMAILŮ  - nezapomenout změnit namespace v email-setup a email-content !!!!
 */
 
 // Include utility functions
-include_once( WDS_PATHSEC . 'admin/info-box/volaniapi.php');
-include_once( WDS_PATHSEC . 'admin/info-box/zobrazeni.php');  
-include_once( WDS_PATHSEC . 'admin/api/volaniapi.php');
-include_once( WDS_PATHSEC . 'admin/api/zobrazeni.php');
-include_once( WDS_PATHSEC . 'admin/info-krypto.php');
-//include_once( WDS_PATHSEC . 'components/custom-post-types.php');
+include_once( TM_PATHKRYPTO . 'admin/info-box/volaniapi.php');
+include_once( TM_PATHKRYPTO . 'admin/info-box/zobrazeni.php');  
+include_once( TM_PATHKRYPTO . 'admin/api/volaniapi.php');
+include_once( TM_PATHKRYPTO . 'admin/api/zobrazeni.php');
+include_once( TM_PATHKRYPTO . 'admin/info-krypto.php');
+include_once( TM_PATHKRYPTO . 'admin/bar-menu.php');
+//include_once( TM_PATHKRYPTO . 'components/custom-post-types.php');

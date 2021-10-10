@@ -108,7 +108,7 @@ if( ! class_exists( 'getRestApiRequestWDS' ) )
 						'market_cap'      => ( isset($posts->market_data->market_cap->$fiat) && !empty($posts->market_data->market_cap->$fiat) ? $posts->market_data->market_cap->$fiat : '') ,
 						'price_change_percentage_24h'   => ( isset($posts->market_data->price_change_percentage_24h) && !empty($posts->market_data->price_change_percentage_24h) ? $posts->market_data->price_change_percentage_24h : '') ,
 						'price'      => ( isset($posts->market_data->current_price->$fiat) && !empty($posts->market_data->current_price->$fiat) ? $posts->market_data->current_price->$fiat : '') ,
-						'icon'      => ( isset($posts->image->small) && !empty($posts->image->small) ? $posts->image->small : '') ,
+						'icon'      => ( isset($posts->image->thumb) && !empty($posts->image->thumb) ? $posts->image->thumb : '') ,
 						
 					);
 
